@@ -1,39 +1,61 @@
+'use client';
+
 import { AnimatedSection } from '@/components/ui/AnimatedSection';
-import { Button } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
 import { BookDemoButton } from '@/components/ui/BookDemoButton';
 
 export function CTABanner() {
   return (
-    <section id="demo" className="py-24 md:py-32 bg-slate-50 dark:bg-[#080f1c] relative overflow-hidden">
-      {/* Gradient orbs */}
-      <div className="absolute inset-0 -z-10 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-175 h-100 rounded-full bg-primary-600/15 dark:bg-primary-600/20 blur-3xl" />
-        <div className="absolute top-1/4 left-1/3 w-75 h-75 rounded-full bg-secondary-600/10 dark:bg-secondary-600/10 blur-3xl" />
+    <section id="demo" className="py-24 md:py-32 bg-[#060b14] relative overflow-hidden border-t border-white/6">
+      {/* Background */}
+      <div className="absolute inset-0 -z-10 pointer-events-none" aria-hidden>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full bg-primary-600/15 blur-3xl" />
+        {/* Diagonal stripe — mirrors hero */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: 'repeating-linear-gradient(135deg, #5de0e6 0, #5de0e6 1px, transparent 0, transparent 60%)',
+            backgroundSize: '28px 28px',
+          }}
+        />
       </div>
 
       <Container>
         <AnimatedSection className="text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary-500/20 bg-primary-500/5 dark:bg-primary-500/10 px-4 py-1.5 text-xs font-medium text-primary-500 mb-8">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse" />
-            Get started today
+
+          {/* Badge — square, mono, matches hero */}
+          <div className="inline-flex items-center gap-2.5 border border-primary-500/50 bg-primary-500/6 px-3 py-1.5 text-[11px] font-mono font-bold text-primary-400 tracking-[0.18em] uppercase mb-10">
+            <span className="w-1.5 h-1.5 bg-primary-500 animate-pulse shrink-0" />
+            The AI-native alternative
           </div>
 
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white">
-            Ready to transform your
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-white leading-tight">
+            Stop settling for EA tools
             <br className="hidden sm:block" />
-            {' '}architecture practice?
+            {' '}built for a different era.
           </h2>
-          <p className="mt-5 text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
-            Join leading EA teams using Enterprise Insight to move faster, communicate better, and deliver real business value.
+          <p className="mt-6 text-lg text-slate-400 max-w-xl mx-auto leading-relaxed">
+            Enterprise Insight is the AI-first platform purpose-built for architects who need speed,
+            clarity, and real business impact — not another diagramming tool dressed up with a chatbot.
           </p>
+
+          {/* CTAs */}
           <div className="mt-10 flex flex-col sm:flex-row gap-3 items-center justify-center">
-            <BookDemoButton size="lg">Book a Free Demo</BookDemoButton>
-            <Button href="#features" size="lg" variant="outline">
+            <BookDemoButton
+              size="lg"
+              className="rounded-none! shadow-[4px_4px_0_rgba(120,10,20,0.6)]"
+            >
+              Book a Free Demo
+            </BookDemoButton>
+            <a
+              href="#ai-features"
+              className="inline-flex items-center justify-center h-9 px-4 text-sm font-medium text-slate-300 border border-white/15 hover:border-white/30 hover:text-white transition-colors duration-150"
+            >
               Explore the platform →
-            </Button>
+            </a>
           </div>
-          <p className="mt-6 text-xs text-slate-400 dark:text-slate-600">
+
+          <p className="mt-6 text-xs text-slate-600">
             No commitment · Personalised walkthrough · Live Q&amp;A included
           </p>
         </AnimatedSection>

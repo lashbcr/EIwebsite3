@@ -1,121 +1,77 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/Button';
 import { BookDemoDialog } from '@/components/ui/BookDemoDialog';
 import { Container } from '@/components/ui/Container';
 import { ArchitectFlow } from '@/components/sections/ArchitectFlow';
-
-const WORDS = ['Unstoppable', 'Informed', 'Efficient', 'Aligned', 'Empowered'];
-const TYPE_MS = 80;
-const DELETE_MS = 45;
-const PAUSE_MS = 1800;
-
-function TypewriterText() {
-  const [wordIndex, setWordIndex] = useState(0);
-  const [displayed, setDisplayed] = useState('');
-  const [deleting, setDeleting] = useState(false);
-
-  useEffect(() => {
-    const word = WORDS[wordIndex];
-
-    if (!deleting && displayed === word) {
-      const t = setTimeout(() => setDeleting(true), PAUSE_MS);
-      return () => clearTimeout(t);
-    }
-
-    if (deleting && displayed === '') {
-      setDeleting(false);
-      setWordIndex((i) => (i + 1) % WORDS.length);
-      return;
-    }
-
-    const delay = deleting ? DELETE_MS : TYPE_MS;
-    const t = setTimeout(() => {
-      setDisplayed(
-        deleting
-          ? word.slice(0, displayed.length - 1)
-          : word.slice(0, displayed.length + 1),
-      );
-    }, delay);
-    return () => clearTimeout(t);
-  }, [displayed, deleting, wordIndex]);
-
-  return (
-    <span className="">
-      {displayed}
-      <motion.span
-        className="inline-block w-0.75 h-[0.85em] ml-1 align-middle rounded-sm bg-primary-500"
-        animate={{ opacity: [1, 1, 0, 0] }}
-        transition={{ duration: 1, repeat: Infinity, ease: 'linear', times: [0, 0.48, 0.5, 0.98] }}
-      />
-    </span>
-  );
-}
 
 export function Hero() {
   const [demoOpen, setDemoOpen] = useState(false);
 
   return (
-    <section className="relative overflow-hidden bg-white dark:bg-[#060b14] pt-24 pb-20 md:pt-36 md:pb-32">
-      {/* Grid background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <motion.div
-          className="absolute inset-0 dark:hidden"
-          animate={{ backgroundPosition: ['0px 0px', '60px 60px'] }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
-          style={{
-            backgroundImage:
-              'linear-gradient(to right, rgba(0,0,0,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.06) 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
-            maskImage: 'linear-gradient(to bottom, black 0%, transparent 85%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, transparent 85%)',
-          }}
-        />
-        <motion.div
-          className="absolute inset-0 hidden dark:block"
-          animate={{ backgroundPosition: ['0px 0px', '60px 60px'] }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
-          style={{
-            backgroundImage:
-              'linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
-            maskImage: 'linear-gradient(to bottom, black 0%, transparent 85%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, transparent 85%)',
-          }}
-        />
+    <section className="relative overflow-hidden bg-[#060b14] pt-24 pb-20 md:pt-36 md:pb-32">
+      {/* Background */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        {/* Deep blue glow */}
         <div
-          className="absolute -top-60 left-1/2 -translate-x-1/2 w-225 h-150 opacity-15 dark:opacity-20"
+          className="absolute -top-60 left-1/2 -translate-x-1/2 w-[900px] h-[600px] opacity-20"
           style={{ background: 'radial-gradient(ellipse at center top, #004aad 0%, transparent 65%)' }}
         />
+        {/* Diagonal stripe — neobrutalist texture */}
+        <div
+          className="absolute inset-0 opacity-[0.035]"
+          style={{
+            backgroundImage: 'repeating-linear-gradient(135deg, #5de0e6 0, #5de0e6 1px, transparent 0, transparent 60%)',
+            backgroundSize: '28px 28px',
+          }}
+        />
+        {/* Right-side fade */}
+        <div className="absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-[#060b14] to-transparent" />
       </div>
 
       <Container className="relative z-1">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-38 items-center">
-          {/* Left: text content */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+          {/* Left: text */}
           <div className="flex flex-col">
-            {/* Headline */}
-            <motion.h1
+
+            {/* Challenger badge — square corners, mono */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="mb-8"
+            >
+              <span className="inline-flex items-center gap-2.5 border border-primary-500/50 bg-primary-500/6 px-3 py-1.5 text-[11px] font-mono font-bold text-primary-400 tracking-[0.18em] uppercase">
+                <span className="w-1.5 h-1.5 bg-primary-500 animate-pulse shrink-0" />
+                AI-First · Not an Afterthought
+              </span>
+            </motion.div>
+
+            {/* Headline with hard left accent bar */}
+            <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-3xl md:text-5xl font-bold tracking-tight"
+              className="border-l-[3px] border-primary-500 pl-5"
             >
-              <span className="block text-slate-900 dark:text-white">Make Your Architects</span>
-              <span className="block min-h-[1.1em]">
-                <TypewriterText />
-              </span>
-            </motion.h1>
+              <h1 className="text-[2.6rem] md:text-6xl font-bold tracking-tight leading-[1.05]">
+                <span className="block text-white">Make Your Architects</span>
+                <span className="block text-primary-500 mt-1">Unstoppable.</span>
+              </h1>
+            </motion.div>
 
-            {/* Subtext */}
+            {/* Challenger subtext */}
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="mt-7 text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-xl"
+              className="mt-7 text-base md:text-lg text-slate-400 max-w-xl leading-relaxed"
             >
-              The EA platform built for speed, clarity and business-wide communication
+              Legacy EA platforms were built for compliance decks and consultant slide shows.
+              Enterprise Insight is built for architects who move at the speed of the business —
+              AI that understands your architecture, end to end.
             </motion.p>
 
             {/* Social proof */}
@@ -123,11 +79,17 @@ export function Hero() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.25 }}
-              className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-500 dark:text-slate-400"
+              className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-500"
             >
-              <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-primary-500 shrink-0" />50+ EA teams</span>
-              <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-primary-500 shrink-0" />10× faster diagrams</span>
-              <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-primary-500 shrink-0" />TOGAF &amp; ArchiMate ready</span>
+              <span className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-primary-500 shrink-0" />50+ EA teams
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-primary-500 shrink-0" />10× faster diagrams
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-primary-500 shrink-0" />TOGAF &amp; ArchiMate ready
+              </span>
             </motion.div>
 
             {/* CTAs */}
@@ -135,23 +97,34 @@ export function Hero() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="mt-6 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center"
+              className="mt-8 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center"
             >
-              <Button variant="primary" size="lg" className="w-full sm:w-auto h-13 sm:h-12 px-7 text-base shadow-[0_4px_20px_rgba(236,44,68,0.45)]" onClick={() => setDemoOpen(true)}>
+              {/* Primary — neobrutalist hard shadow */}
+              <button
+                onClick={() => setDemoOpen(true)}
+                className="w-full sm:w-auto inline-flex items-center justify-center h-13 sm:h-12 px-7 text-base font-semibold text-white bg-primary-500 hover:bg-primary-600 active:translate-y-0.5 active:translate-x-0.5 transition-all duration-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+                style={{ boxShadow: '4px 4px 0 rgba(120,10,20,0.6)' }}
+              >
                 Book a Demo
-              </Button>
-              <div className="rounded-full w-full sm:w-auto" style={{ background: 'linear-gradient(90deg, #5de0e6, #004aad)', padding: '2px' }}>
+              </button>
+
+              {/* Secondary — gradient border */}
+              <div
+                className="w-full sm:w-auto shrink-0"
+                style={{ background: 'linear-gradient(90deg, #5de0e6, #004aad)', padding: '1.5px' }}
+              >
                 <a
                   href="#ai-features"
-                  className="flex items-center justify-center font-semibold rounded-full h-13 sm:h-12 px-7 text-base text-slate-900 dark:text-white bg-white dark:bg-[#060b14] transition-all duration-200 focus-visible:outline-none"
+                  className="flex w-full items-center justify-center font-semibold h-[calc(3.25rem-3px)] sm:h-[calc(3rem-3px)] px-7 text-base text-white bg-[#060b14] hover:bg-[#0c1525] transition-colors duration-150 focus-visible:outline-none"
                 >
-                  Build with AI
+                  See How It Works →
                 </a>
               </div>
             </motion.div>
+
           </div>
 
-          {/* Right: animated flow visualization (desktop only) */}
+          {/* Right: animated flow (desktop only) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -160,6 +133,7 @@ export function Hero() {
           >
             <ArchitectFlow />
           </motion.div>
+
         </div>
       </Container>
 
