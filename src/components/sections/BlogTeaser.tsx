@@ -3,104 +3,93 @@
 import Image from 'next/image';
 import { AnimatedSection } from '@/components/ui/AnimatedSection';
 import { Container } from '@/components/ui/Container';
-import { Section } from '@/components/ui/Section';
-import { Button } from '@/components/ui/Button';
 
 const posts = [
   {
     tag: 'Enterprise Architecture',
-    tagColor: 'text-primary-500 bg-primary-500/10 dark:bg-primary-500/10',
+    tagColor: 'text-primary-500',
     title: 'Why Most EA Programs Fail — And How AI Changes the Equation',
-    excerpt:
-      'Traditional EA tooling forces architects to choose between accuracy and speed. We explore why that trade-off is now obsolete.',
+    excerpt: 'Traditional EA tooling forces architects to choose between accuracy and speed. We explore why that trade-off is now obsolete.',
     readTime: '5 min read',
     date: 'Apr 2026',
-    accent: 'group-hover:border-primary-500/40',
-    dot: 'bg-primary-500',
     image: '/DSCF0030-scaled.jpg',
   },
   {
     tag: 'AI & Automation',
-    tagColor: 'text-secondary-500 bg-secondary-500/10 dark:bg-secondary-500/10',
+    tagColor: 'text-[#5de0e6]',
     title: 'From TOGAF to Real-Time: Automating Architecture Diagrams at Scale',
-    excerpt:
-      'A deep dive into how Enterprise Insight generates ArchiMate-compliant diagrams directly from your data — no manual drawing required.',
+    excerpt: 'A deep dive into how Enterprise Insight generates ArchiMate-compliant diagrams directly from your data — no manual drawing required.',
     readTime: '7 min read',
     date: 'Mar 2026',
-    accent: 'group-hover:border-secondary-500/40',
-    dot: 'bg-secondary-500',
     image: '/pexels-pixabay-163056-scaled.jpg',
   },
   {
     tag: 'Stakeholder Alignment',
-    tagColor: 'text-cyan-500 bg-cyan-500/10 dark:bg-cyan-500/10',
+    tagColor: 'text-slate-300',
     title: 'The Stakeholder Problem: How to Make Architecture Legible to Everyone',
-    excerpt:
-      'Architects spend up to 40% of their time translating technical concepts. Here\'s how modern EA platforms eliminate that burden.',
+    excerpt: "Architects spend up to 40% of their time translating technical concepts. Here's how modern EA platforms eliminate that burden.",
     readTime: '4 min read',
     date: 'Feb 2026',
-    accent: 'group-hover:border-cyan-500/40',
-    dot: 'bg-cyan-500',
     image: '/pexels-enginakyurt-2283803.jpg',
   },
 ];
 
 export function BlogTeaser() {
   return (
-    <Section className="bg-white dark:bg-[#060c18]">
-      <Container>
-        <AnimatedSection className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary-500/20 bg-primary-500/5 dark:bg-primary-500/10 px-4 py-1.5 text-xs font-medium text-primary-500 mb-4">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse" />
-              From the blog
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
-              Thinking about modern EA
-            </h2>
-            <p className="mt-3 text-slate-500 dark:text-slate-400 max-w-lg">
-              Practical insights on enterprise architecture, AI tooling, and the future of how organisations design change.
-            </p>
+    <section className="bg-[#060b14] border-t border-white/8">
+      <Container className="py-16 md:py-24">
+
+        {/* Section label + header row */}
+        <AnimatedSection className="mb-12">
+          <div className="flex items-center gap-4 mb-10">
+            <span className="text-[10px] font-mono tracking-[0.22em] text-slate-600 uppercase shrink-0">From the Blog</span>
+            <div className="flex-1 h-px bg-white/8" />
+            <a
+              href="/blog"
+              className="text-[10px] font-mono tracking-[0.16em] text-slate-500 uppercase hover:text-white transition-colors shrink-0"
+            >
+              View all →
+            </a>
           </div>
-          <Button href="/blog" variant="outline" className="shrink-0">
-            View all posts →
-          </Button>
+          <h2
+            className="font-black uppercase tracking-tighter leading-[0.9] text-white"
+            style={{ fontSize: 'clamp(2rem, 6vw, 4rem)' }}
+          >
+            Thinking About<br />Modern EA.
+          </h2>
         </AnimatedSection>
 
-        <div className="grid md:grid-cols-3 gap-5">
+        {/* Cards — hard borders, no radius, no shadow */}
+        <div className="grid md:grid-cols-3 border border-white/10">
           {posts.map((post, i) => (
-            <AnimatedSection key={post.title} delay={i * 0.1}>
+            <AnimatedSection key={post.title} delay={i * 0.08}>
               <a
                 href="/blog"
-                className={`group flex flex-col h-full rounded-2xl border border-slate-200 dark:border-white/8 bg-slate-50 dark:bg-white/3 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 ${post.accent}`}
+                className={`group flex flex-col h-full bg-transparent hover:bg-white/2 transition-colors duration-200 ${i < posts.length - 1 ? 'border-b md:border-b-0 md:border-r border-white/10' : ''}`}
               >
-                <div className="relative h-44 w-full shrink-0 overflow-hidden">
+                {/* Image — no radius */}
+                <div className="relative h-48 w-full shrink-0 overflow-hidden border-b border-white/8">
                   <Image
                     src={post.image}
                     alt={post.title}
                     fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="object-cover transition-transform duration-500 group-hover:scale-103 grayscale-[30%]"
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />
+                  {/* Tag overlay */}
+                  <span className={`absolute top-4 left-4 text-[10px] font-mono font-bold uppercase tracking-widest ${post.tagColor} bg-[#060b14]/80 px-2 py-1`}>
+                    {post.tag}
+                  </span>
                 </div>
 
                 <div className="flex flex-col flex-1 p-7">
-                  <span className={`self-start text-xs font-medium px-2.5 py-1 rounded-full ${post.tagColor} mb-5`}>
-                    {post.tag}
-                  </span>
-
-                  <h3 className="text-base font-semibold leading-snug text-slate-900 dark:text-white group-hover:text-primary-500 transition-colors duration-200 mb-3">
+                  <h3 className="text-sm font-bold leading-snug text-white group-hover:text-primary-400 transition-colors duration-150 mb-3">
                     {post.title}
                   </h3>
-
-                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex-1">
-                    {post.excerpt}
-                  </p>
-
-                  <div className="mt-6 flex items-center gap-2 text-xs text-slate-400 dark:text-slate-600">
-                    <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${post.dot}`} />
+                  <p className="text-xs text-slate-500 leading-relaxed flex-1">{post.excerpt}</p>
+                  <div className="mt-6 flex items-center gap-3 text-[10px] font-mono uppercase tracking-widest text-slate-700">
                     <span>{post.date}</span>
-                    <span className="mx-1">·</span>
+                    <span className="w-px h-3 bg-white/10" />
                     <span>{post.readTime}</span>
                   </div>
                 </div>
@@ -108,7 +97,8 @@ export function BlogTeaser() {
             </AnimatedSection>
           ))}
         </div>
+
       </Container>
-    </Section>
+    </section>
   );
 }

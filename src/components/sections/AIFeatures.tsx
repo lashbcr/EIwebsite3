@@ -181,7 +181,7 @@ function FeatureCard({
       initial={{ opacity: 0, y: 28 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
-      className={`group relative rounded-2xl p-7 flex flex-col transition-all duration-300 ${feature.col}`}
+      className={`group relative p-7 flex flex-col transition-all duration-300 ${feature.col}`}
       style={{
         background: `linear-gradient(135deg, ${feature.accentAlpha} 0%, var(--ai-grad-end) 100%)`,
         border: `1px solid ${feature.accentBorder}`,
@@ -194,13 +194,13 @@ function FeatureCard({
       {/* Icon + badge row */}
       <div className="flex items-center gap-3 mb-5">
         <div
-          className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+          className="w-9 h-9 flex items-center justify-center shrink-0"
           style={{ background: feature.accentAlpha, color: feature.accent }}
         >
           <Icon />
         </div>
         <span
-          className="text-xs font-semibold tracking-wide uppercase"
+          className="text-[10px] font-mono font-bold tracking-[0.18em] uppercase"
           style={{ color: feature.accent }}
         >
           {feature.badge}
@@ -224,67 +224,42 @@ export function AIFeatures() {
   return (
     <section
       id="ai-features"
-      className="py-24 md:py-32 relative overflow-hidden bg-[#020c1a] dark:bg-[#dae4f5] dark:border-y dark:border-blue-200/60
-        [--ai-icon-cyan:#5de0e6] dark:[--ai-icon-cyan:#0097a7]
-        [--ai-grad-end:rgba(255,255,255,0.02)] dark:[--ai-grad-end:rgba(0,0,0,0.01)]
-        [--ai-cyan-a:rgba(93,224,230,0.10)] dark:[--ai-cyan-a:rgba(93,224,230,0.12)]
-        [--ai-cyan-b:rgba(93,224,230,0.25)] dark:[--ai-cyan-b:rgba(0,155,165,0.35)]
-        [--ai-blue-a:rgba(0,74,173,0.18)] dark:[--ai-blue-a:rgba(0,74,173,0.08)]
-        [--ai-blue-b:rgba(0,74,173,0.45)] dark:[--ai-blue-b:rgba(0,74,173,0.30)]"
+      className="border-t border-white/8 relative overflow-hidden bg-[#020c1a]
+        [--ai-icon-cyan:#5de0e6]
+        [--ai-grad-end:rgba(255,255,255,0.02)]
+        [--ai-cyan-a:rgba(93,224,230,0.10)]
+        [--ai-cyan-b:rgba(93,224,230,0.25)]
+        [--ai-blue-a:rgba(0,74,173,0.18)]
+        [--ai-blue-b:rgba(0,74,173,0.45)]"
     >
-      {/* Background glow orbs — hidden on light (dark-mode) background */}
-      <div className="absolute inset-0 pointer-events-none -z-10 dark:hidden" aria-hidden>
-        <div
-          className="absolute -top-32 left-1/2 -translate-x-1/4 w-150 h-150 rounded-full blur-3xl opacity-25"
-          style={{ background: `radial-gradient(circle, ${CYAN} 0%, transparent 70%)` }}
-        />
-        <div
-          className="absolute bottom-0 right-0 w-125 h-125 rounded-full blur-3xl opacity-20"
-          style={{ background: `radial-gradient(circle, ${BLUE} 0%, transparent 70%)` }}
-        />
-      </div>
-
-      <Container>
-        {/* Heading */}
+      <Container className="py-16 md:py-24">
+        {/* Section label + heading */}
         <motion.div
           ref={headingRef}
           initial={{ opacity: 0, y: 24 }}
           animate={headingInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.55, ease: 'easeOut' }}
-          className="text-center mb-14"
+          className="mb-14"
         >
-          <div
-            className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold mb-7 tracking-wide uppercase"
-            style={{
-              border: `1px solid rgba(93,224,230,0.30)`,
-              background: 'rgba(93,224,230,0.08)',
-              color: 'var(--ai-icon-cyan)',
-            }}
-          >
-            <span
-              className="w-1.5 h-1.5 rounded-full animate-pulse"
-              style={{ background: 'var(--ai-icon-cyan)' }}
-            />
-            AI-powered
+          <div className="flex items-center gap-4 mb-10">
+            <span className="text-[10px] font-mono tracking-[0.22em] text-slate-600 uppercase shrink-0">AI-Powered</span>
+            <div className="flex-1 h-px bg-white/8" />
           </div>
-
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-white dark:text-slate-900 leading-tight">
-            Intelligence built into{' '}
-            <span
-              className="bg-clip-text text-transparent"
-              style={{ backgroundImage: `linear-gradient(90deg, ${CYAN} 0%, ${BLUE} 100%)` }}
-            >
-              every layer
-            </span>
+          <h2
+            className="font-black uppercase tracking-tighter leading-[0.9] text-white"
+            style={{ fontSize: 'clamp(2rem, 6vw, 4rem)' }}
+          >
+            Intelligence Built Into<br />
+            <span style={{ color: CYAN }}>Every Layer.</span>
           </h2>
-          <p className="mt-5 text-lg text-slate-400 dark:text-slate-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-6 text-base md:text-lg text-slate-400 max-w-2xl leading-relaxed">
             Enterprise Insight doesn&apos;t just store your architecture — it understands it.
             Ask questions, detect risk, and publish insights at the speed of thought.
           </p>
         </motion.div>
 
         {/* Bento grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/8">
           {FEATURES.map((f, i) => (
             <FeatureCard key={f.id} feature={f} index={i} />
           ))}

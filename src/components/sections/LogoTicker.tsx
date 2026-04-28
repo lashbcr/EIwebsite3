@@ -101,10 +101,14 @@ export function LogoTicker() {
   const doubled = [...logos, ...logos];
 
   return (
-    <section className="py-10 border-y border-border">
-      <p className="text-center text-xs font-medium text-muted-foreground uppercase tracking-[0.18em] mb-8">
-        Integrates with the AI platforms your team already uses
-      </p>
+    <section className="border-t border-white/8 bg-[#060b14] pb-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center gap-4 py-4 mb-6">
+          <span className="text-[10px] font-mono tracking-[0.22em] text-slate-600 uppercase shrink-0">AI Infrastructure</span>
+          <div className="flex-1 h-px bg-white/8" />
+          <span className="text-[10px] font-mono tracking-[0.16em] text-slate-700 uppercase shrink-0 hidden sm:block">Integrations</span>
+        </div>
+      </div>
 
       <div
         className="overflow-hidden relative"
@@ -119,7 +123,7 @@ export function LogoTicker() {
           {doubled.map((logo, i) => (
             <div
               key={`${logo.id}-${i}`}
-              className="flex items-center justify-center px-10 text-muted-foreground/60 hover:text-muted-foreground transition-colors duration-300 shrink-0"
+              className="flex items-center justify-center px-10 text-muted-foreground/50 hover:text-muted-foreground transition-colors duration-300 shrink-0"
             >
               {logo.svg}
             </div>

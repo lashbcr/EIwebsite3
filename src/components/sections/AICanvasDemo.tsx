@@ -219,21 +219,26 @@ function AIPromptsPanel() {
 
 export function AICanvasDemo() {
   return (
-    <Section id="ai-canvas" className="bg-white dark:bg-[#060b14]">
-      <Container>
-        <AnimatedSection className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
-            See your architecture come to life
+    <section id="ai-canvas" className="bg-[#060b14] border-t border-white/8">
+      <Container className="py-16 md:py-24">
+
+        {/* Section label */}
+        <AnimatedSection>
+          <div className="flex items-center gap-4 mb-10">
+            <span className="text-[10px] font-mono tracking-[0.22em] text-slate-600 uppercase shrink-0">Live Demo</span>
+            <div className="flex-1 h-px bg-white/8" />
+          </div>
+          <h2
+            className="font-black uppercase tracking-tighter leading-[0.9] text-white mb-10"
+            style={{ fontSize: 'clamp(2rem, 6vw, 4rem)' }}
+          >
+            See Your Architecture<br />Come to Life.
           </h2>
-          <p className="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto text-lg">
-            Describe any change in plain language. Enterprise Insight maps it across your Business,
-            Application, and Technology layers — instantly.
-          </p>
         </AnimatedSection>
 
         <AnimatedSection delay={0.15}>
           <div
-            className="rounded-2xl border border-white/10 overflow-hidden"
+            className="border border-white/10 overflow-hidden"
             style={{ background: CANVAS_BG }}
           >
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px]">
@@ -245,19 +250,13 @@ export function AICanvasDemo() {
               </div>
 
               {/* Right: AI Prompts panel */}
-              <div
-                className="rounded-b-2xl lg:rounded-b-none lg:rounded-r-2xl"
-                style={{
-                  background: '#0f1623',
-                  boxShadow: 'inset 0 0 0 1px rgba(168,85,247,0.35), 0 0 40px rgba(168,85,247,0.1)',
-                }}
-              >
+              <div style={{ background: '#0f1623', borderLeft: '1px solid rgba(93,224,230,0.15)' }}>
                 <AIPromptsPanel />
               </div>
             </div>
           </div>
         </AnimatedSection>
       </Container>
-    </Section>
+    </section>
   );
 }

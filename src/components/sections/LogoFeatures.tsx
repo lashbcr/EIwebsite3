@@ -45,12 +45,12 @@ type Feature = (typeof FEATURES)[number];
 
 function FeaturePanel({ feature }: { feature: Feature }) {
   return (
-    <div className="p-6 md:p-8 rounded-xl border border-slate-200 bg-white backdrop-blur-sm max-w-xs w-full dark:border-white/10 dark:bg-white/5">
-      <div className="w-1.5 h-1.5 rounded-full bg-primary-500 mb-3" />
-      <h3 className="text-sm font-semibold text-slate-900 mb-2 leading-snug dark:text-white">
+    <div className="p-6 md:p-7 border border-white/10 bg-[#060b14] max-w-xs w-full">
+      <div className="w-1.5 h-1.5 bg-primary-500 mb-4" />
+      <h3 className="text-xs font-bold font-mono uppercase tracking-widest text-white mb-2 leading-snug">
         {feature.title}
       </h3>
-      <p className="text-xs text-slate-500 leading-relaxed dark:text-slate-400">{feature.description}</p>
+      <p className="text-xs text-slate-500 leading-relaxed">{feature.description}</p>
     </div>
   );
 }
@@ -172,14 +172,21 @@ export function LogoFeatures() {
   return (
     <div ref={scrollRef} style={{ height: '500vh' }} id="logo-features">
       {/* Sticky visual container — pinned for the duration of scroll */}
-      <div className="sticky top-0 h-screen bg-white dark:bg-[#060b14] flex flex-col justify-center overflow-hidden">
+      <div className="sticky top-0 h-screen bg-[#060b14] flex flex-col justify-center overflow-hidden border-t border-white/8">
         <Container>
-          <AnimatedSection className="text-center mb-10 md:mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
-              The platform, deconstructed
+          <AnimatedSection className="mb-8 md:mb-12">
+            <div className="flex items-center gap-4 mb-5">
+              <span className="text-[10px] font-mono tracking-[0.22em] text-slate-600 uppercase shrink-0">Platform</span>
+              <div className="flex-1 h-px bg-white/8" />
+            </div>
+            <h2
+              className="font-black uppercase tracking-tighter leading-[0.9] text-white"
+              style={{ fontSize: 'clamp(1.6rem, 4vw, 3rem)' }}
+            >
+              The Platform,<br />Deconstructed.
             </h2>
-            <p className="mt-4 text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
-              Every element of our mark represents a core capability. Scroll to reveal.
+            <p className="mt-3 text-xs font-mono text-slate-600 uppercase tracking-widest">
+              Scroll to reveal each capability.
             </p>
           </AnimatedSection>
 
