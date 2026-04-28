@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     title: 'Enterprise Architecture Software — Enterprise Insight',
     description:
       'AI-powered enterprise architecture software for modern EA teams. Automated diagrams, TOGAF/ArchiMate support, and real-time stakeholder publishing.',
-    url: 'https://lashwebsitetwo.netlify.app',
+    url: 'https://enterpriseinsight.io',
     type: 'website',
   },
   twitter: {
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
       'AI-powered enterprise architecture software for modern EA teams. Automated diagrams, TOGAF/ArchiMate support, and real-time stakeholder publishing.',
   },
   alternates: {
-    canonical: 'https://lashwebsitetwo.netlify.app',
+    canonical: 'https://enterpriseinsight.io',
   },
 };
 

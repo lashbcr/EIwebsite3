@@ -113,17 +113,29 @@ export function Hero() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="mt-7 text-lg md:text-xl text-slate-900 dark:text-white max-w-xl"
+              className="mt-7 text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-xl"
             >
               The EA platform built for speed, clarity and business-wide communication
             </motion.p>
+
+            {/* Social proof */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.25 }}
+              className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-500 dark:text-slate-400"
+            >
+              <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-primary-500 shrink-0" />50+ EA teams</span>
+              <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-primary-500 shrink-0" />10× faster diagrams</span>
+              <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-primary-500 shrink-0" />TOGAF &amp; ArchiMate ready</span>
+            </motion.div>
 
             {/* CTAs */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="mt-10 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center"
+              className="mt-6 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center"
             >
               <Button variant="primary" size="lg" className="w-full sm:w-auto h-13 sm:h-12 px-7 text-base shadow-[0_4px_20px_rgba(236,44,68,0.45)]" onClick={() => setDemoOpen(true)}>
                 Book a Demo

@@ -14,10 +14,10 @@ const footerLinks = {
     { label: 'Business Capability', href: '#use-cases' },
   ],
   Resources: [
-    { label: 'Documentation', href: '#resources' },
-    { label: 'Blog', href: '#resources' },
-    { label: 'White Papers', href: '#resources' },
-    { label: 'Templates', href: '#resources' },
+    { label: 'Documentation', href: '/resources' },
+    { label: 'Blog', href: '/blog' },
+    { label: 'White Papers', href: '/resources' },
+    { label: 'Events & Webinars', href: '/events' },
   ],
   Company: [
     { label: 'About', href: '/about' },

@@ -106,6 +106,7 @@ const navItems: NavItem[] = [
       },
     ],
   },
+  { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ];
 
