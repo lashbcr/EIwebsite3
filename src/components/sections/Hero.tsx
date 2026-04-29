@@ -52,11 +52,11 @@ export function Hero() {
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, ease: 'easeOut' }}
-          className="pt-10 md:pt-14 pb-10"
+          className="pt-8 md:pt-10 pb-8"
         >
           <h1
-            className="font-black uppercase tracking-tighter leading-[0.88] text-white"
-            style={{ fontSize: 'clamp(3rem, 11vw, 7.5rem)' }}
+            className="font-black uppercase tracking-tighter leading-[0.9] text-white"
+            style={{ fontSize: 'clamp(2.2rem, 7vw, 5rem)' }}
           >
             Make Your<br />
             Architects<br />
@@ -69,11 +69,11 @@ export function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.18 }}
-          className="border-t border-white/10 pt-8 pb-10"
+          className="border-t border-white/10 pt-6 pb-8"
         >
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-16 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-12 items-start">
             {/* Subtext */}
-            <p className="md:col-span-3 text-base md:text-lg text-slate-400 leading-relaxed max-w-xl">
+            <p className="md:col-span-3 text-sm md:text-base text-slate-400 leading-relaxed max-w-xl">
               Legacy EA platforms were built for compliance decks and consultant slide shows.
               Enterprise Insight is built for architects who move at the speed of the
               business — AI that understands your architecture, end to end.
@@ -84,13 +84,13 @@ export function Hero() {
               {STATS.map((s) => (
                 <div key={s.label} className="border-l border-white/10 pl-4">
                   <div
-                    className={`font-black leading-none text-2xl md:text-4xl ${
+                    className={`font-black leading-none text-xl md:text-3xl ${
                       s.accent ? 'text-primary-500' : 'text-white'
                     }`}
                   >
                     {s.value}
                   </div>
-                  <div className="text-[10px] font-mono uppercase tracking-widest text-slate-600 mt-2 leading-tight">
+                  <div className="text-[10px] font-mono uppercase tracking-widest text-slate-600 mt-1.5 leading-tight">
                     {s.label}
                   </div>
                 </div>
@@ -104,7 +104,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.32 }}
-          className="border-t border-white/10 pt-8 pb-20 md:pb-28"
+          className="border-t border-white/10 pt-6 pb-14 md:pb-20"
         >
           <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
             <button
