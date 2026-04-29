@@ -32,6 +32,7 @@ export function ClientVideo() {
 
         {/* Video embed — glass card */}
         <AnimatedSection delay={0.15}>
+          <div className="max-w-[560px]">
           <div
             className="relative overflow-hidden"
             style={{
@@ -54,6 +55,7 @@ export function ClientVideo() {
                 style={{ border: 'none', display: 'block' }}
               />
             </div>
+          </div>
           </div>
         </AnimatedSection>
 
