@@ -405,8 +405,8 @@ export function AIFeatures() {
               className="font-black uppercase tracking-tighter leading-[0.9] text-white"
               style={{ fontSize: 'clamp(1.6rem, 4vw, 3rem)' }}
             >
-              Intelligence Built Into<br />
-              <span style={{ color: '#5de0e6' }}>Every Layer.</span>
+              Your Favourite<br />
+              Functionalities.
             </h2>
             <p className="text-sm text-slate-400 leading-relaxed max-w-xs md:text-right">
               Ask questions, detect risk, and publish insights at the speed of thought.
