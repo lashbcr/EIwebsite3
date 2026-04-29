@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { Container } from '@/components/ui/Container';
 
-const CYAN = '#5de0e6';
+const RED = '#EC2C44';
 const TAB_DURATION = 5; // seconds per tab
 
 // ── Visuals ────────────────────────────────────────────────────────────────────
@@ -13,24 +13,24 @@ function NLVisual() {
   return (
     <div className="border border-white/8 bg-black/25 p-5 font-mono text-xs space-y-3">
       <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/6">
-        <div className="w-1.5 h-1.5 bg-[#5de0e6]" />
+        <div className="w-1.5 h-1.5 bg-[#EC2C44]" />
         <span className="text-[10px] tracking-widest text-slate-500 uppercase">AI Prompt Console</span>
       </div>
       <div className="flex items-start gap-2">
-        <span className="shrink-0 mt-px text-[#5de0e6]">›</span>
+        <span className="shrink-0 mt-px text-[#EC2C44]">›</span>
         <span className="text-white">Map our cloud estate to ArchiMate 3.1</span>
       </div>
       <div className="flex items-start gap-2 pl-4 text-slate-400">
-        <span className="shrink-0 text-[#5de0e6]">↳</span>
+        <span className="shrink-0 text-[#EC2C44]">↳</span>
         <span>14 components identified across 3 layers</span>
       </div>
       <div className="flex items-start gap-2 pl-4 text-slate-400">
-        <span className="text-orange-400 shrink-0">↳</span>
-        <span>Governance gap flagged — Application layer</span>
+        <span className="text-[#EC2C44] shrink-0">↳</span>
+        <span>Governance gap flagged — <span className="text-[#EC2C44]">Application layer</span></span>
       </div>
       <div className="flex items-start gap-2 pl-4 text-slate-400">
-        <span className="shrink-0 text-[#5de0e6]">↳</span>
-        <span>Diagram generated · 2 recommendations ready</span>
+        <span className="shrink-0 text-[#EC2C44]">↳</span>
+        <span>Diagram generated · <span className="text-white">2 recommendations ready</span></span>
       </div>
     </div>
   );
@@ -40,7 +40,7 @@ function RiskVisual() {
   const alerts = [
     { level: 'HIGH', color: '#EC2C44', bg: 'rgba(236,44,68,0.08)', label: 'Compliance gap', layer: 'Application layer' },
     { level: 'MED',  color: '#f59e0b', bg: 'rgba(245,158,11,0.08)', label: 'Redundant services', layer: 'Technology layer' },
-    { level: 'LOW',  color: '#5de0e6', bg: 'rgba(93,224,230,0.08)', label: 'Naming inconsistency', layer: 'Business layer' },
+    { level: 'LOW',  color: '#94a3b8', bg: 'rgba(148,163,184,0.06)', label: 'Naming inconsistency', layer: 'Business layer' },
   ];
   return (
     <div className="space-y-2">
@@ -76,7 +76,7 @@ function ImpactVisual() {
   return (
     <div className="border border-white/8 bg-black/25 p-5">
       <div className="flex items-center gap-2 mb-4">
-        <div className="w-1.5 h-1.5 bg-[#EC2C44]" />
+        <div className="w-1.5 h-1.5 bg-[#EC2C44] animate-pulse" />
         <span className="text-[10px] font-mono tracking-widest text-slate-500 uppercase">Dependency Blast Radius</span>
       </div>
       <svg viewBox="0 0 100 100" className="w-full" style={{ height: 160 }}>
@@ -127,9 +127,9 @@ function DocsVisual() {
   return (
     <div className="border border-white/8 bg-black/25 p-5 space-y-3">
       <div className="flex items-center gap-2 mb-3">
-        <div className="w-1.5 h-1.5 bg-[#5de0e6]" />
+        <div className="w-1.5 h-1.5 bg-[#EC2C44]" />
         <span className="text-xs font-semibold text-white">Architecture Overview — Q2 2025</span>
-        <span className="ml-auto text-[10px] px-2 py-0.5 font-mono" style={{ background: 'rgba(93,224,230,0.12)', color: '#5de0e6' }}>
+        <span className="ml-auto text-[10px] px-2 py-0.5 font-mono" style={{ background: 'rgba(236,44,68,0.12)', color: '#EC2C44' }}>
           AI-generated
         </span>
       </div>
@@ -190,8 +190,8 @@ const FEATURES = [
     id: 'nl',
     badge: 'Natural Language',
     title: 'Ask in plain English.\nGet architecture.',
-    description: 'Describe changes, queries, or models in plain language. Enterprise Insight maps your intent across Business, Application, and Technology layers — automatically.',
-    accent: CYAN,
+    description: ['Describe changes, queries, or models in ', 'plain language', '. Enterprise Insight maps your intent across Business, Application, and Technology layers — ', 'automatically', '.'],
+    accent: RED,
     Icon: NLIcon,
     Visual: NLVisual,
   },
@@ -199,8 +199,8 @@ const FEATURES = [
     id: 'risk',
     badge: 'Risk Intelligence',
     title: 'Risks surfaced\nbefore they escalate',
-    description: 'Continuous AI monitoring flags gaps, redundancies, and compliance violations across your entire architecture landscape in real time.',
-    accent: CYAN,
+    description: ['Continuous AI monitoring flags ', 'gaps, redundancies, and compliance violations', ' across your entire architecture landscape in ', 'real time', '.'],
+    accent: RED,
     Icon: RiskIcon,
     Visual: RiskVisual,
   },
@@ -208,8 +208,8 @@ const FEATURES = [
     id: 'impact',
     badge: 'Impact Analysis',
     title: 'Know the blast\nradius instantly',
-    description: 'Trace upstream and downstream dependencies with one click. Model proposed changes before committing — and catch breaking changes before they happen.',
-    accent: '#EC2C44',
+    description: ['Trace upstream and downstream ', 'dependencies', ' with one click. Model proposed changes before committing — and catch ', 'breaking changes before they happen', '.'],
+    accent: RED,
     Icon: ImpactIcon,
     Visual: ImpactVisual,
   },
@@ -217,14 +217,15 @@ const FEATURES = [
     id: 'docs',
     badge: 'Auto Documentation',
     title: 'Documentation\nthat writes itself',
-    description: 'AI drafts clear, stakeholder-ready architecture documents from your live data. Always accurate. Zero manual overhead.',
-    accent: CYAN,
+    description: ['AI drafts clear, ', 'stakeholder-ready', ' architecture documents from your live data. ', 'Always accurate. Zero manual overhead', '.'],
+    accent: RED,
     Icon: DocsIcon,
     Visual: DocsVisual,
   },
 ] as const;
 
 type Feature = (typeof FEATURES)[number];
+// description is [plain, emphasized, plain, emphasized?, plain?] — odd indices are red
 
 // ── Tab row ────────────────────────────────────────────────────────────────────
 
@@ -247,20 +248,20 @@ function TabRow({
     >
       {/* Left accent bar */}
       <div
-        className="absolute left-0 top-0 bottom-0 w-[2px] transition-all duration-300"
+        className="absolute left-0 top-0 bottom-0 w-[2px] transition-all duration-500"
         style={{ background: isActive ? feature.accent : 'transparent' }}
       />
 
       {/* Icon + badge */}
       <div className="flex items-center gap-2.5 mb-2">
         <span
-          className="transition-colors duration-200"
+          className="transition-colors duration-500"
           style={{ color: isActive ? feature.accent : '#475569' }}
         >
           <feature.Icon />
         </span>
         <span
-          className="text-[9px] font-mono tracking-[0.18em] uppercase transition-colors duration-200"
+          className="text-[9px] font-mono tracking-[0.18em] uppercase transition-colors duration-500"
           style={{ color: isActive ? '#94a3b8' : '#475569' }}
         >
           {feature.badge}
@@ -269,7 +270,7 @@ function TabRow({
 
       {/* Title */}
       <p
-        className="text-sm font-bold leading-snug transition-colors duration-200"
+        className="text-sm font-bold leading-snug transition-colors duration-500"
         style={{ color: isActive ? '#ffffff' : '#475569' }}
       >
         {feature.title.replace('\n', ' ')}
@@ -298,10 +299,10 @@ function ContentPanel({ feature }: { feature: Feature }) {
   return (
     <motion.div
       key={feature.id}
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8 }}
-      transition={{ duration: 0.35, ease: 'easeOut' }}
+      exit={{ opacity: 0, y: -12 }}
+      transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
       className="flex flex-col h-full"
     >
       {/* Badge */}
@@ -328,9 +329,13 @@ function ContentPanel({ feature }: { feature: Feature }) {
         ))}
       </h3>
 
-      {/* Description */}
+      {/* Description with red key-word emphasis on odd indices */}
       <p className="text-sm text-slate-400 leading-relaxed mb-6 max-w-sm">
-        {feature.description}
+        {(feature.description as readonly string[]).map((chunk, i) =>
+          i % 2 === 1
+            ? <span key={i} style={{ color: '#EC2C44' }} className="font-medium">{chunk}</span>
+            : <span key={i}>{chunk}</span>
+        )}
       </p>
 
       {/* Visual */}
@@ -393,7 +398,7 @@ export function AIFeatures() {
               style={{ fontSize: 'clamp(1.6rem, 4vw, 3rem)' }}
             >
               Intelligence Built Into<br />
-              <span style={{ color: CYAN }}>Every Layer.</span>
+              <span style={{ color: RED }}>Every Layer.</span>
             </h2>
             <p className="text-sm text-slate-400 leading-relaxed max-w-xs md:text-right">
               Ask questions, detect risk, and publish insights at the speed of thought.
