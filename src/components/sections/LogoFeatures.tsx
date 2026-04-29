@@ -282,7 +282,7 @@ export function LogoFeatures() {
               <span className="text-[10px] font-mono tracking-[0.22em] text-slate-500 uppercase shrink-0">Platform</span>
               <div className="flex-1 h-px bg-white/8" />
             </div>
-            <h2 className="font-black uppercase tracking-tighter leading-[0.9] text-white" style={{ fontSize: 'clamp(1.6rem, 4vw, 3rem)' }}>
+            <h2 className="font-black uppercase tracking-tighter leading-[0.9] text-white" style={{ fontSize: 'clamp(1.3rem, 3vw, 2.4rem)' }}>
               The Platform,<br />Deconstructed.
             </h2>
             <p className="mt-2 text-xs font-mono text-slate-500 uppercase tracking-widest">

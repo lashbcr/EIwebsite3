@@ -207,7 +207,7 @@ function FeatureCard({
         </span>
       </div>
 
-      <h3 className="text-lg font-bold text-white leading-snug mb-3">{feature.title}</h3>
+      <h3 className="text-base font-bold text-white leading-snug mb-2">{feature.title}</h3>
       <p className="text-sm text-slate-300 leading-relaxed">{feature.description}</p>
 
       {Preview && <Preview />}
@@ -246,12 +246,12 @@ export function AIFeatures() {
           </div>
           <h2
             className="font-black uppercase tracking-tighter leading-[0.9] text-white"
-            style={{ fontSize: 'clamp(2rem, 6vw, 4rem)' }}
+            style={{ fontSize: 'clamp(1.6rem, 4vw, 3rem)' }}
           >
             Intelligence Built Into<br />
             <span style={{ color: CYAN }}>Every Layer.</span>
           </h2>
-          <p className="mt-6 text-base md:text-lg text-slate-300 max-w-2xl leading-relaxed">
+          <p className="mt-4 text-sm md:text-base text-slate-300 max-w-2xl leading-relaxed">
             Enterprise Insight doesn&apos;t just store your architecture — it understands it.
             Ask questions, detect risk, and publish insights at the speed of thought.
           </p>

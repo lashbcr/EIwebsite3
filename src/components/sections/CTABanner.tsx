@@ -6,7 +6,7 @@ import { BookDemoButton } from '@/components/ui/BookDemoButton';
 
 export function CTABanner() {
   return (
-    <section id="demo" className="py-24 md:py-32 bg-[#060b14] relative overflow-hidden border-t border-white/6">
+    <section id="demo" className="py-16 md:py-24 bg-[#060b14] relative overflow-hidden border-t border-white/6">
       {/* Background */}
       <div className="absolute inset-0 -z-10 pointer-events-none" aria-hidden>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full bg-primary-600/15 blur-3xl" />
@@ -29,12 +29,13 @@ export function CTABanner() {
             The AI-native alternative
           </div>
 
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-white leading-tight">
-            Stop settling for EA tools
-            <br className="hidden sm:block" />
-            {' '}built for a different era.
+          <h2
+            className="font-black uppercase tracking-tighter leading-[0.9] text-white"
+            style={{ fontSize: 'clamp(1.6rem, 4vw, 3rem)' }}
+          >
+            Stop settling for EA tools<br />built for a different era.
           </h2>
-          <p className="mt-6 text-lg text-slate-400 max-w-xl mx-auto leading-relaxed">
+          <p className="mt-4 text-sm md:text-base text-slate-400 max-w-xl mx-auto leading-relaxed">
             Enterprise Insight is the AI-first platform purpose-built for architects who need speed,
             clarity, and real business impact — not another diagramming tool dressed up with a chatbot.
           </p>

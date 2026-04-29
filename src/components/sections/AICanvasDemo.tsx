@@ -230,7 +230,7 @@ export function AICanvasDemo() {
           </div>
           <h2
             className="font-black uppercase tracking-tighter leading-[0.9] text-white mb-10"
-            style={{ fontSize: 'clamp(2rem, 6vw, 4rem)' }}
+            style={{ fontSize: 'clamp(1.6rem, 4vw, 3rem)' }}
           >
             See Your Architecture<br />Come to Life.
           </h2>

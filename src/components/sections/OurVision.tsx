@@ -56,12 +56,12 @@ export function OurVision() {
         <AnimatedSection className="mb-14">
           <h2
             className="font-black uppercase tracking-tighter leading-[0.9] text-white"
-            style={{ fontSize: 'clamp(2.2rem, 7vw, 5rem)' }}
+            style={{ fontSize: 'clamp(1.6rem, 4.5vw, 3.2rem)' }}
           >
             Closing the Gap Between<br />
             <span className="text-primary-500">Intent</span> and Reality.
           </h2>
-          <p className="mt-6 text-base md:text-lg text-slate-400 leading-relaxed max-w-2xl">
+          <p className="mt-4 text-sm md:text-base text-slate-400 leading-relaxed max-w-2xl">
             Enterprise architecture has always excelled at defining <em>what</em> needs to change.
             We are extending that capability into driving <em>how</em> it happens — automatically generating
             the change manifests that translate strategic decisions into downstream implementation, end to end.
@@ -91,7 +91,7 @@ export function OurVision() {
               <span className="text-[10px] font-mono tracking-[0.22em] text-slate-600 uppercase block mb-5">The Platform Positioning</span>
               <h3
                 className="font-black tracking-tighter leading-[0.95] text-white uppercase"
-                style={{ fontSize: 'clamp(1.5rem, 4vw, 2.5rem)' }}
+                style={{ fontSize: 'clamp(1.1rem, 2.8vw, 1.9rem)' }}
               >
                 The tool that bridges conceptual and physical change management.
               </h3>

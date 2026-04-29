@@ -58,7 +58,7 @@ export function BlogTeaser() {
           </div>
           <h2
             className="font-black uppercase tracking-tighter leading-[0.9] text-white"
-            style={{ fontSize: 'clamp(2rem, 6vw, 4rem)' }}
+            style={{ fontSize: 'clamp(1.6rem, 4vw, 3rem)' }}
           >
             Thinking About<br />Modern EA.
           </h2>
