@@ -118,7 +118,7 @@ function GlassCard({ step, delay }: { step: typeof STEPS[number]; delay: number 
         </h3>
 
         {/* Description */}
-        <p className="text-sm text-slate-500 leading-relaxed flex-1">
+        <p className="text-sm text-slate-300 leading-relaxed flex-1">
           {step.description}
         </p>
       </div>
@@ -200,7 +200,7 @@ export function OurVision() {
                   The tool that bridges conceptual and physical change management.
                 </h3>
               </div>
-              <div className="space-y-4 text-slate-400 leading-relaxed text-sm md:text-base">
+              <div className="space-y-4 text-slate-300 leading-relaxed text-sm md:text-base">
                 <p>
                   Today, a chasm exists between the models architects produce and the work that engineers execute.
                   That gap is where transformation stalls. Enterprise Insight is purpose-built to eliminate it.
