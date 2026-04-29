@@ -12,20 +12,32 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    title: 'Beyond OrbusInfinity: What Modern AI-Native EA Looks Like',
+    description: 'Enterprise architecture has a design-era problem. Most EA platforms were built around assumptions that made sense at the time — diagrams in desktop files, reporting via export, architecture moving slower than the business. Here\'s what changes when you build for the present.',
+    date: 'April 29, 2026',
+    readTime: '12 min read',
+    href: '/blog/beyond-orbusinfinity',
+    image: '/pexels-pixabay-163056-scaled.jpg',
+    tag: 'AI & Automation',
+    featured: true,
+  },
+  {
     title: 'How Hercules PLC Achieves Strategic Transformation During Rapid Growth and Complex Change',
-    description: 'Hercules PLC is a leading construction labour supplier growing at pace: they`ve acquired three companies in 2024 alone. How do they deliver their competitive',
+    description: 'Hercules PLC is a leading construction labour supplier growing at pace: they\'ve acquired three companies in 2024 alone. How do they deliver their competitive advantage through enterprise architecture?',
     date: 'April 10, 2026',
     readTime: '8 min read',
     href: '/blog/hercules',
     image: '/DSCF0030-scaled.jpg',
+    tag: 'Case Study',
   },
   {
-    title: 'Why Can`t Financial Institutions Ignore TOGAF Anymore?',
-    description: 'Banks and insurance companies operate in increasingly complex technological and regulatory environments. Gabor Sulok, CEO of Bdat Solutions with 20+ years in the Enterprise Architecture',
+    title: 'Why Can\'t Financial Institutions Ignore TOGAF Anymore?',
+    description: 'Banks and insurance companies operate in increasingly complex technological and regulatory environments. TOGAF has quietly become a compliance requirement, not just a best practice.',
     date: 'April 23, 2026',
     readTime: '7 min read',
     href: '/blog/togaf',
     image: '/pexels-pixabay-163056-scaled.jpg',
+    tag: 'Enterprise Architecture',
   },
   {
     title: 'Successfully Navigating Standards and Frameworks for Your Organization',
@@ -34,7 +46,8 @@ const posts = [
     readTime: '6 min read',
     href: '/blog/frameworks',
     image: '/pexels-enginakyurt-2283803.jpg',
-  }
+    tag: 'Frameworks',
+  },
 ];
 
 export default function BlogPage() {
@@ -63,26 +76,67 @@ export default function BlogPage() {
       {/* Posts */}
       <section className="py-20 md:py-28 bg-slate-50 dark:bg-[#080f1c]">
         <Container>
-          <div className="grid md:grid-cols-2 gap-6">
-            {posts.map((post, i) => (
+          {/* Featured post */}
+          <AnimatedSection className="mb-6">
+            <Link
+              href={posts[0].href}
+              className="group flex flex-col md:flex-row border border-white/10 bg-white/2 hover:bg-white/4 transition-colors duration-200 overflow-hidden"
+            >
+              <div className="relative md:w-2/5 h-56 md:h-auto shrink-0 overflow-hidden border-b md:border-b-0 md:border-r border-white/10">
+                <Image
+                  src={posts[0].image}
+                  alt={posts[0].title}
+                  fill
+                  loading="eager"
+                  className="object-cover grayscale-[30%] transition-transform duration-500 group-hover:scale-103"
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                />
+                <span className="absolute top-4 left-4 text-[10px] font-mono font-bold uppercase tracking-widest text-[#5de0e6] bg-[#060b14]/80 px-2 py-1">
+                  {posts[0].tag}
+                </span>
+              </div>
+              <div className="flex flex-col justify-center p-8 md:p-10">
+                <span className="text-[9px] font-mono tracking-[0.22em] text-slate-600 uppercase mb-3">Featured</span>
+                <h2 className="text-xl md:text-2xl font-black uppercase tracking-tighter leading-[0.95] text-white mb-4 group-hover:text-[#5de0e6] transition-colors duration-150">
+                  {posts[0].title}
+                </h2>
+                <p className="text-sm text-slate-500 leading-relaxed mb-6">{posts[0].description}</p>
+                <div className="flex items-center gap-3 text-[10px] font-mono uppercase tracking-widest text-slate-700">
+                  <span>{posts[0].date}</span>
+                  <span className="w-px h-3 bg-white/10" />
+                  <span>{posts[0].readTime}</span>
+                </div>
+              </div>
+            </Link>
+          </AnimatedSection>
+
+          {/* Remaining posts */}
+          <div className="grid md:grid-cols-3 border border-white/10">
+            {posts.slice(1).map((post, i) => (
               <AnimatedSection key={post.href} delay={i * 0.06}>
-                <Link href={post.href} className="block rounded-xl border border-slate-200 dark:border-white/8 bg-white dark:bg-white/3 h-full hover:border-primary-500/30 transition-colors group overflow-hidden">
-                  <div className="relative w-full h-48 overflow-hidden">
+                <Link
+                  href={post.href}
+                  className={`group flex flex-col h-full bg-transparent hover:bg-white/2 transition-colors duration-200 ${i < posts.length - 2 ? 'border-b md:border-b-0 md:border-r border-white/10' : ''}`}
+                >
+                  <div className="relative h-44 w-full shrink-0 overflow-hidden border-b border-white/8">
                     <Image
                       src={post.image}
                       alt={post.title}
                       fill
-                      loading={i === 0 ? 'eager' : 'lazy'}
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, 50vw"
+                      loading="lazy"
+                      className="object-cover grayscale-[30%] transition-transform duration-500 group-hover:scale-103"
+                      sizes="(max-width: 768px) 100vw, 33vw"
                     />
+                    <span className="absolute top-3 left-3 text-[9px] font-mono font-bold uppercase tracking-widest text-slate-300 bg-[#060b14]/80 px-2 py-0.5">
+                      {post.tag}
+                    </span>
                   </div>
-                  <div className="p-6">
-                    <h2 className="font-semibold text-slate-900 dark:text-white mb-2 leading-snug group-hover:text-primary-500 transition-colors">{post.title}</h2>
-                    <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">{post.description}</p>
-                    <div className="flex items-center gap-3 text-xs text-slate-400">
+                  <div className="flex flex-col flex-1 p-6">
+                    <h2 className="text-sm font-bold leading-snug text-white group-hover:text-primary-400 transition-colors duration-150 mb-3">{post.title}</h2>
+                    <p className="text-xs text-slate-500 leading-relaxed flex-1">{post.description}</p>
+                    <div className="mt-5 flex items-center gap-3 text-[10px] font-mono uppercase tracking-widest text-slate-700">
                       <span>{post.date}</span>
-                      <span>·</span>
+                      <span className="w-px h-3 bg-white/10" />
                       <span>{post.readTime}</span>
                     </div>
                   </div>
@@ -90,9 +144,6 @@ export default function BlogPage() {
               </AnimatedSection>
             ))}
           </div>
-          <AnimatedSection delay={0.3} className="mt-12 text-center">
-            <p className="text-slate-400 dark:text-slate-600 text-sm">[More posts to be added]</p>
-          </AnimatedSection>
         </Container>
       </section>
 

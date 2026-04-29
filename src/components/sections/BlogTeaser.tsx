@@ -1,10 +1,22 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { AnimatedSection } from '@/components/ui/AnimatedSection';
 import { Container } from '@/components/ui/Container';
 
-const posts = [
+const FEATURED = {
+  tag: 'AI & Automation',
+  tagColor: 'text-[#5de0e6]',
+  title: 'Beyond OrbusInfinity: What Modern AI-Native EA Looks Like',
+  excerpt: 'Enterprise architecture has a design-era problem. Most platforms were built around assumptions that made sense at the time. Here\'s what changes when you build for the present.',
+  readTime: '12 min read',
+  date: 'Apr 2026',
+  image: '/pexels-pixabay-163056-scaled.jpg',
+  href: '/blog/beyond-orbusinfinity',
+};
+
+const POSTS = [
   {
     tag: 'Enterprise Architecture',
     tagColor: 'text-primary-500',
@@ -13,15 +25,7 @@ const posts = [
     readTime: '5 min read',
     date: 'Apr 2026',
     image: '/DSCF0030-scaled.jpg',
-  },
-  {
-    tag: 'AI & Automation',
-    tagColor: 'text-[#5de0e6]',
-    title: 'From TOGAF to Real-Time: Automating Architecture Diagrams at Scale',
-    excerpt: 'A deep dive into how Enterprise Insight generates ArchiMate-compliant diagrams directly from your data — no manual drawing required.',
-    readTime: '7 min read',
-    date: 'Mar 2026',
-    image: '/pexels-pixabay-163056-scaled.jpg',
+    href: '/blog',
   },
   {
     tag: 'Stakeholder Alignment',
@@ -31,6 +35,7 @@ const posts = [
     readTime: '4 min read',
     date: 'Feb 2026',
     image: '/pexels-enginakyurt-2283803.jpg',
+    href: '/blog',
   },
 ];
 
@@ -44,12 +49,12 @@ export function BlogTeaser() {
           <div className="flex items-center gap-4 mb-10">
             <span className="text-[10px] font-mono tracking-[0.22em] text-slate-600 uppercase shrink-0">From the Blog</span>
             <div className="flex-1 h-px bg-white/8" />
-            <a
+            <Link
               href="/blog"
               className="text-[10px] font-mono tracking-[0.16em] text-slate-500 uppercase hover:text-white transition-colors shrink-0"
             >
               View all →
-            </a>
+            </Link>
           </div>
           <h2
             className="font-black uppercase tracking-tighter leading-[0.9] text-white"
@@ -59,29 +64,61 @@ export function BlogTeaser() {
           </h2>
         </AnimatedSection>
 
-        {/* Cards — hard borders, no radius, no shadow */}
-        <div className="grid md:grid-cols-3 border border-white/10">
-          {posts.map((post, i) => (
+        {/* Featured post — full-width horizontal card */}
+        <AnimatedSection className="mb-px">
+          <Link
+            href={FEATURED.href}
+            className="group flex flex-col md:flex-row border border-white/10 hover:bg-white/2 transition-colors duration-200 overflow-hidden"
+          >
+            <div className="relative md:w-2/5 h-52 md:h-auto shrink-0 overflow-hidden border-b md:border-b-0 md:border-r border-white/10">
+              <Image
+                src={FEATURED.image}
+                alt={FEATURED.title}
+                fill
+                className="object-cover grayscale-[30%] transition-transform duration-500 group-hover:scale-103"
+                sizes="(max-width: 768px) 100vw, 40vw"
+              />
+              <span className={`absolute top-4 left-4 text-[10px] font-mono font-bold uppercase tracking-widest ${FEATURED.tagColor} bg-[#060b14]/80 px-2 py-1`}>
+                {FEATURED.tag}
+              </span>
+            </div>
+            <div className="flex flex-col justify-center p-7 md:p-10">
+              <span className="text-[9px] font-mono tracking-[0.22em] text-slate-600 uppercase block mb-3">Featured</span>
+              <h3 className="text-lg md:text-xl font-black uppercase tracking-tighter leading-[0.95] text-white group-hover:text-[#5de0e6] transition-colors duration-150 mb-4">
+                {FEATURED.title}
+              </h3>
+              <p className="text-xs text-slate-500 leading-relaxed mb-6">{FEATURED.excerpt}</p>
+              <div className="flex items-center gap-3 text-[10px] font-mono uppercase tracking-widest text-slate-700">
+                <span>{FEATURED.date}</span>
+                <span className="w-px h-3 bg-white/10" />
+                <span>{FEATURED.readTime}</span>
+                <span className="w-px h-3 bg-white/10" />
+                <span className="text-[#5de0e6]">Read →</span>
+              </div>
+            </div>
+          </Link>
+        </AnimatedSection>
+
+        {/* Secondary cards */}
+        <div className="grid md:grid-cols-2 border-l border-r border-b border-white/10">
+          {POSTS.map((post, i) => (
             <AnimatedSection key={post.title} delay={i * 0.08}>
-              <a
-                href="/blog"
-                className={`group flex flex-col h-full bg-transparent hover:bg-white/2 transition-colors duration-200 ${i < posts.length - 1 ? 'border-b md:border-b-0 md:border-r border-white/10' : ''}`}
+              <Link
+                href={post.href}
+                className={`group flex flex-col h-full bg-transparent hover:bg-white/2 transition-colors duration-200 ${i < POSTS.length - 1 ? 'border-b md:border-b-0 md:border-r border-white/10' : ''}`}
               >
-                {/* Image — no radius */}
-                <div className="relative h-48 w-full shrink-0 overflow-hidden border-b border-white/8">
+                <div className="relative h-44 w-full shrink-0 overflow-hidden border-b border-white/8">
                   <Image
                     src={post.image}
                     alt={post.title}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-103 grayscale-[30%]"
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
-                  {/* Tag overlay */}
                   <span className={`absolute top-4 left-4 text-[10px] font-mono font-bold uppercase tracking-widest ${post.tagColor} bg-[#060b14]/80 px-2 py-1`}>
                     {post.tag}
                   </span>
                 </div>
-
                 <div className="flex flex-col flex-1 p-7">
                   <h3 className="text-sm font-bold leading-snug text-white group-hover:text-primary-400 transition-colors duration-150 mb-3">
                     {post.title}
@@ -93,7 +130,7 @@ export function BlogTeaser() {
                     <span>{post.readTime}</span>
                   </div>
                 </div>
-              </a>
+              </Link>
             </AnimatedSection>
           ))}
         </div>

@@ -11,20 +11,20 @@ const BLUE = '#004aad';
 
 function NLPreview() {
   return (
-    <div className="mt-6 rounded-xl border border-white/8 dark:border-black/10 bg-black/20 dark:bg-black/4 p-4 font-mono text-xs space-y-2.5">
+    <div className="mt-6 border border-white/8 bg-black/20 p-4 font-mono text-xs space-y-2.5">
       <div className="flex items-start gap-2">
         <span className="shrink-0 mt-px" style={{ color: 'var(--ai-icon-cyan)' }}>›</span>
-        <span className="text-slate-200 dark:text-slate-700">Map our cloud estate to ArchiMate 3.1</span>
+        <span className="text-white">Map our cloud estate to ArchiMate 3.1</span>
       </div>
-      <div className="flex items-start gap-2 pl-4 text-slate-400 dark:text-slate-500">
+      <div className="flex items-start gap-2 pl-4 text-slate-300">
         <span className="shrink-0" style={{ color: 'var(--ai-icon-cyan)' }}>↳</span>
         <span>14 components identified across 3 layers</span>
       </div>
-      <div className="flex items-start gap-2 pl-4 text-slate-400 dark:text-slate-500">
+      <div className="flex items-start gap-2 pl-4 text-slate-300">
         <span className="text-orange-400 shrink-0">↳</span>
         <span>Governance gap flagged — Application layer</span>
       </div>
-      <div className="flex items-start gap-2 pl-4 text-slate-400 dark:text-slate-500">
+      <div className="flex items-start gap-2 pl-4 text-slate-300">
         <span className="shrink-0" style={{ color: 'var(--ai-icon-cyan)' }}>↳</span>
         <span>Diagram generated · 2 recommendations ready</span>
       </div>
@@ -34,25 +34,25 @@ function NLPreview() {
 
 function DocsPreview() {
   return (
-    <div className="mt-6 rounded-xl border border-white/8 dark:border-black/10 bg-black/20 dark:bg-black/4 p-4 space-y-2.5">
+    <div className="mt-6 border border-white/8 bg-black/20 p-4 space-y-2.5">
       <div className="flex items-center gap-2 mb-3.5">
-        <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--ai-icon-cyan)' }} />
-        <span className="text-xs font-semibold text-slate-300 dark:text-slate-600">Architecture Overview — Q2 2025</span>
+        <div className="w-1.5 h-1.5" style={{ background: 'var(--ai-icon-cyan)' }} />
+        <span className="text-xs font-semibold text-white">Architecture Overview — Q2 2025</span>
         <span
-          className="ml-auto text-[10px] px-2 py-0.5 rounded-full font-medium"
+          className="ml-auto text-[10px] px-2 py-0.5 font-medium"
           style={{ background: 'rgba(93,224,230,0.12)', color: 'var(--ai-icon-cyan)' }}
         >
           AI-generated
         </span>
       </div>
-      <div className="h-1.5 rounded-full bg-slate-600/50 dark:bg-slate-300/60 w-3/4" />
-      <div className="h-1.5 rounded-full bg-slate-700/50 dark:bg-slate-200/70 w-full" />
-      <div className="h-1.5 rounded-full bg-slate-700/50 dark:bg-slate-200/70 w-5/6" />
-      <div className="h-1.5 rounded-full bg-slate-600/40 dark:bg-slate-300/50 w-2/3 mt-3" />
-      <div className="h-1.5 rounded-full bg-slate-700/50 dark:bg-slate-200/70 w-full" />
-      <div className="h-1.5 rounded-full bg-slate-700/50 dark:bg-slate-200/70 w-4/5" />
-      <div className="h-1.5 rounded-full bg-slate-600/40 dark:bg-slate-300/50 w-3/5 mt-3" />
-      <div className="h-1.5 rounded-full bg-slate-700/50 dark:bg-slate-200/70 w-full" />
+      <div className="h-1.5 bg-slate-500/60 w-3/4" />
+      <div className="h-1.5 bg-slate-600/60 w-full" />
+      <div className="h-1.5 bg-slate-600/60 w-5/6" />
+      <div className="h-1.5 bg-slate-500/50 w-2/3 mt-3" />
+      <div className="h-1.5 bg-slate-600/60 w-full" />
+      <div className="h-1.5 bg-slate-600/60 w-4/5" />
+      <div className="h-1.5 bg-slate-500/50 w-3/5 mt-3" />
+      <div className="h-1.5 bg-slate-600/60 w-full" />
     </div>
   );
 }
@@ -207,8 +207,8 @@ function FeatureCard({
         </span>
       </div>
 
-      <h3 className="text-lg font-bold text-white dark:text-slate-900 leading-snug mb-3">{feature.title}</h3>
-      <p className="text-sm text-slate-400 dark:text-slate-600 leading-relaxed">{feature.description}</p>
+      <h3 className="text-lg font-bold text-white leading-snug mb-3">{feature.title}</h3>
+      <p className="text-sm text-slate-300 leading-relaxed">{feature.description}</p>
 
       {Preview && <Preview />}
     </motion.div>
@@ -233,7 +233,6 @@ export function AIFeatures() {
         [--ai-blue-b:rgba(0,74,173,0.45)]"
     >
       <Container className="py-16 md:py-24">
-        {/* Section label + heading */}
         <motion.div
           ref={headingRef}
           initial={{ opacity: 0, y: 24 }}
@@ -242,7 +241,7 @@ export function AIFeatures() {
           className="mb-14"
         >
           <div className="flex items-center gap-4 mb-10">
-            <span className="text-[10px] font-mono tracking-[0.22em] text-slate-600 uppercase shrink-0">AI-Powered</span>
+            <span className="text-[10px] font-mono tracking-[0.22em] text-slate-500 uppercase shrink-0">AI-Powered</span>
             <div className="flex-1 h-px bg-white/8" />
           </div>
           <h2
@@ -252,13 +251,12 @@ export function AIFeatures() {
             Intelligence Built Into<br />
             <span style={{ color: CYAN }}>Every Layer.</span>
           </h2>
-          <p className="mt-6 text-base md:text-lg text-slate-400 max-w-2xl leading-relaxed">
+          <p className="mt-6 text-base md:text-lg text-slate-300 max-w-2xl leading-relaxed">
             Enterprise Insight doesn&apos;t just store your architecture — it understands it.
             Ask questions, detect risk, and publish insights at the speed of thought.
           </p>
         </motion.div>
 
-        {/* Bento grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/8">
           {FEATURES.map((f, i) => (
             <FeatureCard key={f.id} feature={f} index={i} />
