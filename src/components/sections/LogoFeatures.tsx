@@ -220,43 +220,65 @@ function FeatureStroke({
       />
 
       {/* Text label */}
-      <foreignObject x={fo.x} y={fo.y} width={fo.w} height={fo.h} style={{ pointerEvents: 'none' }}>
-        {/* @ts-ignore */}
-        <motion.div
-          xmlns="http://www.w3.org/1999/xhtml"
-          style={{
-            opacity: textOpacity,
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            padding: isVertical ? '10px 10px' : '6px 14px',
-            gap: isVertical ? '8px' : '5px',
-            boxSizing: 'border-box',
-            pointerEvents: 'none',
-          }}
-        >
-          <span style={{ fontSize: '7px', letterSpacing: '0.22em', color: '#94a3b8', fontFamily: 'monospace', textTransform: 'uppercase', display: 'block' }}>
+      {isVertical ? (
+        // Native SVG text for the vertical column — avoids foreignObject clipping
+        <motion.g style={{ opacity: textOpacity }} pointerEvents="none">
+          {/* Centre of the right column: x=434, y=263 */}
+          <text x="434" y="228" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="2" fill="#94a3b8" textLength="" style={{ textTransform: 'uppercase' }}>
             {feature.index}
-          </span>
-          <p style={{
-            fontSize: isVertical ? '11px' : '14px',
-            fontWeight: 900,
-            fontFamily: 'monospace',
-            textTransform: 'uppercase',
-            letterSpacing: isVertical ? '0.06em' : '0.08em',
-            color: '#ffffff',
-            textShadow: '0 1px 8px rgba(0,0,0,0.8)',
-            lineHeight: 1.25,
-            margin: 0,
-          }}>
-            {feature.title}
-          </p>
-          <span style={{ fontSize: '7px', fontFamily: 'monospace', letterSpacing: '0.14em', color: '#EC2C44', textTransform: 'uppercase', opacity: 0.85 }}>
-            Click to expand →
-          </span>
-        </motion.div>
-      </foreignObject>
+          </text>
+          <text x="434" y="248" textAnchor="middle" fontFamily="monospace" fontSize="11" fontWeight="900" fill="#ffffff">
+            TOGAF &amp;
+          </text>
+          <text x="434" y="263" textAnchor="middle" fontFamily="monospace" fontSize="11" fontWeight="900" fill="#ffffff">
+            ARCHIMATE
+          </text>
+          <text x="434" y="278" textAnchor="middle" fontFamily="monospace" fontSize="11" fontWeight="900" fill="#ffffff">
+            SUPPORT
+          </text>
+          <text x="434" y="296" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="1" fill="#EC2C44">
+            CLICK TO EXPAND
+          </text>
+        </motion.g>
+      ) : (
+        <foreignObject x={fo.x} y={fo.y} width={fo.w} height={fo.h} style={{ pointerEvents: 'none' }}>
+          {/* @ts-ignore */}
+          <motion.div
+            xmlns="http://www.w3.org/1999/xhtml"
+            style={{
+              opacity: textOpacity,
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              padding: '6px 14px',
+              gap: '5px',
+              boxSizing: 'border-box',
+              pointerEvents: 'none',
+            }}
+          >
+            <span style={{ fontSize: '7px', letterSpacing: '0.22em', color: '#94a3b8', fontFamily: 'monospace', textTransform: 'uppercase', display: 'block' }}>
+              {feature.index}
+            </span>
+            <p style={{
+              fontSize: '14px',
+              fontWeight: 900,
+              fontFamily: 'monospace',
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              color: '#ffffff',
+              textShadow: '0 1px 8px rgba(0,0,0,0.8)',
+              lineHeight: 1.25,
+              margin: 0,
+            }}>
+              {feature.title}
+            </p>
+            <span style={{ fontSize: '7px', fontFamily: 'monospace', letterSpacing: '0.14em', color: '#EC2C44', textTransform: 'uppercase', opacity: 0.85 }}>
+              Click to expand →
+            </span>
+          </motion.div>
+        </foreignObject>
+      )}
     </g>
   );
 }
