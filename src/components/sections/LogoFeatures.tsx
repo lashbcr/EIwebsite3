@@ -145,7 +145,7 @@ function ElectricStroke({ d, strokeOpacity }: { d: string; strokeOpacity: Return
         d={d}
         fill="none"
         stroke="#EC2C44"
-        strokeWidth="1.8"
+        strokeWidth="3"
         strokeLinecap="square"
         strokeDasharray="12 18"
         animate={{ strokeDashoffset: [0, -30] }}
@@ -157,7 +157,7 @@ function ElectricStroke({ d, strokeOpacity }: { d: string; strokeOpacity: Return
         d={d}
         fill="none"
         stroke="#ff8a8a"
-        strokeWidth="1"
+        strokeWidth="1.8"
         strokeLinecap="square"
         strokeDasharray="4 200"
         animate={{ strokeDashoffset: [0, -204] }}
@@ -197,7 +197,7 @@ function FeatureStroke({
         d={feature.path}
         fill="none"
         stroke="#EC2C44"
-        strokeWidth="1.5"
+        strokeWidth="3"
         strokeLinecap="square"
         strokeLinejoin="miter"
         style={{ pathLength, opacity: strokeOpacity }}
@@ -240,18 +240,19 @@ function FeatureStroke({
             {feature.index}
           </span>
           <p style={{
-            fontSize: isVertical ? '9px' : '12px',
-            fontWeight: 700,
+            fontSize: isVertical ? '11px' : '14px',
+            fontWeight: 900,
             fontFamily: 'monospace',
             textTransform: 'uppercase',
             letterSpacing: isVertical ? '0.06em' : '0.08em',
             color: '#ffffff',
+            textShadow: '0 1px 8px rgba(0,0,0,0.8)',
             lineHeight: 1.25,
             margin: 0,
           }}>
             {feature.title}
           </p>
-          <span style={{ fontSize: '7px', fontFamily: 'monospace', letterSpacing: '0.14em', color: '#EC2C44', textTransform: 'uppercase', opacity: 0.75 }}>
+          <span style={{ fontSize: '7px', fontFamily: 'monospace', letterSpacing: '0.14em', color: '#EC2C44', textTransform: 'uppercase', opacity: 0.85 }}>
             Click to expand →
           </span>
         </motion.div>
