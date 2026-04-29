@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { Container } from '@/components/ui/Container';
 import { AnimatedSection } from '@/components/ui/AnimatedSection';
 
-const BG = '#0e1f38';
+const BG = '#060b14';
 
 const FEATURES = [
   {
@@ -299,6 +299,31 @@ export function LogoFeatures() {
   return (
     <div ref={scrollRef} style={{ height: '500vh' }} id="logo-features">
       <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden border-t border-white/8" style={{ background: BG }}>
+
+        {/* ── Background layers ── */}
+        <div className="absolute inset-0 pointer-events-none" aria-hidden>
+          {/* Outer red ambient glow — large, soft */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] rounded-full"
+            style={{ background: 'radial-gradient(ellipse, rgba(236,44,68,0.12) 0%, transparent 70%)' }} />
+          {/* Inner concentrated glow — tighter, brighter */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[300px] rounded-full"
+            style={{ background: 'radial-gradient(ellipse, rgba(236,44,68,0.18) 0%, transparent 70%)' }} />
+          {/* Subtle dot grid */}
+          <div className="absolute inset-0 opacity-[0.035]"
+            style={{
+              backgroundImage: 'radial-gradient(circle, #5de0e6 1px, transparent 1px)',
+              backgroundSize: '32px 32px',
+            }} />
+          {/* Diagonal stripe — mirrors hero */}
+          <div className="absolute inset-0 opacity-[0.025]"
+            style={{
+              backgroundImage: 'repeating-linear-gradient(135deg, #5de0e6 0, #5de0e6 1px, transparent 0, transparent 60%)',
+              backgroundSize: '28px 28px',
+            }} />
+          {/* Edge vignette */}
+          <div className="absolute inset-0"
+            style={{ background: 'radial-gradient(ellipse at center, transparent 50%, rgba(6,11,20,0.7) 100%)' }} />
+        </div>
         <Container>
           <AnimatedSection className="mb-6 md:mb-8">
             <div className="flex items-center gap-4 mb-5">
