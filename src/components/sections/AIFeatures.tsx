@@ -11,7 +11,7 @@ const TAB_DURATION = 5; // seconds per tab
 
 function NLVisual() {
   return (
-    <div className="border border-white/8 bg-black/25 p-5 font-mono text-xs space-y-3">
+    <div className="border border-white/6 bg-black/30 p-5 font-mono text-xs space-y-3">
       <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/6">
         <div className="w-1.5 h-1.5 bg-[#EC2C44]" />
         <span className="text-[10px] tracking-widest text-slate-500 uppercase">AI Prompt Console</span>
@@ -74,7 +74,7 @@ function ImpactVisual() {
   ];
   const edges = [['A','B'],['A','E'],['B','C'],['B','D']];
   return (
-    <div className="border border-white/8 bg-black/25 p-5">
+    <div className="border border-white/6 bg-black/30 p-5">
       <div className="flex items-center gap-2 mb-4">
         <div className="w-1.5 h-1.5 bg-[#EC2C44] animate-pulse" />
         <span className="text-[10px] font-mono tracking-widest text-slate-500 uppercase">Dependency Blast Radius</span>
@@ -125,7 +125,7 @@ function ImpactVisual() {
 
 function DocsVisual() {
   return (
-    <div className="border border-white/8 bg-black/25 p-5 space-y-3">
+    <div className="border border-white/6 bg-black/30 p-5 space-y-3">
       <div className="flex items-center gap-2 mb-3">
         <div className="w-1.5 h-1.5 bg-[#EC2C44]" />
         <span className="text-xs font-semibold text-white">Architecture Overview — Q2 2025</span>
@@ -244,7 +244,7 @@ function TabRow({
     <button
       onClick={onClick}
       className="relative w-full text-left px-6 py-5 border-b border-white/6 transition-colors duration-200 group focus-visible:outline-none"
-      style={{ background: isActive ? 'rgba(255,255,255,0.03)' : 'transparent' }}
+      style={{ background: isActive ? 'linear-gradient(90deg, rgba(236,44,68,0.07) 0%, rgba(255,255,255,0.04) 100%)' : 'transparent' }}
     >
       {/* Left accent bar */}
       <div
@@ -330,7 +330,7 @@ function ContentPanel({ feature }: { feature: Feature }) {
       </h3>
 
       {/* Description with red key-word emphasis on odd indices */}
-      <p className="text-sm text-slate-400 leading-relaxed mb-6 max-w-sm">
+      <p className="text-sm text-slate-300 leading-relaxed mb-6 max-w-sm">
         {(feature.description as readonly string[]).map((chunk, i) =>
           i % 2 === 1
             ? <span key={i} style={{ color: '#EC2C44' }} className="font-medium">{chunk}</span>
@@ -378,7 +378,15 @@ export function AIFeatures() {
       id="ai-features"
       className="border-t border-white/8 relative overflow-hidden bg-[#020c1a]"
     >
-      <Container className="py-16 md:py-24">
+      {/* Ambient blobs — corners only, don't bleed into card */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        <div className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full blur-[130px]"
+          style={{ background: 'rgba(236,44,68,0.04)' }} />
+        <div className="absolute -bottom-32 -right-32 w-[480px] h-[400px] rounded-full blur-[120px]"
+          style={{ background: 'rgba(93,224,230,0.03)' }} />
+      </div>
+
+      <Container className="relative py-16 md:py-24">
 
         {/* Heading */}
         <motion.div
@@ -406,15 +414,26 @@ export function AIFeatures() {
           </div>
         </motion.div>
 
-        {/* Tabs layout */}
+        {/* Tabs layout — glass card */}
         <div
           ref={sectionRef}
-          className="border border-white/10 grid grid-cols-1 md:grid-cols-[300px_1fr] lg:grid-cols-[320px_1fr]"
+          className="overflow-hidden grid grid-cols-1 md:grid-cols-[300px_1fr] lg:grid-cols-[320px_1fr]"
+          style={{
+            background: 'linear-gradient(160deg, rgba(255,255,255,0.045) 0%, rgba(14,22,40,0.92) 100%)',
+            border: '1px solid rgba(255,255,255,0.08)',
+            borderTop: '1px solid rgba(236,44,68,0.45)',
+            borderRadius: '16px',
+            backdropFilter: 'blur(20px) saturate(130%)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.07)',
+          }}
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
-          {/* Left: tab list */}
-          <div className="border-b md:border-b-0 md:border-r border-white/10 flex flex-col">
+          {/* Left: tab list — slightly darker glass pane */}
+          <div
+            className="border-b md:border-b-0 md:border-r flex flex-col"
+            style={{ borderColor: 'rgba(255,255,255,0.07)', background: 'rgba(0,0,0,0.18)' }}
+          >
             {FEATURES.map((f, i) => (
               <TabRow
                 key={f.id}
