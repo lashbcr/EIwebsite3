@@ -1,180 +1,156 @@
 'use client';
 
-import { useState, useRef, useCallback, useEffect } from 'react';
-import { motion, useScroll, useTransform, useMotionValue, useMotionValueEvent } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Container } from '@/components/ui/Container';
 import { AnimatedSection } from '@/components/ui/AnimatedSection';
 
 const FEATURES = [
   {
-    id: 'top' as const,
+    id: 'top',
+    index: '01',
     path: 'M17,85.2v60h149h149v-60v-60H166H17V85.2',
-    side: 'left' as const,
+    fo: { x: 25, y: 31, w: 282, h: 108 },
+    drawRange: [0.00, 0.18] as const,
+    textRange: [0.18, 0.26] as const,
     title: 'Automated Diagram Generation',
-    description:
-      'Connect your data sources and watch professional architecture diagrams generate themselves — always up to date, always on-brand.',
+    description: 'Connect data sources and watch architecture diagrams generate — always current.',
   },
   {
-    id: 'middle' as const,
+    id: 'middle',
+    index: '02',
     path: 'M17,263.7v59.5h149h149v-59.5v-59.5H166H17V263.7',
-    side: 'left' as const,
+    fo: { x: 25, y: 211, w: 282, h: 105 },
+    drawRange: [0.25, 0.43] as const,
+    textRange: [0.43, 0.51] as const,
     title: 'AI-Powered Insights',
-    description:
-      'Surface patterns, risks, and opportunities across your enterprise landscape. Data-driven decision-making at every level.',
+    description: 'Surface risks, gaps, and opportunities across your enterprise landscape in real time.',
   },
   {
-    id: 'bottom' as const,
+    id: 'bottom',
+    index: '03',
     path: 'M17,442.2v60h149h149v-60v-60H166H17V442.2',
-    side: 'left' as const,
+    fo: { x: 25, y: 389, w: 282, h: 106 },
+    drawRange: [0.50, 0.68] as const,
+    textRange: [0.68, 0.76] as const,
     title: 'Integration Capabilities',
-    description:
-      'Connect with your existing toolchain. Import data from CMDBs, spreadsheets, APIs, and more to keep your repository current.',
+    description: 'Import from CMDBs, spreadsheets, and APIs. Keep your repository perpetually current.',
   },
   {
-    id: 'right' as const,
+    id: 'right',
+    index: '04',
     path: 'M374,263.7v238.5h60h60V263.7V25.2h-60h-60V263.7',
-    side: 'right' as const,
-    title: 'TOGAF & ArchiMate Support',
+    fo: { x: 381, y: 31, w: 106, h: 471 },
+    drawRange: [0.75, 0.93] as const,
+    textRange: [0.93, 1.00] as const,
+    title: 'TOGAF & ArchiMate',
     description:
-      'Built-in support for industry standards. Get started with the KeystoneEA™ seven-layer framework, shipped ready to use out of the box.',
+      'Industry-standard support built in. Get started with the KeystoneEA™ seven-layer framework — shipped ready out of the box.',
+    vertical: true,
   },
 ] as const;
 
-type FeatureId = 'top' | 'middle' | 'bottom' | 'right';
 type Feature = (typeof FEATURES)[number];
 
-function FeaturePanel({ feature }: { feature: Feature }) {
+function FeatureStroke({
+  feature,
+  scrollYProgress,
+}: {
+  feature: Feature;
+  scrollYProgress: ReturnType<typeof useScroll>['scrollYProgress'];
+}) {
+  const pathLength = useTransform(scrollYProgress, [...feature.drawRange], [0, 1]);
+  const strokeOpacity = useTransform(
+    scrollYProgress,
+    [feature.drawRange[0], feature.drawRange[0] + 0.04],
+    [0, 0.8],
+  );
+  const textOpacity = useTransform(scrollYProgress, [...feature.textRange], [0, 1]);
+
+  const { fo } = feature;
+
   return (
-    <div className="p-6 md:p-7 border border-white/10 bg-[#060b14] max-w-xs w-full">
-      <div className="w-1.5 h-1.5 bg-primary-500 mb-4" />
-      <h3 className="text-xs font-bold font-mono uppercase tracking-widest text-white mb-2 leading-snug">
-        {feature.title}
-      </h3>
-      <p className="text-xs text-slate-500 leading-relaxed">{feature.description}</p>
-    </div>
+    <g>
+      <motion.path
+        d={feature.path}
+        fill="none"
+        stroke="#EC2C44"
+        strokeWidth="2"
+        strokeLinecap="square"
+        strokeLinejoin="miter"
+        style={{ pathLength, opacity: strokeOpacity }}
+      />
+      <foreignObject x={fo.x} y={fo.y} width={fo.w} height={fo.h}>
+        {/* @ts-ignore — xmlns required for foreignObject HTML content */}
+        <motion.div
+          xmlns="http://www.w3.org/1999/xhtml"
+          style={{
+            opacity: textOpacity,
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            padding: feature.vertical ? '16px 10px' : '8px 14px',
+            gap: feature.vertical ? '10px' : '6px',
+            boxSizing: 'border-box',
+          }}
+        >
+          <span
+            style={{
+              fontSize: '7px',
+              letterSpacing: '0.20em',
+              color: '#475569',
+              fontFamily: 'monospace',
+              textTransform: 'uppercase',
+              display: 'block',
+            }}
+          >
+            {feature.index}
+          </span>
+          <p
+            style={{
+              fontSize: feature.vertical ? '8px' : '9px',
+              fontWeight: 700,
+              fontFamily: 'monospace',
+              textTransform: 'uppercase',
+              letterSpacing: '0.10em',
+              color: '#fff',
+              lineHeight: 1.3,
+              margin: 0,
+            }}
+          >
+            {feature.title}
+          </p>
+          <p
+            style={{
+              fontSize: feature.vertical ? '7.5px' : '8px',
+              color: '#64748b',
+              lineHeight: 1.55,
+              margin: 0,
+            }}
+          >
+            {feature.description}
+          </p>
+        </motion.div>
+      </foreignObject>
+    </g>
   );
 }
 
 export function LogoFeatures() {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const pathRefs = useRef<Partial<Record<FeatureId, SVGPathElement>>>({});
-  const panelRefs = useRef<Partial<Record<FeatureId, HTMLDivElement>>>({});
-  const [curves, setCurves] = useState<Partial<Record<FeatureId, string>>>({});
 
   const { scrollYProgress } = useScroll({
     target: scrollRef,
     offset: ['start start', 'end end'],
   });
 
-  // ── Feature 0 (top, left) ──────────────────────────────────────
-  const f0LogoOpacity  = useTransform(scrollYProgress, [0.00, 0.08], [0, 1]);
-  const f0LogoX        = useTransform(scrollYProgress, [0.00, 0.08], [-60, 0]);
-  const f0Line         = useTransform(scrollYProgress, [0.08, 0.17], [0, 1]);
-  const f0LineOpacity  = useTransform(scrollYProgress, [0.08, 0.10], [0, 0.55]);
-
-  // ── Feature 1 (middle, left) ───────────────────────────────────
-  const f1LogoOpacity  = useTransform(scrollYProgress, [0.25, 0.33], [0, 1]);
-  const f1LogoX        = useTransform(scrollYProgress, [0.25, 0.33], [-60, 0]);
-  const f1Line         = useTransform(scrollYProgress, [0.33, 0.42], [0, 1]);
-  const f1LineOpacity  = useTransform(scrollYProgress, [0.33, 0.35], [0, 0.55]);
-
-  // ── Feature 2 (bottom, left) ───────────────────────────────────
-  const f2LogoOpacity  = useTransform(scrollYProgress, [0.50, 0.58], [0, 1]);
-  const f2LogoX        = useTransform(scrollYProgress, [0.50, 0.58], [-60, 0]);
-  const f2Line         = useTransform(scrollYProgress, [0.58, 0.67], [0, 1]);
-  const f2LineOpacity  = useTransform(scrollYProgress, [0.58, 0.60], [0, 0.55]);
-
-  // ── Feature 3 (right) ─────────────────────────────────────────
-  const f3LogoOpacity  = useTransform(scrollYProgress, [0.75, 0.83], [0, 1]);
-  const f3LogoX        = useTransform(scrollYProgress, [0.75, 0.83], [60, 0]);
-  const f3Line         = useTransform(scrollYProgress, [0.83, 0.92], [0, 1]);
-  const f3LineOpacity  = useTransform(scrollYProgress, [0.83, 0.85], [0, 0.55]);
-
-  // ── Panel opacity/x — useMotionValue(0) guarantees hidden on load ──────
-  // useTransform computes its initial value from the current scroll position,
-  // which can be > 0 if the section is already in view. useMotionValue(0) is
-  // always exactly 0 until the first scroll event fires.
-  const f0PanelOpacity = useMotionValue(0);
-  const f0PanelX       = useMotionValue(-20);
-  const f1PanelOpacity = useMotionValue(0);
-  const f1PanelX       = useMotionValue(-20);
-  const f2PanelOpacity = useMotionValue(0);
-  const f2PanelX       = useMotionValue(-20);
-  const f3PanelOpacity = useMotionValue(0);
-  const f3PanelX       = useMotionValue(20);
-
-  useMotionValueEvent(scrollYProgress, 'change', (v) => {
-    const prog = (val: number, lo: number, hi: number) =>
-      Math.max(0, Math.min(1, (val - lo) / (hi - lo)));
-
-    const p0 = prog(v, 0.17, 0.25);
-    f0PanelOpacity.set(p0);
-    f0PanelX.set(-20 + 20 * p0);
-
-    const p1 = prog(v, 0.42, 0.50);
-    f1PanelOpacity.set(p1);
-    f1PanelX.set(-20 + 20 * p1);
-
-    const p2 = prog(v, 0.67, 0.75);
-    f2PanelOpacity.set(p2);
-    f2PanelX.set(-20 + 20 * p2);
-
-    const p3 = prog(v, 0.92, 0.99);
-    f3PanelOpacity.set(p3);
-    f3PanelX.set(20 - 20 * p3);
-  });
-
-  const FEATURE_MOTION = [
-    { logoOpacity: f0LogoOpacity, logoX: f0LogoX, line: f0Line, lineOpacity: f0LineOpacity, panelOpacity: f0PanelOpacity, panelX: f0PanelX },
-    { logoOpacity: f1LogoOpacity, logoX: f1LogoX, line: f1Line, lineOpacity: f1LineOpacity, panelOpacity: f1PanelOpacity, panelX: f1PanelX },
-    { logoOpacity: f2LogoOpacity, logoX: f2LogoX, line: f2Line, lineOpacity: f2LineOpacity, panelOpacity: f2PanelOpacity, panelX: f2PanelX },
-    { logoOpacity: f3LogoOpacity, logoX: f3LogoX, line: f3Line, lineOpacity: f3LineOpacity, panelOpacity: f3PanelOpacity, panelX: f3PanelX },
-  ];
-
-  const computeCurves = useCallback(() => {
-    if (!containerRef.current) return;
-    const cR = containerRef.current.getBoundingClientRect();
-    const next: Partial<Record<FeatureId, string>> = {};
-
-    for (const f of FEATURES) {
-      const logoEl = pathRefs.current[f.id];
-      const panelEl = panelRefs.current[f.id];
-      if (!logoEl || !panelEl) continue;
-
-      const pR = logoEl.getBoundingClientRect();
-      const panelR = panelEl.getBoundingClientRect();
-
-      const sx = (f.side === 'left' ? pR.left : pR.right) - cR.left;
-      const sy = pR.top + pR.height / 2 - cR.top;
-      const ex = (f.side === 'left' ? panelR.right : panelR.left) - cR.left;
-      const ey = panelR.top + panelR.height / 2 - cR.top;
-      const cx = Math.abs(ex - sx) * 0.45;
-
-      next[f.id] =
-        f.side === 'left'
-          ? `M ${sx},${sy} C ${sx - cx},${sy} ${ex + cx},${ey} ${ex},${ey}`
-          : `M ${sx},${sy} C ${sx + cx},${sy} ${ex - cx},${ey} ${ex},${ey}`;
-    }
-
-    setCurves(next);
-  }, []);
-
-  useEffect(() => {
-    const t = setTimeout(computeCurves, 500);
-    window.addEventListener('resize', computeCurves);
-    return () => {
-      clearTimeout(t);
-      window.removeEventListener('resize', computeCurves);
-    };
-  }, [computeCurves]);
-
   return (
     <div ref={scrollRef} style={{ height: '500vh' }} id="logo-features">
-      {/* Sticky visual container — pinned for the duration of scroll */}
+      {/* Sticky visual container */}
       <div className="sticky top-0 h-screen bg-[#060b14] flex flex-col justify-center overflow-hidden border-t border-white/8">
         <Container>
-          <AnimatedSection className="mb-8 md:mb-12">
+          <AnimatedSection className="mb-6 md:mb-8">
             <div className="flex items-center gap-4 mb-5">
               <span className="text-[10px] font-mono tracking-[0.22em] text-slate-600 uppercase shrink-0">Platform</span>
               <div className="flex-1 h-px bg-white/8" />
@@ -185,136 +161,27 @@ export function LogoFeatures() {
             >
               The Platform,<br />Deconstructed.
             </h2>
-            <p className="mt-3 text-xs font-mono text-slate-600 uppercase tracking-widest">
+            <p className="mt-2 text-xs font-mono text-slate-600 uppercase tracking-widest">
               Scroll to reveal each capability.
             </p>
           </AnimatedSection>
 
-          {/* ── Desktop layout ──────────────────────────────────── */}
-          <div
-            ref={containerRef}
-            className="relative hidden md:flex flex-row items-center justify-center gap-10 lg:gap-16"
-          >
-            {/* Left column — 3 panels, evenly gapped */}
-            <div className="flex-1 flex flex-col gap-10 items-end py-4">
-              {([0, 1, 2] as const).map(i => (
-                <motion.div
-                  key={FEATURES[i].id}
-                  ref={(el: HTMLDivElement | null) => {
-                    panelRefs.current[FEATURES[i].id] = el ?? undefined;
-                  }}
-                  style={{
-                    opacity: FEATURE_MOTION[i].panelOpacity,
-                    x: FEATURE_MOTION[i].panelX,
-                  }}
-                >
-                  <FeaturePanel feature={FEATURES[i]} />
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Logo SVG — center */}
-            <div className="shrink-0 flex items-center">
-              <svg
-                viewBox="10 20 490 490"
-                className="w-45.5 h-45.5 md:w-65 md:h-65 lg:w-78 lg:h-78"
-                aria-label="Enterprise Insight logo"
-              >
-                {FEATURES.map((f, i) => (
-                  <motion.path
-                    key={f.id}
-                    ref={(el: SVGPathElement | null) => {
-                      pathRefs.current[f.id] = el ?? undefined;
-                    }}
-                    d={f.path}
-                    fill="#EC2C44"
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    style={{
-                      opacity: FEATURE_MOTION[i].logoOpacity,
-                      x: FEATURE_MOTION[i].logoX,
-                    }}
-                  />
-                ))}
-              </svg>
-            </div>
-
-            {/* Right column — 1 panel for the right feature */}
-            <div className="flex-1 flex flex-col justify-center items-start py-4">
-              <motion.div
-                ref={(el: HTMLDivElement | null) => {
-                  panelRefs.current[FEATURES[3].id] = el ?? undefined;
-                }}
-                style={{
-                  opacity: FEATURE_MOTION[3].panelOpacity,
-                  x: FEATURE_MOTION[3].panelX,
-                }}
-              >
-                <FeaturePanel feature={FEATURES[3]} />
-              </motion.div>
-            </div>
-
-            {/* Connector curves — absolute overlay, desktop only */}
-            <svg
-              className="absolute inset-0 w-full h-full pointer-events-none"
-              aria-hidden="true"
-              style={{ overflow: 'visible' }}
-            >
-              {FEATURES.map((f, i) => {
-                const d = curves[f.id];
-                if (!d) return null;
-                return (
-                  <motion.path
-                    key={f.id}
-                    d={d}
-                    fill="none"
-                    stroke="#EC2C44"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    style={{
-                      pathLength: FEATURE_MOTION[i].line,
-                      opacity: FEATURE_MOTION[i].lineOpacity,
-                    }}
-                  />
-                );
-              })}
-            </svg>
-          </div>
-
-          {/* ── Mobile layout ───────────────────────────────────── */}
-          <div className="md:hidden flex flex-col items-center gap-6">
+          {/* SVG — shapes reveal as red outlines, text lives inside each shape */}
+          <div className="flex justify-center">
             <svg
               viewBox="10 20 490 490"
-              className="w-45.5 h-45.5"
-              aria-label="Enterprise Insight logo"
+              className="w-full max-w-[340px] sm:max-w-[420px] md:max-w-[520px] lg:max-w-[600px]"
+              style={{ height: 'auto', display: 'block' }}
+              aria-label="Enterprise Insight platform capabilities"
             >
-              {FEATURES.map((f, i) => (
-                <motion.path
+              {FEATURES.map((f) => (
+                <FeatureStroke
                   key={f.id}
-                  d={f.path}
-                  fill="#EC2C44"
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  style={{
-                    opacity: FEATURE_MOTION[i].logoOpacity,
-                    x: FEATURE_MOTION[i].logoX,
-                  }}
+                  feature={f}
+                  scrollYProgress={scrollYProgress}
                 />
               ))}
             </svg>
-
-            {FEATURES.map((f, i) => (
-              <motion.div
-                key={f.id}
-                className="w-full max-w-sm"
-                style={{
-                  opacity: FEATURE_MOTION[i].panelOpacity,
-                  x: FEATURE_MOTION[i].panelX,
-                }}
-              >
-                <FeaturePanel feature={f} />
-              </motion.div>
-            ))}
           </div>
         </Container>
       </div>
