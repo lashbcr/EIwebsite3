@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence, type MotionValue } from 'framer-motion';
 import { Container } from '@/components/ui/Container';
 import { AnimatedSection } from '@/components/ui/AnimatedSection';
 
@@ -137,7 +137,7 @@ function FeatureModal({ feature, onClose }: { feature: Feature; onClose: () => v
 
 // ── Electric animated stroke ───────────────────────────────────────────────────
 
-function ElectricStroke({ d, strokeOpacity }: { d: string; strokeOpacity: ReturnType<typeof useTransform> }) {
+function ElectricStroke({ d, strokeOpacity }: { d: string; strokeOpacity: MotionValue<number> }) {
   return (
     <>
       {/* Flowing dash layer */}
