@@ -229,31 +229,31 @@ function FeatureStroke({
       {isVertical ? (
         <motion.g style={{ opacity: textOpacity }} pointerEvents="none">
           <text x="434" y="225" textAnchor="middle" fontFamily="monospace" fontSize="8" letterSpacing="2" fill="#EC2C44" opacity="0.9">{feature.index}</text>
-          <text x="434" y="245" textAnchor="middle" fontFamily="monospace" fontSize="13" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' }}>TOGAF &amp;</text>
-          <text x="434" y="261" textAnchor="middle" fontFamily="monospace" fontSize="13" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' }}>ARCHIMATE</text>
-          <text x="434" y="277" textAnchor="middle" fontFamily="monospace" fontSize="13" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' }}>SUPPORT</text>
+          <text x="434" y="245" textAnchor="middle" fontFamily="monospace" fontSize="13" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.55))' }}>TOGAF &amp;</text>
+          <text x="434" y="261" textAnchor="middle" fontFamily="monospace" fontSize="13" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.55))' }}>ARCHIMATE</text>
+          <text x="434" y="277" textAnchor="middle" fontFamily="monospace" fontSize="13" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.55))' }}>SUPPORT</text>
           <text x="434" y="295" textAnchor="middle" fontFamily="monospace" fontSize="8" letterSpacing="1" fill="#EC2C44">CLICK TO EXPAND</text>
         </motion.g>
       ) : feature.id === 'top' ? (
         <motion.g style={{ opacity: textOpacity }} pointerEvents="none">
           <text x="166" y="60" textAnchor="middle" fontFamily="monospace" fontSize="8" letterSpacing="2" fill="#EC2C44" opacity="0.9">{feature.index}</text>
-          <text x="166" y="78" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' }}>AUTOMATED</text>
-          <text x="166" y="95" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' }}>DIAGRAM</text>
-          <text x="166" y="112" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' }}>GENERATION</text>
+          <text x="166" y="78" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.55))' }}>AUTOMATED</text>
+          <text x="166" y="95" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.55))' }}>DIAGRAM</text>
+          <text x="166" y="112" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.55))' }}>GENERATION</text>
           <text x="166" y="127" textAnchor="middle" fontFamily="monospace" fontSize="8" letterSpacing="1" fill="#EC2C44">CLICK TO EXPAND →</text>
         </motion.g>
       ) : feature.id === 'middle' ? (
         <motion.g style={{ opacity: textOpacity }} pointerEvents="none">
           <text x="166" y="238" textAnchor="middle" fontFamily="monospace" fontSize="8" letterSpacing="2" fill="#EC2C44" opacity="0.9">{feature.index}</text>
-          <text x="166" y="256" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' }}>AI-POWERED</text>
-          <text x="166" y="273" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' }}>INSIGHTS</text>
+          <text x="166" y="256" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.55))' }}>AI-POWERED</text>
+          <text x="166" y="273" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.55))' }}>INSIGHTS</text>
           <text x="166" y="290" textAnchor="middle" fontFamily="monospace" fontSize="8" letterSpacing="1" fill="#EC2C44">CLICK TO EXPAND →</text>
         </motion.g>
       ) : (
         <motion.g style={{ opacity: textOpacity }} pointerEvents="none">
           <text x="166" y="416" textAnchor="middle" fontFamily="monospace" fontSize="8" letterSpacing="2" fill="#EC2C44" opacity="0.9">{feature.index}</text>
-          <text x="166" y="434" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' }}>INTEGRATION</text>
-          <text x="166" y="451" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' }}>CAPABILITIES</text>
+          <text x="166" y="434" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.55))' }}>INTEGRATION</text>
+          <text x="166" y="451" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.55))' }}>CAPABILITIES</text>
           <text x="166" y="468" textAnchor="middle" fontFamily="monospace" fontSize="8" letterSpacing="1" fill="#EC2C44">CLICK TO EXPAND →</text>
         </motion.g>
       )}
@@ -263,9 +263,16 @@ function FeatureStroke({
 
 // ── Section ────────────────────────────────────────────────────────────────────
 
-// Phase 1 (0 → HEADING_PHASE): heading slides from center to top.
-// Phase 2 (HEADING_PHASE → 1): shapes draw in with remapped progress.
-const HEADING_PHASE = 0.14;
+// ── Scroll phase constants ─────────────────────────────────────────────────────
+// Phase A (0 → TITLE_IN):   title + subtitle fade/slide in from below
+// Phase B (TITLE_IN → TITLE_HOLD_END): title fully visible, at rest
+// Phase C (TITLE_HOLD_END → TITLE_OUT): title + subtitle fade/slide out upward
+// Phase D (TITLE_OUT → SVG_IN): shapes fade in
+// Phase E (TITLE_OUT → 1):   shapes draw on with remapped progress
+const TITLE_IN       = 0.06;
+const TITLE_HOLD_END = 0.14;
+const TITLE_OUT      = 0.22;
+const SVG_IN         = 0.26;
 
 export function LogoFeatures() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -276,20 +283,29 @@ export function LogoFeatures() {
     offset: ['start start', 'end end'],
   });
 
-  // Heading: starts visually centred (pushed down ~35 vh), smoothly rises to natural top position
-  const headingY = useTransform(scrollYProgress, [0, HEADING_PHASE], ['35vh', '0vh']);
+  // Title: fades in from below, holds, then fades out upward
+  const headingOpacity = useTransform(
+    scrollYProgress,
+    [0, TITLE_IN, TITLE_HOLD_END, TITLE_OUT],
+    [0, 1, 1, 0],
+  );
+  const headingY = useTransform(
+    scrollYProgress,
+    [0, TITLE_IN, TITLE_HOLD_END, TITLE_OUT],
+    ['22vh', '0vh', '0vh', '-14vh'],
+  );
 
-  // Shapes: invisible during heading phase, then fade in instantly as phase 2 begins
-  const svgOpacity = useTransform(scrollYProgress, [HEADING_PHASE, HEADING_PHASE + 0.03], [0, 1]);
+  // Shapes: invisible while title is on screen, fade in as title exits
+  const svgOpacity = useTransform(scrollYProgress, [TITLE_OUT, SVG_IN], [0, 1]);
 
-  // Remap scroll progress for the shape draw-on animations so they start after the heading has settled
-  const featuresProgress = useTransform(scrollYProgress, [HEADING_PHASE, 1], [0, 1]);
+  // Remap scroll progress so shape animations start only after title has left
+  const featuresProgress = useTransform(scrollYProgress, [TITLE_OUT, 1], [0, 1]);
 
   const activeFeature = FEATURES.find((f) => f.id === activeId) ?? null;
 
   return (
     <div ref={scrollRef} style={{ height: '640vh' }} id="logo-features">
-      <div className="sticky top-0 h-screen flex flex-col overflow-hidden border-t border-white/8 pt-16 md:pt-20" style={{ background: BG }}>
+      <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden border-t border-white/8" style={{ background: BG }}>
 
         {/* ── Background layers ── */}
         <div className="absolute inset-0 pointer-events-none" aria-hidden>
@@ -315,18 +331,22 @@ export function LogoFeatures() {
           <div className="absolute inset-0"
             style={{ background: 'radial-gradient(ellipse at center, transparent 50%, rgba(6,11,20,0.7) 100%)' }} />
         </div>
-        <Container>
-          {/* Phase 1: heading slides from centre of viewport to top as user scrolls */}
-          <motion.div className="mb-6 md:mb-8 text-center" style={{ y: headingY }}>
-            <h2 className="font-black uppercase tracking-tighter leading-[0.88] text-white" style={{ fontSize: 'clamp(2.4rem, 6vw, 5rem)' }}>
-              The Platform,<br />Deconstructed.
-            </h2>
-            <p className="mt-3 text-xs font-mono text-slate-500 uppercase tracking-widest">
-              Scroll to reveal · Click any shape to explore.
-            </p>
-          </motion.div>
 
-          {/* Phase 2: shapes draw in after heading is locked */}
+        {/* ── Title overlay — absolutely centred, fades in then out ── */}
+        <motion.div
+          className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 pointer-events-none z-10"
+          style={{ opacity: headingOpacity, y: headingY }}
+        >
+          <h2 className="font-black uppercase tracking-tighter leading-[0.88] text-white" style={{ fontSize: 'clamp(2.4rem, 6vw, 5rem)' }}>
+            The Platform,<br />Deconstructed.
+          </h2>
+          <p className="mt-3 text-xs font-mono text-white/50 uppercase tracking-widest">
+            Scroll to reveal · Click any shape to explore.
+          </p>
+        </motion.div>
+
+        {/* ── Shapes — centred, fade in after title exits ── */}
+        <Container>
           <motion.div className="flex justify-center" style={{ opacity: svgOpacity }}>
             <svg
               viewBox="10 20 490 490"
