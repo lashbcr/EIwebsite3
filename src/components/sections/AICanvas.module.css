@@ -4,7 +4,8 @@
 
 .section {
   padding: 100px 0;
-  background: #080a0e;
+  background: #060b14;
+  border-top: 1px solid rgba(255,255,255,0.05);
 }
 
 .inner {
@@ -22,7 +23,7 @@
   font-family: monospace;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #c0392b;
+  color: #EC2C44;
   margin-bottom: 16px;
 }
 
@@ -38,7 +39,7 @@
 }
 
 .heading span {
-  color: #c0392b;
+  color: #EC2C44;
 }
 
 .sub {
@@ -152,7 +153,7 @@
 }
 
 .node:focus-visible {
-  outline: 2px solid #c0392b;
+  outline: 2px solid #EC2C44;
   outline-offset: 2px;
 }
 
@@ -217,7 +218,7 @@
 }
 
 .riskItem:focus-visible {
-  outline: 2px solid #c0392b;
+  outline: 2px solid #EC2C44;
   outline-offset: 1px;
 }
 
@@ -276,17 +277,17 @@
 }
 
 .chip:hover {
-  border-color: #c0392b;
+  border-color: #EC2C44;
   color: #c8ccd8;
 }
 
 .chip:focus-visible {
-  outline: 2px solid #c0392b;
+  outline: 2px solid #EC2C44;
   outline-offset: 1px;
 }
 
 .chipActive {
-  border-color: #c0392b;
+  border-color: #EC2C44;
   color: #c8ccd8;
   background: rgba(192, 57, 43, 0.1);
 }
@@ -305,7 +306,7 @@
   font-family: monospace;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: #c0392b;
+  color: #EC2C44;
   margin-bottom: 8px;
 }
 
@@ -382,7 +383,7 @@
 }
 
 .promptInput:focus {
-  border-color: #c0392b;
+  border-color: #EC2C44;
 }
 
 .promptInput::placeholder {
@@ -390,7 +391,7 @@
 }
 
 .promptBtn {
-  background: #c0392b;
+  background: #EC2C44;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -409,7 +410,7 @@
 }
 
 .promptBtn:focus-visible {
-  outline: 2px solid #c0392b;
+  outline: 2px solid #EC2C44;
   outline-offset: 2px;
 }
 

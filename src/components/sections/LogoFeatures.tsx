@@ -187,7 +187,7 @@ function FeatureStroke({
   );
   const textOpacity = useTransform(scrollYProgress, [...feature.textRange], [0, 1]);
 
-  const { fo, hitbox } = feature;
+  const { hitbox } = feature;
   const isVertical = 'vertical' in feature && feature.vertical;
 
   return (
@@ -219,63 +219,37 @@ function FeatureStroke({
         aria-label={`Learn more about ${feature.title}`}
       />
 
-      {/* Text label */}
+      {/* Text label — always native SVG text to avoid foreignObject rendering issues */}
       {isVertical ? (
-        // Native SVG text for the vertical column — avoids foreignObject clipping
         <motion.g style={{ opacity: textOpacity }} pointerEvents="none">
-          {/* Centre of the right column: x=434, y=263 */}
-          <text x="434" y="228" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="2" fill="#94a3b8" textLength="" style={{ textTransform: 'uppercase' }}>
-            {feature.index}
-          </text>
-          <text x="434" y="248" textAnchor="middle" fontFamily="monospace" fontSize="11" fontWeight="900" fill="#ffffff">
-            TOGAF &amp;
-          </text>
-          <text x="434" y="263" textAnchor="middle" fontFamily="monospace" fontSize="11" fontWeight="900" fill="#ffffff">
-            ARCHIMATE
-          </text>
-          <text x="434" y="278" textAnchor="middle" fontFamily="monospace" fontSize="11" fontWeight="900" fill="#ffffff">
-            SUPPORT
-          </text>
-          <text x="434" y="296" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="1" fill="#EC2C44">
-            CLICK TO EXPAND
-          </text>
+          <text x="434" y="228" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="2" fill="#94a3b8" style={{ textTransform: 'uppercase' }}>{feature.index}</text>
+          <text x="434" y="248" textAnchor="middle" fontFamily="monospace" fontSize="11" fontWeight="900" fill="#ffffff">TOGAF &amp;</text>
+          <text x="434" y="263" textAnchor="middle" fontFamily="monospace" fontSize="11" fontWeight="900" fill="#ffffff">ARCHIMATE</text>
+          <text x="434" y="278" textAnchor="middle" fontFamily="monospace" fontSize="11" fontWeight="900" fill="#ffffff">SUPPORT</text>
+          <text x="434" y="296" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="1" fill="#EC2C44">CLICK TO EXPAND</text>
+        </motion.g>
+      ) : feature.id === 'top' ? (
+        <motion.g style={{ opacity: textOpacity }} pointerEvents="none">
+          <text x="166" y="62" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="2" fill="#94a3b8">{feature.index}</text>
+          <text x="166" y="78" textAnchor="middle" fontFamily="monospace" fontSize="12" fontWeight="900" fill="#ffffff">AUTOMATED</text>
+          <text x="166" y="93" textAnchor="middle" fontFamily="monospace" fontSize="12" fontWeight="900" fill="#ffffff">DIAGRAM</text>
+          <text x="166" y="108" textAnchor="middle" fontFamily="monospace" fontSize="12" fontWeight="900" fill="#ffffff">GENERATION</text>
+          <text x="166" y="122" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="1" fill="#EC2C44">CLICK TO EXPAND →</text>
+        </motion.g>
+      ) : feature.id === 'middle' ? (
+        <motion.g style={{ opacity: textOpacity }} pointerEvents="none">
+          <text x="166" y="240" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="2" fill="#94a3b8">{feature.index}</text>
+          <text x="166" y="256" textAnchor="middle" fontFamily="monospace" fontSize="12" fontWeight="900" fill="#ffffff">AI-POWERED</text>
+          <text x="166" y="271" textAnchor="middle" fontFamily="monospace" fontSize="12" fontWeight="900" fill="#ffffff">INSIGHTS</text>
+          <text x="166" y="287" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="1" fill="#EC2C44">CLICK TO EXPAND →</text>
         </motion.g>
       ) : (
-        <foreignObject x={fo.x} y={fo.y} width={fo.w} height={fo.h} style={{ pointerEvents: 'none' }}>
-          <motion.div
-            style={{
-              opacity: textOpacity,
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              padding: '6px 14px',
-              gap: '5px',
-              boxSizing: 'border-box',
-              pointerEvents: 'none',
-            }}
-          >
-            <span style={{ fontSize: '7px', letterSpacing: '0.22em', color: '#94a3b8', fontFamily: 'monospace', textTransform: 'uppercase', display: 'block' }}>
-              {feature.index}
-            </span>
-            <p style={{
-              fontSize: '14px',
-              fontWeight: 900,
-              fontFamily: 'monospace',
-              textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-              color: '#ffffff',
-              textShadow: '0 1px 8px rgba(0,0,0,0.8)',
-              lineHeight: 1.25,
-              margin: 0,
-            }}>
-              {feature.title}
-            </p>
-            <span style={{ fontSize: '7px', fontFamily: 'monospace', letterSpacing: '0.14em', color: '#EC2C44', textTransform: 'uppercase', opacity: 0.85 }}>
-              Click to expand →
-            </span>
-          </motion.div>
-        </foreignObject>
+        <motion.g style={{ opacity: textOpacity }} pointerEvents="none">
+          <text x="166" y="418" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="2" fill="#94a3b8">{feature.index}</text>
+          <text x="166" y="434" textAnchor="middle" fontFamily="monospace" fontSize="12" fontWeight="900" fill="#ffffff">INTEGRATION</text>
+          <text x="166" y="449" textAnchor="middle" fontFamily="monospace" fontSize="12" fontWeight="900" fill="#ffffff">CAPABILITIES</text>
+          <text x="166" y="465" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="1" fill="#EC2C44">CLICK TO EXPAND →</text>
+        </motion.g>
       )}
     </g>
   );

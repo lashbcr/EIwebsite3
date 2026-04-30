@@ -79,7 +79,7 @@ const ARROWS = [
   // Strategy → Customer Data (horizontal)
   { x1: 198, y1:  72, x2: 500, y2:  72, dashed: false, markerId: 'arrow-purple', color: '#534AB7' },
   // Customer Data → Unmapped (dashed red)
-  { x1: 579, y1: 102, x2: 574, y2: 200, dashed: true,  markerId: 'arrow-red',    color: '#c0392b' },
+  { x1: 579, y1: 102, x2: 574, y2: 200, dashed: true,  markerId: 'arrow-red',    color: '#EC2C44' },
 ];
 
 // ── Prompt → response map ────────────────────────────────────────────────────
@@ -278,7 +278,7 @@ export function AICanvas() {
                     </marker>
                     <marker id="arrow-red" markerWidth="8" markerHeight="8"
                       refX="7" refY="3" orient="auto">
-                      <path d="M0,0 L0,6 L8,3 z" fill="#c0392b" />
+                      <path d="M0,0 L0,6 L8,3 z" fill="#EC2C44" />
                     </marker>
                   </defs>
                   {ARROWS.map((a, i) => (

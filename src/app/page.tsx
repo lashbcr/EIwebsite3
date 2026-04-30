@@ -7,7 +7,6 @@ import { Products } from '@/components/sections/Products';
 import { HowItWorks } from '@/components/sections/HowItWorks';
 import { UseCases } from '@/components/sections/UseCases';
 import { Testimonial } from '@/components/sections/Testimonial';
-import { AICanvasDemo } from '@/components/sections/AICanvasDemo';
 import { AICanvas } from '@/components/sections/AICanvas';
 import { OurVision } from '@/components/sections/OurVision';
 import { BlogTeaser } from '@/components/sections/BlogTeaser';
@@ -53,7 +52,6 @@ export default function Home() {
       <LogoTicker />
       {/* <Pillars /> */}
       <OurVision />
-      <AICanvasDemo />
       <AICanvas />
       {/* <VideoPromo /> */}
       <AIFeatures />
