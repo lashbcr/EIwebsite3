@@ -325,7 +325,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.18 }}
-          className="border-t border-white/10 pt-8 pb-14 md:pb-20 flex-1 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center"
+          className="border-t border-white/10 pt-8 pb-14 md:pb-20 flex-1 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center"
         >
           {/* Left: subtext + CTAs */}
           <div className="flex flex-col gap-8">
@@ -359,7 +359,7 @@ export function Hero() {
             initial={{ opacity: 0, x: 24 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.3, ease: 'easeOut' }}
-            className="hidden lg:flex items-center justify-center"
+            className="hidden md:flex items-center justify-center"
             style={{ minHeight: 480 }}
           >
             <ArchitectCharacter />
