@@ -394,7 +394,8 @@ export function AIFeatures() {
           initial={{ opacity: 0, y: 24 }}
           animate={headingInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.55, ease: 'easeOut' }}
-          className="mb-12"
+          className="mb-12 sticky top-24 z-10 py-2"
+          style={{ background: '#020c1a' }}
         >
           <div className="flex items-center gap-4 mb-8">
             <span className="text-[10px] font-mono tracking-[0.22em] text-slate-500 uppercase shrink-0">AI-Powered</span>
@@ -406,7 +407,7 @@ export function AIFeatures() {
               style={{ fontSize: 'clamp(1.6rem, 4vw, 3rem)' }}
             >
               Your Favourite<br />
-              Functionalities.
+              Features.
             </h2>
             <p className="text-sm text-slate-400 leading-relaxed max-w-xs md:text-right">
               Ask questions, detect risk, and publish insights at the speed of thought.

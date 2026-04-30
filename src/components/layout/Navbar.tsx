@@ -134,7 +134,7 @@ export function Navbar() {
 
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2.5 shrink-0">
-              <Image src="/logo-mark.svg" alt="" width={28} height={28} priority />
+              <Image src="/logo-mark.svg" alt="" width={32} height={32} priority />
               <span className="font-semibold text-slate-900 dark:text-white text-sm tracking-tight">
                 Enterprise Insight
               </span>

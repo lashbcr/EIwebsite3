@@ -23,6 +23,12 @@ export function CTABanner() {
       <Container>
         <AnimatedSection className="text-center">
 
+          <div className="flex items-center justify-center gap-4 mb-8">
+            <div className="flex-1 h-px bg-white/8 max-w-[80px]" />
+            <span className="text-[10px] font-mono tracking-[0.22em] text-slate-600 uppercase">Get Started</span>
+            <div className="flex-1 h-px bg-white/8 max-w-[80px]" />
+          </div>
+
           {/* Badge — square, mono, matches hero */}
           <div className="inline-flex items-center gap-2.5 border border-primary-500/50 bg-primary-500/6 px-3 py-1.5 text-[11px] font-mono font-bold text-primary-400 tracking-[0.18em] uppercase mb-10">
             <span className="w-1.5 h-1.5 bg-primary-500 animate-pulse shrink-0" />
@@ -31,7 +37,7 @@ export function CTABanner() {
 
           <h2
             className="font-black uppercase tracking-tighter leading-[0.9] text-white"
-            style={{ fontSize: 'clamp(1.6rem, 4vw, 3rem)' }}
+            style={{ fontSize: 'clamp(1.2rem, 2.5vw, 1.8rem)' }}
           >
             Stop settling for EA tools<br />built for a different era.
           </h2>

@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { AnimatedSection } from '@/components/ui/AnimatedSection';
 import { Container } from '@/components/ui/Container';
@@ -70,14 +69,33 @@ export function BlogTeaser() {
             href={FEATURED.href}
             className="group flex flex-col md:flex-row border border-white/10 hover:bg-white/2 transition-colors duration-200 overflow-hidden"
           >
-            <div className="relative md:w-2/5 h-52 md:h-auto shrink-0 overflow-hidden border-b md:border-b-0 md:border-r border-white/10">
-              <Image
-                src={FEATURED.image}
-                alt={FEATURED.title}
-                fill
-                className="object-cover grayscale-[30%] transition-transform duration-500 group-hover:scale-103"
-                sizes="(max-width: 768px) 100vw, 40vw"
-              />
+            <div className="relative md:w-2/5 h-52 md:h-auto shrink-0 overflow-hidden border-b md:border-b-0 md:border-r border-white/10 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #060b14 0%, #0d1829 100%)' }}>
+              <svg viewBox="0 0 280 160" width="100%" height="100%" style={{ position: 'absolute', inset: 0 }} xmlns="http://www.w3.org/2000/svg">
+                {/* Grid dots */}
+                <pattern id="ftDots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <circle cx="1" cy="1" r="0.8" fill="#1e2a40" />
+                </pattern>
+                <rect width="280" height="160" fill="url(#ftDots)" />
+                {/* Architecture nodes */}
+                <rect x="20" y="30" width="72" height="32" rx="3" fill="#0f1e1a" stroke="#0F6E56" strokeWidth="1"/>
+                <text x="56" y="50" textAnchor="middle" fontFamily="monospace" fontSize="8" fill="#5DCAA5">APPLICATION</text>
+                <rect x="104" y="64" width="72" height="32" rx="3" fill="#1a1030" stroke="#534AB7" strokeWidth="1"/>
+                <text x="140" y="84" textAnchor="middle" fontFamily="monospace" fontSize="8" fill="#AFA9EC">BUSINESS</text>
+                <rect x="188" y="30" width="72" height="32" rx="3" fill="#1a1508" stroke="#854F0B" strokeWidth="1"/>
+                <text x="224" y="50" textAnchor="middle" fontFamily="monospace" fontSize="8" fill="#EF9F27">TECHNOLOGY</text>
+                <rect x="104" y="100" width="72" height="32" rx="3" fill="#1a0f0f" stroke="#A32D2D" strokeWidth="1"/>
+                <text x="140" y="120" textAnchor="middle" fontFamily="monospace" fontSize="8" fill="#F09595">DATA LAYER</text>
+                {/* Arrows */}
+                <line x1="92" y1="46" x2="104" y2="72" stroke="#EC2C44" strokeWidth="1" strokeDasharray="3 2" opacity="0.6"/>
+                <line x1="176" y1="46" x2="176" y2="72" stroke="#EC2C44" strokeWidth="1" strokeDasharray="3 2" opacity="0.6"/>
+                <line x1="140" y1="96" x2="140" y2="100" stroke="#EC2C44" strokeWidth="1" opacity="0.6"/>
+                {/* Red glow */}
+                <radialGradient id="ftGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#EC2C44" stopOpacity="0.1"/>
+                  <stop offset="100%" stopColor="#EC2C44" stopOpacity="0"/>
+                </radialGradient>
+                <rect width="280" height="160" fill="url(#ftGlow)"/>
+              </svg>
               <span className={`absolute top-4 left-4 text-[10px] font-mono font-bold uppercase tracking-widest ${FEATURED.tagColor} bg-[#060b14]/80 px-2 py-1`}>
                 {FEATURED.tag}
               </span>
@@ -107,14 +125,49 @@ export function BlogTeaser() {
                 href={post.href}
                 className={`group flex flex-col h-full bg-transparent hover:bg-white/2 transition-colors duration-200 ${i < POSTS.length - 1 ? 'border-b md:border-b-0 md:border-r border-white/10' : ''}`}
               >
-                <div className="relative h-44 w-full shrink-0 overflow-hidden border-b border-white/8">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-103 grayscale-[30%]"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
+                <div className="relative h-44 w-full shrink-0 overflow-hidden border-b border-white/8 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #060b14 0%, #0e1520 100%)' }}>
+                  {i === 0 ? (
+                    <svg viewBox="0 0 240 140" width="100%" height="100%" style={{ position: 'absolute', inset: 0 }} xmlns="http://www.w3.org/2000/svg">
+                      <pattern id="p0Dots" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+                        <circle cx="1" cy="1" r="0.7" fill="#1a2235"/>
+                      </pattern>
+                      <rect width="240" height="140" fill="url(#p0Dots)"/>
+                      {[0,1,2,3,4,5,6].map((j) => (
+                        <rect key={j} x={20 + j*30} y={100 - j*10} width="18" height={10 + j*10} rx="2" fill="#EC2C44" opacity={0.15 + j*0.08}/>
+                      ))}
+                      <line x1="20" y1="100" x2="220" y2="100" stroke="#1e2a40" strokeWidth="1"/>
+                      <text x="120" y="30" textAnchor="middle" fontFamily="monospace" fontSize="9" fill="#EC2C44" opacity="0.7">EA PROGRAM FAILURE RATE</text>
+                      <text x="120" y="44" textAnchor="middle" fontFamily="monospace" fontSize="7" fill="#5a6a80">BEFORE AI-NATIVE PLATFORMS</text>
+                      <radialGradient id="p0Glow" cx="50%" cy="80%" r="50%">
+                        <stop offset="0%" stopColor="#EC2C44" stopOpacity="0.12"/>
+                        <stop offset="100%" stopColor="#EC2C44" stopOpacity="0"/>
+                      </radialGradient>
+                      <rect width="240" height="140" fill="url(#p0Glow)"/>
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 240 140" width="100%" height="100%" style={{ position: 'absolute', inset: 0 }} xmlns="http://www.w3.org/2000/svg">
+                      <pattern id="p1Dots" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+                        <circle cx="1" cy="1" r="0.7" fill="#1a2235"/>
+                      </pattern>
+                      <rect width="240" height="140" fill="url(#p1Dots)"/>
+                      {/* Stakeholder network */}
+                      <circle cx="120" cy="70" r="14" fill="#0d1422" stroke="#EC2C44" strokeWidth="1.2"/>
+                      <text x="120" y="74" textAnchor="middle" fontFamily="monospace" fontSize="6" fill="#EC2C44">EA TEAM</text>
+                      {[
+                        [50, 35, '#534AB7', '#AFA9EC', 'CTO'],
+                        [190, 35, '#0F6E56', '#5DCAA5', 'OPS'],
+                        [40, 100, '#854F0B', '#EF9F27', 'FINANCE'],
+                        [200, 100, '#A32D2D', '#F09595', 'RISK'],
+                        [120, 18, '#1e2a40', '#8890a8', 'BOARD'],
+                      ].map(([cx, cy, stroke, text, label]) => (
+                        <g key={label as string}>
+                          <line x1="120" y1="70" x2={cx as number} y2={cy as number} stroke="#1e2a40" strokeWidth="1" strokeDasharray="3 2"/>
+                          <circle cx={cx as number} cy={cy as number} r="10" fill="#0d1422" stroke={stroke as string} strokeWidth="1"/>
+                          <text x={cx as number} y={(cy as number)+3} textAnchor="middle" fontFamily="monospace" fontSize="5" fill={text as string}>{label}</text>
+                        </g>
+                      ))}
+                    </svg>
+                  )}
                   <span className={`absolute top-4 left-4 text-[10px] font-mono font-bold uppercase tracking-widest ${post.tagColor} bg-[#060b14]/80 px-2 py-1`}>
                     {post.tag}
                   </span>
