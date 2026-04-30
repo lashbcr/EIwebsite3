@@ -16,10 +16,11 @@ export function ClientVideo() {
       <Container className="relative py-16 md:py-24">
 
         {/* Section label + heading */}
-        <AnimatedSection className="mb-10">
-          <div className="flex items-center gap-4 mb-8">
+        <AnimatedSection className="mb-10 text-center">
+          <div className="flex items-center justify-center gap-4 mb-8">
+            <div className="flex-1 h-px bg-white/8 max-w-[120px]" />
             <span className="text-[10px] font-mono tracking-[0.22em] text-slate-600 uppercase shrink-0">Client Story</span>
-            <div className="flex-1 h-px bg-white/8" />
+            <div className="flex-1 h-px bg-white/8 max-w-[120px]" />
           </div>
           <h2
             className="font-black uppercase tracking-tighter leading-[0.9] text-white"
@@ -32,7 +33,7 @@ export function ClientVideo() {
 
         {/* Video embed — glass card */}
         <AnimatedSection delay={0.15}>
-          <div className="max-w-[560px]">
+          <div className="max-w-[560px] mx-auto">
           <div
             className="relative overflow-hidden"
             style={{

@@ -50,34 +50,7 @@ const Icons = {
 
 const navItems: NavItem[] = [
   { label: 'AI Features', href: '/ai' },
-  {
-    label: 'Case Studies',
-    columns: [
-      {
-        heading: 'CASE STUDIES',
-        links: [
-          {
-            label: 'All Case Studies',
-            href: '/case-studies',
-            description: 'Browse every customer story',
-            icon: Icons.grid,
-          },
-          {
-            label: 'Construction — Hercules PLS',
-            href: '/case-studies/construction',
-            description: '40% app rationalisation in 6 months',
-            icon: Icons.building,
-          },
-          {
-            label: 'Consulting — BDAT',
-            href: '/case-studies/consulting',
-            description: '3× faster EA delivery for clients',
-            icon: Icons.briefcase,
-          },
-        ],
-      },
-    ],
-  },
+  { label: 'Case Studies', href: '/case-studies' },
   {
     label: 'Resources',
     columns: [
@@ -106,7 +79,6 @@ const navItems: NavItem[] = [
       },
     ],
   },
-  { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ];
 
