@@ -242,9 +242,7 @@ function FeatureStroke({
         </motion.g>
       ) : (
         <foreignObject x={fo.x} y={fo.y} width={fo.w} height={fo.h} style={{ pointerEvents: 'none' }}>
-          {/* @ts-ignore */}
           <motion.div
-            xmlns="http://www.w3.org/1999/xhtml"
             style={{
               opacity: textOpacity,
               height: '100%',
