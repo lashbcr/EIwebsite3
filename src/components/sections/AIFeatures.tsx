@@ -244,7 +244,7 @@ function TabRow({
     <button
       onClick={onClick}
       className="relative w-full text-left px-6 py-5 border-b border-white/6 transition-colors duration-200 group focus-visible:outline-none"
-      style={{ background: isActive ? 'linear-gradient(90deg, rgba(236,44,68,0.07) 0%, rgba(255,255,255,0.04) 100%)' : 'transparent' }}
+      style={{ background: isActive ? 'rgba(236,44,68,0.06)' : 'transparent' }}
     >
       {/* Left accent bar */}
       <div
@@ -394,46 +394,56 @@ export function AIFeatures() {
           initial={{ opacity: 0, y: 24 }}
           animate={headingInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.55, ease: 'easeOut' }}
-          className="mb-12 sticky top-24 z-10 py-2"
-          style={{ background: '#020c1a' }}
+          className="mb-12"
         >
           <div className="flex items-center gap-4 mb-8">
             <span className="text-[10px] font-mono tracking-[0.22em] text-slate-500 uppercase shrink-0">AI-Powered</span>
             <div className="flex-1 h-px bg-white/8" />
           </div>
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <h2
               className="font-black uppercase tracking-tighter leading-[0.9] text-white"
               style={{ fontSize: 'clamp(1.6rem, 4vw, 3rem)' }}
             >
-              Your Favourite<br />
-              Features.
+              Simpler<br />
+              with AI.
             </h2>
-            <p className="text-sm text-slate-400 leading-relaxed max-w-xs md:text-right">
-              Ask questions, detect risk, and publish insights at the speed of thought.
-            </p>
+            <div className="flex flex-col items-start md:items-end gap-3">
+              <p className="text-sm text-slate-400 leading-relaxed max-w-xs md:text-right">
+                Ask questions, surface risks, and publish insights — instantly.
+              </p>
+              <a
+                href="/ai"
+                className="inline-flex items-center gap-1.5 text-xs font-mono tracking-widest uppercase transition-colors duration-200"
+                style={{ color: '#EC2C44' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#ff6b7a')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#EC2C44')}
+              >
+                Read more about AI features
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
+                </svg>
+              </a>
+            </div>
           </div>
         </motion.div>
 
         {/* Tabs layout — glass card */}
         <div
           ref={sectionRef}
-          className="overflow-hidden grid grid-cols-1 md:grid-cols-[300px_1fr] lg:grid-cols-[320px_1fr]"
+          className="overflow-hidden grid grid-cols-1 md:grid-cols-[280px_1fr] lg:grid-cols-[300px_1fr]"
           style={{
-            background: 'linear-gradient(160deg, rgba(255,255,255,0.045) 0%, rgba(14,22,40,0.92) 100%)',
-            border: '1px solid rgba(255,255,255,0.08)',
-            borderTop: '1px solid rgba(236,44,68,0.45)',
-            borderRadius: '16px',
-            backdropFilter: 'blur(20px) saturate(130%)',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.07)',
+            background: 'rgba(8,14,26,0.9)',
+            border: '1px solid rgba(255,255,255,0.07)',
+            borderRadius: '12px',
           }}
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
-          {/* Left: tab list — slightly darker glass pane */}
+          {/* Left: tab list */}
           <div
             className="border-b md:border-b-0 md:border-r flex flex-col"
-            style={{ borderColor: 'rgba(255,255,255,0.07)', background: 'rgba(0,0,0,0.18)' }}
+            style={{ borderColor: 'rgba(255,255,255,0.06)' }}
           >
             {FEATURES.map((f, i) => (
               <TabRow

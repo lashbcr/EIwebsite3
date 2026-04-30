@@ -38,8 +38,7 @@ const STEPS = [
   {
     index: '01',
     label: 'Conceptual Change Management',
-    description:
-      'Architectural models, strategic intent, and transformation frameworks — the authoritative source of what needs to change and why.',
+    description: 'Your architecture models define what needs to change and why.',
     glowColor: 'rgba(236,44,68,0.28)',
     accentColor: '#EC2C44',
     iconBg: 'rgba(236,44,68,0.1)',
@@ -50,8 +49,7 @@ const STEPS = [
   {
     index: '02',
     label: 'AI-Generated Change Manifests',
-    description:
-      'Enterprise Insight automatically produces structured, machine-readable change manifests from your architecture — eliminating manual translation and interpretation loss.',
+    description: 'Enterprise Insight converts architecture into structured, machine-readable change manifests automatically.',
     glowColor: 'rgba(93,224,230,0.22)',
     accentColor: '#5de0e6',
     iconBg: 'rgba(93,224,230,0.08)',
@@ -62,8 +60,7 @@ const STEPS = [
   {
     index: '03',
     label: 'Physical Change Implementation',
-    description:
-      'Downstream teams receive ready-to-execute artefacts — tickets, runbooks, and implementation packages — derived directly from architectural decisions.',
+    description: 'Downstream teams get ready-to-execute tickets and runbooks — derived directly from architectural decisions.',
     glowColor: 'rgba(148,163,184,0.18)',
     accentColor: '#94a3b8',
     iconBg: 'rgba(148,163,184,0.07)',
@@ -168,10 +165,9 @@ export function OurVision() {
             Closing the Gap Between<br />
             <span className="text-primary-500">Intent</span> and Reality.
           </h2>
-          <p className="mt-4 text-sm md:text-base text-slate-400 leading-relaxed max-w-2xl">
-            Enterprise architecture has always excelled at defining <em>what</em> needs to change.
-            We are extending that capability into driving <em>how</em> it happens — automatically generating
-            the change manifests that translate strategic decisions into downstream implementation, end to end.
+          <p className="mt-4 text-sm text-slate-400 leading-relaxed max-w-xl">
+            EA defines <em>what</em> to change. Enterprise Insight drives <em>how</em> — automatically translating
+            strategic decisions into downstream implementation.
           </p>
         </AnimatedSection>
 
@@ -215,15 +211,13 @@ export function OurVision() {
               {/* Divider — only on md+ */}
               <div className="hidden md:block absolute left-1/2 top-8 bottom-8 w-px bg-white/6 pointer-events-none" />
 
-              <div className="space-y-4 text-[13px] md:text-sm text-slate-300 leading-relaxed">
+              <div className="space-y-3 text-[13px] text-slate-300 leading-relaxed">
                 <p>
-                  Today, a chasm exists between the models architects produce and the work that engineers execute.
-                  That gap is where transformation stalls. Enterprise Insight is purpose-built to eliminate it.
+                  The gap between architectural models and engineering execution is where transformation stalls.
+                  Enterprise Insight is built to close it.
                 </p>
                 <p>
-                  By automating the production of change manifests directly from your architecture, we give
-                  organisations a single, AI-powered thread that runs from strategic vision all the way through
-                  to verified, auditable implementation — without losing fidelity at every handoff.
+                  One AI-powered thread from strategic vision to verified, auditable implementation — no fidelity lost at handoff.
                 </p>
               </div>
             </div>

@@ -9,11 +9,9 @@ import { UseCases } from '@/components/sections/UseCases';
 import { Testimonial } from '@/components/sections/Testimonial';
 import { AICanvas } from '@/components/sections/AICanvas';
 import { OurVision } from '@/components/sections/OurVision';
-import { BlogTeaser } from '@/components/sections/BlogTeaser';
 import { CTABanner } from '@/components/sections/CTABanner';
 import { LogoTicker } from '@/components/sections/LogoTicker';
 import { AIFeatures } from '@/components/sections/AIFeatures';
-import { ClientVideo } from '@/components/sections/ClientVideo';
 
 export const metadata: Metadata = {
   title: 'Enterprise Architecture Software — Enterprise Insight',
@@ -55,12 +53,6 @@ export default function Home() {
       <AICanvas />
       {/* <VideoPromo /> */}
       <AIFeatures />
-      <ClientVideo />
-      {/* <Products /> */}
-      {/* <HowItWorks /> */}
-      {/* <UseCases /> */}
-      {/* <Testimonial /> */}
-      <BlogTeaser />
       <CTABanner />
     </>
   );

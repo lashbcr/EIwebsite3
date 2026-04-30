@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { JSX, useRef, useState } from 'react';
 import { Button } from '@/components/ui/Button';
-import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { BookDemoDialog } from '@/components/ui/BookDemoDialog';
 
 type NavLink = { label: string; href: string; description: string; icon: JSX.Element };
@@ -215,7 +214,6 @@ export function Navbar() {
 
             {/* Right actions */}
             <div className="flex items-center gap-2">
-              <ThemeToggle />
               <Button variant="outline" href="/login" className="hidden md:inline-flex">
                 Login
               </Button>
