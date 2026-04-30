@@ -228,33 +228,33 @@ function FeatureStroke({
       {/* Text label — always native SVG text to avoid foreignObject rendering issues */}
       {isVertical ? (
         <motion.g style={{ opacity: textOpacity }} pointerEvents="none">
-          <text x="434" y="228" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="2" fill="#94a3b8" style={{ textTransform: 'uppercase' }}>{feature.index}</text>
-          <text x="434" y="248" textAnchor="middle" fontFamily="monospace" fontSize="11" fontWeight="900" fill="#ffffff">TOGAF &amp;</text>
-          <text x="434" y="263" textAnchor="middle" fontFamily="monospace" fontSize="11" fontWeight="900" fill="#ffffff">ARCHIMATE</text>
-          <text x="434" y="278" textAnchor="middle" fontFamily="monospace" fontSize="11" fontWeight="900" fill="#ffffff">SUPPORT</text>
-          <text x="434" y="296" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="1" fill="#EC2C44">CLICK TO EXPAND</text>
+          <text x="434" y="225" textAnchor="middle" fontFamily="monospace" fontSize="8" letterSpacing="2" fill="#EC2C44" opacity="0.9">{feature.index}</text>
+          <text x="434" y="245" textAnchor="middle" fontFamily="monospace" fontSize="13" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' }}>TOGAF &amp;</text>
+          <text x="434" y="261" textAnchor="middle" fontFamily="monospace" fontSize="13" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' }}>ARCHIMATE</text>
+          <text x="434" y="277" textAnchor="middle" fontFamily="monospace" fontSize="13" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' }}>SUPPORT</text>
+          <text x="434" y="295" textAnchor="middle" fontFamily="monospace" fontSize="8" letterSpacing="1" fill="#EC2C44">CLICK TO EXPAND</text>
         </motion.g>
       ) : feature.id === 'top' ? (
         <motion.g style={{ opacity: textOpacity }} pointerEvents="none">
-          <text x="166" y="62" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="2" fill="#94a3b8">{feature.index}</text>
-          <text x="166" y="78" textAnchor="middle" fontFamily="monospace" fontSize="12" fontWeight="900" fill="#ffffff">AUTOMATED</text>
-          <text x="166" y="93" textAnchor="middle" fontFamily="monospace" fontSize="12" fontWeight="900" fill="#ffffff">DIAGRAM</text>
-          <text x="166" y="108" textAnchor="middle" fontFamily="monospace" fontSize="12" fontWeight="900" fill="#ffffff">GENERATION</text>
-          <text x="166" y="122" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="1" fill="#EC2C44">CLICK TO EXPAND →</text>
+          <text x="166" y="60" textAnchor="middle" fontFamily="monospace" fontSize="8" letterSpacing="2" fill="#EC2C44" opacity="0.9">{feature.index}</text>
+          <text x="166" y="78" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' }}>AUTOMATED</text>
+          <text x="166" y="95" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' }}>DIAGRAM</text>
+          <text x="166" y="112" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' }}>GENERATION</text>
+          <text x="166" y="127" textAnchor="middle" fontFamily="monospace" fontSize="8" letterSpacing="1" fill="#EC2C44">CLICK TO EXPAND →</text>
         </motion.g>
       ) : feature.id === 'middle' ? (
         <motion.g style={{ opacity: textOpacity }} pointerEvents="none">
-          <text x="166" y="240" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="2" fill="#94a3b8">{feature.index}</text>
-          <text x="166" y="256" textAnchor="middle" fontFamily="monospace" fontSize="12" fontWeight="900" fill="#ffffff">AI-POWERED</text>
-          <text x="166" y="271" textAnchor="middle" fontFamily="monospace" fontSize="12" fontWeight="900" fill="#ffffff">INSIGHTS</text>
-          <text x="166" y="287" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="1" fill="#EC2C44">CLICK TO EXPAND →</text>
+          <text x="166" y="238" textAnchor="middle" fontFamily="monospace" fontSize="8" letterSpacing="2" fill="#EC2C44" opacity="0.9">{feature.index}</text>
+          <text x="166" y="256" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' }}>AI-POWERED</text>
+          <text x="166" y="273" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' }}>INSIGHTS</text>
+          <text x="166" y="290" textAnchor="middle" fontFamily="monospace" fontSize="8" letterSpacing="1" fill="#EC2C44">CLICK TO EXPAND →</text>
         </motion.g>
       ) : (
         <motion.g style={{ opacity: textOpacity }} pointerEvents="none">
-          <text x="166" y="418" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="2" fill="#94a3b8">{feature.index}</text>
-          <text x="166" y="434" textAnchor="middle" fontFamily="monospace" fontSize="12" fontWeight="900" fill="#ffffff">INTEGRATION</text>
-          <text x="166" y="449" textAnchor="middle" fontFamily="monospace" fontSize="12" fontWeight="900" fill="#ffffff">CAPABILITIES</text>
-          <text x="166" y="465" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="1" fill="#EC2C44">CLICK TO EXPAND →</text>
+          <text x="166" y="416" textAnchor="middle" fontFamily="monospace" fontSize="8" letterSpacing="2" fill="#EC2C44" opacity="0.9">{feature.index}</text>
+          <text x="166" y="434" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' }}>INTEGRATION</text>
+          <text x="166" y="451" textAnchor="middle" fontFamily="monospace" fontSize="15" fontWeight="900" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' }}>CAPABILITIES</text>
+          <text x="166" y="468" textAnchor="middle" fontFamily="monospace" fontSize="8" letterSpacing="1" fill="#EC2C44">CLICK TO EXPAND →</text>
         </motion.g>
       )}
     </g>
@@ -318,15 +318,10 @@ export function LogoFeatures() {
         <Container>
           {/* Phase 1: heading slides from centre of viewport to top as user scrolls */}
           <motion.div className="mb-6 md:mb-8 text-center" style={{ y: headingY }}>
-            <div className="flex items-center justify-center gap-4 mb-5">
-              <div className="flex-1 h-px bg-white/8 max-w-[100px]" />
-              <span className="text-[10px] font-mono tracking-[0.22em] text-slate-500 uppercase shrink-0">Platform</span>
-              <div className="flex-1 h-px bg-white/8 max-w-[100px]" />
-            </div>
-            <h2 className="font-black uppercase tracking-tighter leading-[0.9] text-white" style={{ fontSize: 'clamp(1.3rem, 3vw, 2.4rem)' }}>
+            <h2 className="font-black uppercase tracking-tighter leading-[0.88] text-white" style={{ fontSize: 'clamp(2.4rem, 6vw, 5rem)' }}>
               The Platform,<br />Deconstructed.
             </h2>
-            <p className="mt-2 text-xs font-mono text-slate-500 uppercase tracking-widest">
+            <p className="mt-3 text-xs font-mono text-slate-500 uppercase tracking-widest">
               Scroll to reveal · Click any shape to explore.
             </p>
           </motion.div>
