@@ -182,7 +182,7 @@ function FeatureStroke({
   onOpen,
 }: {
   feature: Feature;
-  scrollYProgress: ReturnType<typeof useScroll>['scrollYProgress'];
+  scrollYProgress: MotionValue<number>;
   onOpen: () => void;
 }) {
   const pathLength = useTransform(scrollYProgress, [...feature.drawRange], [0, 1]);
@@ -263,6 +263,10 @@ function FeatureStroke({
 
 // ── Section ────────────────────────────────────────────────────────────────────
 
+// Phase 1 (0 → HEADING_PHASE): heading slides from center to top.
+// Phase 2 (HEADING_PHASE → 1): shapes draw in with remapped progress.
+const HEADING_PHASE = 0.14;
+
 export function LogoFeatures() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -272,11 +276,20 @@ export function LogoFeatures() {
     offset: ['start start', 'end end'],
   });
 
+  // Heading: starts visually centred (pushed down ~35 vh), smoothly rises to natural top position
+  const headingY = useTransform(scrollYProgress, [0, HEADING_PHASE], ['35vh', '0vh']);
+
+  // Shapes: invisible during heading phase, then fade in instantly as phase 2 begins
+  const svgOpacity = useTransform(scrollYProgress, [HEADING_PHASE, HEADING_PHASE + 0.03], [0, 1]);
+
+  // Remap scroll progress for the shape draw-on animations so they start after the heading has settled
+  const featuresProgress = useTransform(scrollYProgress, [HEADING_PHASE, 1], [0, 1]);
+
   const activeFeature = FEATURES.find((f) => f.id === activeId) ?? null;
 
   return (
-    <div ref={scrollRef} style={{ height: '500vh' }} id="logo-features">
-      <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden border-t border-white/8" style={{ background: BG }}>
+    <div ref={scrollRef} style={{ height: '640vh' }} id="logo-features">
+      <div className="sticky top-0 h-screen flex flex-col overflow-hidden border-t border-white/8 pt-16 md:pt-20" style={{ background: BG }}>
 
         {/* ── Background layers ── */}
         <div className="absolute inset-0 pointer-events-none" aria-hidden>
@@ -303,7 +316,8 @@ export function LogoFeatures() {
             style={{ background: 'radial-gradient(ellipse at center, transparent 50%, rgba(6,11,20,0.7) 100%)' }} />
         </div>
         <Container>
-          <AnimatedSection className="mb-6 md:mb-8 text-center">
+          {/* Phase 1: heading slides from centre of viewport to top as user scrolls */}
+          <motion.div className="mb-6 md:mb-8 text-center" style={{ y: headingY }}>
             <div className="flex items-center justify-center gap-4 mb-5">
               <div className="flex-1 h-px bg-white/8 max-w-[100px]" />
               <span className="text-[10px] font-mono tracking-[0.22em] text-slate-500 uppercase shrink-0">Platform</span>
@@ -315,9 +329,10 @@ export function LogoFeatures() {
             <p className="mt-2 text-xs font-mono text-slate-500 uppercase tracking-widest">
               Scroll to reveal · Click any shape to explore.
             </p>
-          </AnimatedSection>
+          </motion.div>
 
-          <div className="flex justify-center">
+          {/* Phase 2: shapes draw in after heading is locked */}
+          <motion.div className="flex justify-center" style={{ opacity: svgOpacity }}>
             <svg
               viewBox="10 20 490 490"
               className="w-full max-w-[320px] sm:max-w-[400px] md:max-w-[500px] lg:max-w-[580px]"
@@ -328,12 +343,12 @@ export function LogoFeatures() {
                 <FeatureStroke
                   key={f.id}
                   feature={f}
-                  scrollYProgress={scrollYProgress}
+                  scrollYProgress={featuresProgress}
                   onOpen={() => setActiveId(f.id)}
                 />
               ))}
             </svg>
-          </div>
+          </motion.div>
         </Container>
       </div>
 
