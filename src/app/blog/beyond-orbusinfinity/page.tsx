@@ -126,7 +126,7 @@ function SectionBlock({ section, i }: { section: typeof SECTIONS[number]; i: num
         <span className="text-[10px] font-mono tracking-[0.22em] text-slate-600 uppercase shrink-0 mt-1">{section.num}</span>
         <h2
           className="font-black uppercase tracking-tighter leading-[0.95] text-white"
-          style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', color: section.i % 2 === 0 ? undefined : undefined }}
+          style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)' }}
         >
           <span style={{ borderBottom: `2px solid ${section.accent}` }}>{section.title}</span>
         </h2>
