@@ -53,19 +53,19 @@ function ArchitectCharacter() {
       <div
         className="absolute rounded-full pointer-events-none"
         style={{
-          width: 500,
-          height: 500,
-          filter: 'blur(100px)',
+          width: 360,
+          height: 360,
+          filter: 'blur(80px)',
           top: '50%',
           left: '50%',
           transform: 'translate(-50%,-50%)',
-          background: 'rgba(236,44,68,0.09)',
+          background: 'rgba(236,44,68,0.07)',
         }}
       />
 
       <svg
         viewBox="0 0 380 240"
-        style={{ width: '100%', maxWidth: 600, height: 'auto', overflow: 'visible', display: 'block' }}
+        style={{ width: '100%', maxWidth: 420, height: 'auto', overflow: 'visible', display: 'block' }}
       >
         <defs>
           <linearGradient id="hairLight" x1="0" y1="0" x2="0" y2="1">
@@ -397,7 +397,7 @@ export function Hero() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.65, delay: 0.22, ease: 'easeOut' }}
             className="hidden md:flex items-center justify-center"
-            style={{ minHeight: 600 }}
+            style={{ minHeight: 420 }}
           >
             <ArchitectCharacter />
           </motion.div>
