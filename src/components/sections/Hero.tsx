@@ -53,19 +53,19 @@ function ArchitectCharacter() {
       <div
         className="absolute rounded-full pointer-events-none"
         style={{
-          width: 380,
-          height: 380,
-          filter: 'blur(80px)',
+          width: 500,
+          height: 500,
+          filter: 'blur(100px)',
           top: '50%',
           left: '50%',
           transform: 'translate(-50%,-50%)',
-          background: 'rgba(236,44,68,0.08)',
+          background: 'rgba(236,44,68,0.09)',
         }}
       />
 
       <svg
         viewBox="0 0 380 240"
-        style={{ width: '100%', maxWidth: 460, height: 'auto', overflow: 'visible', display: 'block' }}
+        style={{ width: '100%', maxWidth: 600, height: 'auto', overflow: 'visible', display: 'block' }}
       >
         <defs>
           <linearGradient id="hairLight" x1="0" y1="0" x2="0" y2="1">
@@ -150,29 +150,46 @@ function ArchitectCharacter() {
               <line x1="34" y1="84" x2="28" y2="82" stroke="#8a7556" strokeWidth="1.3" />
               <line x1="74" y1="84" x2="80" y2="82" stroke="#8a7556" strokeWidth="1.3" />
 
-              {/* Eyes — quietly attentive across all phases */}
-              <ellipse cx="42" cy="86" rx="2.5" ry="2.8" fill="#1a0e06" />
-              <ellipse cx="66" cy="86" rx="2.5" ry="2.8" fill="#1a0e06" />
-              <circle cx="43" cy="85" r="0.8" fill="#fff" />
-              <circle cx="67" cy="85" r="0.8" fill="#fff" />
+              {/* Soft cheek warmth */}
+              <ellipse cx="33" cy="96" rx="5" ry="3" fill="rgba(220,140,110,0.32)" />
+              <ellipse cx="75" cy="96" rx="5" ry="3" fill="rgba(220,140,110,0.32)" />
 
-              {/* Brows */}
-              <path d="M36 76 Q42 74 48 76" stroke="#3a2a1c" strokeWidth="1.4" fill="none" strokeLinecap="round" />
-              <path d="M60 76 Q66 74 72 76" stroke="#3a2a1c" strokeWidth="1.4" fill="none" strokeLinecap="round" />
-
-              {/* Mouth — neutral / very subtle smile when aligned */}
+              {/* Eyes — friendly, gently smiling across all phases */}
               <AnimatePresence mode="wait">
                 {phase === 'aligned' ? (
-                  <motion.path key="ma"
-                    d="M48 102 Q54 106 60 102"
-                    stroke="#8a5638" strokeWidth="1.6" fill="none" strokeLinecap="round"
-                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                  />
+                  <motion.g key="ea" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+                    {/* Smiling-eye arcs when aligned */}
+                    <path d="M37 86 Q42 82 47 86" stroke="#1a0e06" strokeWidth="2" fill="none" strokeLinecap="round" />
+                    <path d="M61 86 Q66 82 71 86" stroke="#1a0e06" strokeWidth="2" fill="none" strokeLinecap="round" />
+                  </motion.g>
+                ) : (
+                  <motion.g key="en" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+                    {/* Open, attentive eyes with bright catchlights */}
+                    <ellipse cx="42" cy="86" rx="2.6" ry="2.9" fill="#1a0e06" />
+                    <ellipse cx="66" cy="86" rx="2.6" ry="2.9" fill="#1a0e06" />
+                    <circle cx="43" cy="85" r="1" fill="#fff" />
+                    <circle cx="67" cy="85" r="1" fill="#fff" />
+                  </motion.g>
+                )}
+              </AnimatePresence>
+
+              {/* Brows — gently lifted (open, friendly) */}
+              <path d="M35 75 Q42 73 48 75" stroke="#3a2a1c" strokeWidth="1.4" fill="none" strokeLinecap="round" />
+              <path d="M60 75 Q66 73 72 75" stroke="#3a2a1c" strokeWidth="1.4" fill="none" strokeLinecap="round" />
+
+              {/* Mouth — warm smile across all phases, broader when aligned */}
+              <AnimatePresence mode="wait">
+                {phase === 'aligned' ? (
+                  <motion.g key="ma" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+                    <path d="M46 100 Q54 109 62 100"
+                      stroke="#7a4828" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+                    {/* Subtle inner mouth tone for genuine smile */}
+                    <path d="M48 101 Q54 107 60 101 L59 103 Q54 106 49 103 Z" fill="rgba(140,60,60,0.4)" />
+                  </motion.g>
                 ) : (
                   <motion.path key="mn"
-                    d="M48 102 Q54 103 60 102"
-                    stroke="#8a5638" strokeWidth="1.6" fill="none" strokeLinecap="round"
+                    d="M47 102 Q54 106 61 102"
+                    stroke="#7a4828" strokeWidth="1.7" fill="none" strokeLinecap="round"
                     initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                     transition={{ duration: 0.4 }}
                   />
@@ -380,7 +397,7 @@ export function Hero() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.65, delay: 0.22, ease: 'easeOut' }}
             className="hidden md:flex items-center justify-center"
-            style={{ minHeight: 520 }}
+            style={{ minHeight: 600 }}
           >
             <ArchitectCharacter />
           </motion.div>
