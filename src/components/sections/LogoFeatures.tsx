@@ -323,10 +323,11 @@ export function LogoFeatures() {
             style={{ background: 'radial-gradient(ellipse at center, transparent 50%, rgba(6,11,20,0.7) 100%)' }} />
         </div>
         <Container>
-          <AnimatedSection className="mb-6 md:mb-8">
-            <div className="flex items-center gap-4 mb-5">
+          <AnimatedSection className="mb-6 md:mb-8 text-center">
+            <div className="flex items-center justify-center gap-4 mb-5">
+              <div className="flex-1 h-px bg-white/8 max-w-[100px]" />
               <span className="text-[10px] font-mono tracking-[0.22em] text-slate-500 uppercase shrink-0">Platform</span>
-              <div className="flex-1 h-px bg-white/8" />
+              <div className="flex-1 h-px bg-white/8 max-w-[100px]" />
             </div>
             <h2 className="font-black uppercase tracking-tighter leading-[0.9] text-white" style={{ fontSize: 'clamp(1.3rem, 3vw, 2.4rem)' }}>
               The Platform,<br />Deconstructed.

@@ -8,6 +8,7 @@ import { HowItWorks } from '@/components/sections/HowItWorks';
 import { UseCases } from '@/components/sections/UseCases';
 import { Testimonial } from '@/components/sections/Testimonial';
 import { AICanvasDemo } from '@/components/sections/AICanvasDemo';
+import { AICanvas } from '@/components/sections/AICanvas';
 import { OurVision } from '@/components/sections/OurVision';
 import { BlogTeaser } from '@/components/sections/BlogTeaser';
 import { CTABanner } from '@/components/sections/CTABanner';
@@ -48,13 +49,14 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <LogoFeatures />
       <LogoTicker />
       {/* <Pillars /> */}
       <OurVision />
       <AICanvasDemo />
+      <AICanvas />
       {/* <VideoPromo /> */}
       <AIFeatures />
-      <LogoFeatures />
       <ClientVideo />
       {/* <Products /> */}
       {/* <HowItWorks /> */}
