@@ -5,437 +5,289 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { BookDemoDialog } from '@/components/ui/BookDemoDialog';
 import { Container } from '@/components/ui/Container';
 
-// ── Architect character — playful, unstoppable energy ─────────────────────────
+// ── Architect — quiet mastery of complexity ───────────────────────────────────
 
-type Mood = 'planning' | 'ignition' | 'blastoff';
+type Phase = 'observing' | 'connecting' | 'aligned';
 
-const SEQUENCE: Mood[] = ['planning', 'ignition', 'blastoff'];
-const DURATIONS: Record<Mood, number> = { planning: 2800, ignition: 1500, blastoff: 3200 };
+const SEQUENCE: Phase[] = ['observing', 'connecting', 'aligned'];
+const DURATIONS: Record<Phase, number> = { observing: 3000, connecting: 3000, aligned: 3500 };
+
+// Four TOGAF-style framework layers — drift positions (chaotic) → grid positions (aligned)
+const NODES = [
+  { id: 'B', label: 'BUSINESS',    drift: { x:  76, y: 162, r:  -6 }, grid: { x:  60, y:  50, r: 0 } },
+  { id: 'A', label: 'APPLICATION', drift: { x: 200, y:  46, r:   8 }, grid: { x: 180, y:  50, r: 0 } },
+  { id: 'D', label: 'DATA',        drift: { x:  68, y:  64, r:   4 }, grid: { x:  60, y: 132, r: 0 } },
+  { id: 'T', label: 'TECHNOLOGY',  drift: { x: 188, y: 152, r: -10 }, grid: { x: 180, y: 132, r: 0 } },
+] as const;
+
+// Connections between aligned nodes (B↔A, B↔D, A↔T, D↔T)
+const EDGES: { from: typeof NODES[number]['id']; to: typeof NODES[number]['id'] }[] = [
+  { from: 'B', to: 'A' },
+  { from: 'B', to: 'D' },
+  { from: 'A', to: 'T' },
+  { from: 'D', to: 'T' },
+];
 
 function ArchitectCharacter() {
-  const [moodIdx, setMoodIdx] = useState(0);
-  const mood = SEQUENCE[moodIdx];
+  const [phaseIdx, setPhaseIdx] = useState(0);
+  const phase = SEQUENCE[phaseIdx];
 
   useEffect(() => {
     const t = setTimeout(
-      () => setMoodIdx((i) => (i + 1) % SEQUENCE.length),
-      DURATIONS[mood],
+      () => setPhaseIdx((i) => (i + 1) % SEQUENCE.length),
+      DURATIONS[phase],
     );
     return () => clearTimeout(t);
-  }, [mood]);
+  }, [phase]);
 
-  // Body bob & lean
-  const bodyY     = mood === 'blastoff' ? -8 : 0;
-  const torsoTilt = mood === 'planning' ? -2 : mood === 'ignition' ? -3 : 0;
-  const headTilt  = mood === 'planning' ? -8 : mood === 'ignition' ? 4 : 0;
+  // Subtle pose adjustments
+  const headTilt  = phase === 'observing' ? -6 : phase === 'connecting' ? -2 : 0;
 
-  // Glow colour shifts with mood
-  const glowColor =
-    mood === 'planning' ? 'rgba(83,74,183,0.18)'   :
-    mood === 'ignition' ? 'rgba(255,107,53,0.30)'  :
-                          'rgba(236,44,68,0.32)';
+  // Helper: get node position based on phase
+  const nodePos = (n: typeof NODES[number]) =>
+    phase === 'observing' ? n.drift : n.grid;
 
   return (
     <div className="relative flex items-center justify-center w-full select-none" aria-hidden>
-      {/* Ambient glow that shifts with mood */}
-      <motion.div
+      {/* Very subtle ambient wash — no colour shift */}
+      <div
         className="absolute rounded-full pointer-events-none"
-        animate={{ background: glowColor }}
-        transition={{ duration: 0.6 }}
-        style={{ width: 460, height: 460, filter: 'blur(90px)', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}
+        style={{
+          width: 380,
+          height: 380,
+          filter: 'blur(80px)',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%,-50%)',
+          background: 'rgba(236,44,68,0.08)',
+        }}
       />
 
       <svg
-        viewBox="0 0 380 360"
-        style={{ width: '100%', maxWidth: 540, height: 'auto', overflow: 'visible', display: 'block' }}
+        viewBox="0 0 380 240"
+        style={{ width: '100%', maxWidth: 460, height: 'auto', overflow: 'visible', display: 'block' }}
       >
         <defs>
-          {/* Rocket flame gradient */}
-          <linearGradient id="flame" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#fff5b8" />
-            <stop offset="35%" stopColor="#ffd23f" />
-            <stop offset="75%" stopColor="#ff6b35" />
-            <stop offset="100%" stopColor="#ec2c44" stopOpacity="0" />
-          </linearGradient>
-          {/* Hair highlight */}
           <linearGradient id="hairLight" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#5a3820" />
-            <stop offset="100%" stopColor="#2c1a0e" />
+            <stop offset="0%" stopColor="#3a2a1c" />
+            <stop offset="100%" stopColor="#1f1410" />
           </linearGradient>
         </defs>
 
-        {/* ── Floor shadow ── */}
-        <ellipse cx="190" cy="312" rx="155" ry="14" fill="rgba(0,0,0,0.35)" />
+        {/* ── Subtle baseline ── */}
+        <line x1="20" y1="220" x2="360" y2="220" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
 
-        {/* ── Body bob group — wraps everything that should idle-float ── */}
-        <motion.g
-          animate={{ y: bodyY }}
-          transition={{ duration: 0.5, type: 'spring', stiffness: 200, damping: 14 }}
-        >
-          {/* Idle bob — gentle continuous up-down */}
+        {/* ── Architect — quiet, on the left ── */}
+        <g>
+          {/* Idle bob — barely perceptible */}
           <motion.g
-            animate={{ y: [0, -2, 0] }}
-            transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+            animate={{ y: [0, -1, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
           >
 
-            {/* ── Launch console / desk ── */}
-            <rect x="78" y="252" width="180" height="58" rx="6" fill="#1a2240" stroke="#2c3568" strokeWidth="1.5" />
-            <rect x="78" y="252" width="180" height="6" fill="#2c3568" />
-            {/* Console buttons */}
-            <circle cx="100" cy="278" r="5" fill="rgba(236,44,68,0.85)" />
-            <circle cx="116" cy="278" r="5" fill="#5de0e6" opacity="0.75" />
-            <circle cx="132" cy="278" r="5" fill="#ffd23f" opacity="0.8" />
-            {/* Console screen */}
-            <rect x="150" y="266" width="100" height="32" rx="3" fill="#0a0f1c" stroke="#2c3568" strokeWidth="1" />
-            <motion.rect
-              x="155" y="270" width="0" height="3" rx="1" fill="#5de0e6"
-              animate={{ width: mood === 'planning' ? [0, 90, 0] : mood === 'ignition' ? 90 : [90, 90, 0] }}
-              transition={{ duration: mood === 'planning' ? 2.4 : 0.8, repeat: mood === 'planning' ? Infinity : 0 }}
-            />
-            <motion.rect
-              x="155" y="278" width="0" height="3" rx="1" fill="#EC2C44"
-              animate={{ width: mood === 'ignition' ? [0, 90] : mood === 'blastoff' ? 90 : 0 }}
-              transition={{ duration: 0.6 }}
-            />
-            <motion.rect
-              x="155" y="286" width="0" height="3" rx="1" fill="#ffd23f"
-              animate={{ width: mood === 'blastoff' ? [0, 90] : 0 }}
-              transition={{ duration: 0.5 }}
-            />
-            {/* Status label on console */}
-            <motion.text
-              x="200" y="247" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="1.5"
-              fill={mood === 'planning' ? '#5de0e6' : mood === 'ignition' ? '#ffd23f' : '#EC2C44'}
-              animate={{ opacity: [0.6, 1, 0.6] }}
-              transition={{ duration: 1.4, repeat: Infinity }}
-            >
-              {mood === 'planning' ? 'SYSTEMS NOMINAL' : mood === 'ignition' ? 'IGNITION READY' : 'LAUNCH COMMITTED'}
-            </motion.text>
+            {/* ── Torso — refined slate suit ── */}
+            <g>
+              <path d="M22 138 Q22 134 28 132 L80 132 Q86 134 86 138 L92 220 L16 220 Z"
+                fill="#324158" />
+              {/* Lapels */}
+              <path d="M44 132 L54 158 L64 132 Z" fill="#3d4d68" />
+              {/* Shirt collar */}
+              <path d="M48 132 L54 152 L60 132 Z" fill="#e8edf5" />
+              {/* Subtle tie */}
+              <path d="M51 152 L57 152 L58 192 L54 198 L50 192 Z" fill="#9c4452" />
 
-            {/* ── Architect — torso ── */}
-            <motion.g
-              animate={{ rotate: torsoTilt }}
-              transition={{ duration: 0.5, type: 'spring', stiffness: 160, damping: 18 }}
-              style={{ transformOrigin: '140px 220px' }}
-            >
-              {/* Torso (suit) */}
-              <path d="M104 158 Q104 154 110 152 L170 152 Q176 154 176 158 L182 252 L98 252 Z"
-                fill="#2d3a8c" />
-              {/* Suit lapels */}
-              <path d="M132 152 L140 176 L148 152 Z" fill="#3d4d9c" />
-              {/* Shirt collar v */}
-              <path d="M134 152 L140 168 L146 152 Z" fill="#f0f4ff" />
-              {/* Tie */}
-              <path d="M137 168 L143 168 L145 215 L140 222 L135 215 Z" fill="#EC2C44" />
-              <path d="M137 168 L143 168 L142 174 L138 174 Z" fill="#c41f35" />
+              {/* Left arm — at rest */}
+              <path d="M22 144 Q-2 174 -4 210" stroke="#324158" strokeWidth="14" strokeLinecap="round" fill="none" />
+              <circle cx="-4" cy="212" r="7" fill="#c89d72" />
 
-              {/* Left arm — varies per mood */}
+              {/* Right arm — extends slightly during connecting phase */}
               <motion.path
-                d="M104 165 Q70 195 64 232"
-                stroke="#2d3a8c" strokeWidth="20" strokeLinecap="round" fill="none"
+                stroke="#324158" strokeWidth="14" strokeLinecap="round" fill="none"
                 animate={{
-                  d:
-                    mood === 'ignition' ? 'M104 158 Q92 132 96 100' :   // pointing up at rocket
-                    mood === 'blastoff' ? 'M104 156 Q70 110 60 70' :    // arm raised in triumph
-                                          'M104 165 Q70 195 64 232',    // resting at console
+                  d: phase === 'connecting'
+                    ? 'M86 144 Q116 158 132 152'   // gestures toward framework
+                    : 'M86 144 Q108 174 110 210', // resting
                 }}
-                transition={{ duration: 0.5, type: 'spring', stiffness: 140, damping: 20 }}
+                transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
               />
               <motion.circle
-                r="10" fill="#d4a574"
+                r="7" fill="#c89d72"
                 animate={{
-                  cx: mood === 'ignition' ? 96  : mood === 'blastoff' ? 60  : 62,
-                  cy: mood === 'ignition' ? 98  : mood === 'blastoff' ? 68  : 234,
+                  cx: phase === 'connecting' ? 134 : 110,
+                  cy: phase === 'connecting' ? 152 : 212,
                 }}
-                transition={{ duration: 0.5, type: 'spring', stiffness: 140, damping: 20 }}
+                transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
               />
-              {/* Pointing finger during ignition */}
-              {mood === 'ignition' && (
-                <motion.line
-                  x1="96" y1="98" x2="96" y2="86"
-                  stroke="#d4a574" strokeWidth="4" strokeLinecap="round"
-                  initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.3 }}
-                />
-              )}
+            </g>
 
-              {/* Right arm */}
-              <motion.path
-                stroke="#2d3a8c" strokeWidth="20" strokeLinecap="round" fill="none"
-                animate={{
-                  d:
-                    mood === 'blastoff' ? 'M176 156 Q210 110 220 70'  :  // raised triumph
-                                          'M176 165 Q210 195 218 232',   // resting on console
-                }}
-                transition={{ duration: 0.5, type: 'spring', stiffness: 140, damping: 20 }}
-              />
-              <motion.circle
-                r="10" fill="#d4a574"
-                animate={{
-                  cx: mood === 'blastoff' ? 220 : 220,
-                  cy: mood === 'blastoff' ? 68  : 234,
-                }}
-                transition={{ duration: 0.5, type: 'spring', stiffness: 140, damping: 20 }}
-              />
-            </motion.g>
+            {/* Neck */}
+            <rect x="46" y="118" width="14" height="16" rx="5" fill="#c89d72" />
 
-            {/* ── Neck ── */}
-            <rect x="132" y="138" width="16" height="18" rx="6" fill="#d4a574" />
-
-            {/* ── Head with modern hair ── */}
+            {/* ── Head — modest, refined ── */}
             <motion.g
               animate={{ rotate: headTilt }}
-              transition={{ duration: 0.5, type: 'spring', stiffness: 160, damping: 18 }}
-              style={{ transformOrigin: '140px 100px' }}
+              transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
+              style={{ transformOrigin: '54px 84px' }}
             >
               {/* Head */}
-              <ellipse cx="140" cy="100" rx="36" ry="40" fill="#d4a574" />
+              <ellipse cx="54" cy="84" rx="28" ry="32" fill="#c89d72" />
               {/* Ears */}
-              <ellipse cx="105" cy="102" rx="6" ry="9" fill="#c49060" />
-              <ellipse cx="175" cy="102" rx="6" ry="9" fill="#c49060" />
+              <ellipse cx="27" cy="86" rx="4" ry="7" fill="#a87f54" />
+              <ellipse cx="81" cy="86" rx="4" ry="7" fill="#a87f54" />
 
-              {/* Modern swept hair — undercut + voluminous top */}
-              {/* Sides (shorter, darker) */}
-              <path d="M104 92 Q102 78 110 70 L112 86 Q108 90 104 92 Z" fill="#1a0f08" />
-              <path d="M176 92 Q178 78 170 70 L168 86 Q172 90 176 92 Z" fill="#1a0f08" />
-              {/* Main hair mass — swept from right to left */}
+              {/* Hair — clean side part, professional */}
               <path
-                d="M104 88 Q102 60 124 50 Q145 40 168 46 Q182 52 178 70 Q176 80 174 86 Q170 78 162 76 Q150 76 142 80 Q132 84 124 78 Q116 76 110 80 Q106 84 104 88 Z"
+                d="M26 78 Q24 56 42 46 Q58 38 76 44 Q84 50 82 64 Q80 72 78 76 Q72 64 60 64 Q48 64 38 70 Q30 72 26 78 Z"
                 fill="url(#hairLight)"
               />
-              {/* Hair flick / forelock — gives motion */}
-              <motion.path
-                d="M126 50 Q140 36 158 40 Q156 50 148 52 Q138 54 126 50 Z"
-                fill="#5a3820"
-                animate={{ rotate: mood === 'blastoff' ? 6 : 0 }}
-                transition={{ duration: 0.4 }}
-                style={{ transformOrigin: '142px 48px' }}
-              />
-              {/* Highlight strand */}
-              <path d="M132 52 Q142 46 154 50" stroke="#7a5036" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+              {/* Side part line */}
+              <path d="M48 50 Q56 46 64 50" stroke="#0f0a06" strokeWidth="0.8" fill="none" />
 
-              {/* Glasses — modern square frames */}
-              <rect x="116" y="92" width="20" height="16" rx="3" fill="rgba(255,255,255,0.05)" stroke="#b8a070" strokeWidth="2" />
-              <rect x="144" y="92" width="20" height="16" rx="3" fill="rgba(255,255,255,0.05)" stroke="#b8a070" strokeWidth="2" />
-              <line x1="136" y1="100" x2="144" y2="100" stroke="#b8a070" strokeWidth="2" />
-              <line x1="116" y1="96" x2="108" y2="93" stroke="#b8a070" strokeWidth="2" />
-              <line x1="164" y1="96" x2="172" y2="93" stroke="#b8a070" strokeWidth="2" />
+              {/* Glasses — thin minimalist frames */}
+              <rect x="34" y="80" width="16" height="12" rx="1.5" fill="none" stroke="#8a7556" strokeWidth="1.3" />
+              <rect x="58" y="80" width="16" height="12" rx="1.5" fill="none" stroke="#8a7556" strokeWidth="1.3" />
+              <line x1="50" y1="86" x2="58" y2="86" stroke="#8a7556" strokeWidth="1.3" />
+              <line x1="34" y1="84" x2="28" y2="82" stroke="#8a7556" strokeWidth="1.3" />
+              <line x1="74" y1="84" x2="80" y2="82" stroke="#8a7556" strokeWidth="1.3" />
 
-              {/* Eyes — swap per mood */}
+              {/* Eyes — quietly attentive across all phases */}
+              <ellipse cx="42" cy="86" rx="2.5" ry="2.8" fill="#1a0e06" />
+              <ellipse cx="66" cy="86" rx="2.5" ry="2.8" fill="#1a0e06" />
+              <circle cx="43" cy="85" r="0.8" fill="#fff" />
+              <circle cx="67" cy="85" r="0.8" fill="#fff" />
+
+              {/* Brows */}
+              <path d="M36 76 Q42 74 48 76" stroke="#3a2a1c" strokeWidth="1.4" fill="none" strokeLinecap="round" />
+              <path d="M60 76 Q66 74 72 76" stroke="#3a2a1c" strokeWidth="1.4" fill="none" strokeLinecap="round" />
+
+              {/* Mouth — neutral / very subtle smile when aligned */}
               <AnimatePresence mode="wait">
-                {mood === 'planning' && (
-                  <motion.g key="ep" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }}>
-                    {/* Focused, looking down at console */}
-                    <ellipse cx="126" cy="103" rx="3.5" ry="3.5" fill="#1a0e06" />
-                    <ellipse cx="154" cy="103" rx="3.5" ry="3.5" fill="#1a0e06" />
-                    <path d="M120 88 Q126 86 132 88" stroke="#5a3820" strokeWidth="2" fill="none" strokeLinecap="round" />
-                    <path d="M148 88 Q154 86 160 88" stroke="#5a3820" strokeWidth="2" fill="none" strokeLinecap="round" />
-                  </motion.g>
-                )}
-                {mood === 'ignition' && (
-                  <motion.g key="ei" initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.18 }} style={{ transformOrigin: '140px 100px' }}>
-                    {/* Wide, alert, sparkles */}
-                    <ellipse cx="126" cy="100" rx="6" ry="6.5" fill="#1a0e06" />
-                    <ellipse cx="154" cy="100" rx="6" ry="6.5" fill="#1a0e06" />
-                    <circle cx="128" cy="98" r="2.4" fill="#fff" />
-                    <circle cx="156" cy="98" r="2.4" fill="#fff" />
-                    <circle cx="124" cy="103" r="1" fill="#fff" />
-                    <circle cx="152" cy="103" r="1" fill="#fff" />
-                    <path d="M118 86 Q126 81 134 86" stroke="#5a3820" strokeWidth="2.2" fill="none" strokeLinecap="round" />
-                    <path d="M146 86 Q154 81 162 86" stroke="#5a3820" strokeWidth="2.2" fill="none" strokeLinecap="round" />
-                  </motion.g>
-                )}
-                {mood === 'blastoff' && (
-                  <motion.g key="eb" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.18 }}>
-                    {/* Triumphant — eyes closed in joy */}
-                    <path d="M119 102 Q126 96 133 102" stroke="#1a0e06" strokeWidth="3" fill="none" strokeLinecap="round" />
-                    <path d="M147 102 Q154 96 161 102" stroke="#1a0e06" strokeWidth="3" fill="none" strokeLinecap="round" />
-                    <path d="M118 88 Q126 86 134 88" stroke="#5a3820" strokeWidth="2" fill="none" strokeLinecap="round" />
-                    <path d="M146 88 Q154 86 162 88" stroke="#5a3820" strokeWidth="2" fill="none" strokeLinecap="round" />
-                  </motion.g>
-                )}
-              </AnimatePresence>
-
-              {/* Mouth — swap per mood */}
-              <AnimatePresence mode="wait">
-                {mood === 'planning' && (
-                  <motion.path key="mp" d="M132 122 Q140 121 148 122"
-                    stroke="#b07848" strokeWidth="2.4" fill="none" strokeLinecap="round"
-                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} />
-                )}
-                {mood === 'ignition' && (
-                  <motion.g key="mi" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }}>
-                    {/* Mouth open in surprise/excitement */}
-                    <ellipse cx="140" cy="122" rx="5" ry="3.5" fill="#1a0e06" />
-                  </motion.g>
-                )}
-                {mood === 'blastoff' && (
-                  <motion.g key="mb" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.18 }}>
-                    {/* Big smile + cheeks */}
-                    <path d="M128 118 Q140 132 152 118" stroke="#1a0e06" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-                    <path d="M128 118 Q140 130 152 118 L150 122 Q140 128 130 122 Z" fill="#7a2030" />
-                    <ellipse cx="118" cy="114" rx="6" ry="4" fill="rgba(220,120,80,0.4)" />
-                    <ellipse cx="162" cy="114" rx="6" ry="4" fill="rgba(220,120,80,0.4)" />
-                  </motion.g>
+                {phase === 'aligned' ? (
+                  <motion.path key="ma"
+                    d="M48 102 Q54 106 60 102"
+                    stroke="#8a5638" strokeWidth="1.6" fill="none" strokeLinecap="round"
+                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  />
+                ) : (
+                  <motion.path key="mn"
+                    d="M48 102 Q54 103 60 102"
+                    stroke="#8a5638" strokeWidth="1.6" fill="none" strokeLinecap="round"
+                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  />
                 )}
               </AnimatePresence>
             </motion.g>
           </motion.g>
-        </motion.g>
+        </g>
 
-        {/* ── ROCKET — the unstoppable momentum ─────────────────────────────── */}
-        <motion.g
-          animate={
-            mood === 'planning' ? { x: 0, y: 0, rotate: 0 } :
-            mood === 'ignition' ? { x: [0, -1, 1, -1, 1, 0], y: [0, -2, -3, -4, -5], rotate: 0 } :
-            { x: 220, y: -340, rotate: 14 }
-          }
-          transition={
-            mood === 'blastoff'
-              ? { x: { duration: 1.6, ease: [0.4, 0, 0.2, 1] }, y: { duration: 1.6, ease: [0.4, 0, 0.2, 1] }, rotate: { duration: 1.6 } }
-              : mood === 'ignition'
-                ? { duration: 0.4, repeat: Infinity, repeatType: 'reverse' }
-                : { duration: 0.5 }
-          }
-          style={{ transformOrigin: '290px 220px' }}
-        >
-          {/* Flame — only during ignition + blastoff */}
-          <AnimatePresence>
-            {(mood === 'ignition' || mood === 'blastoff') && (
+        {/* ── Framework diagram — the focus, on the right ────────────────────── */}
+        <g transform="translate(140, 0)">
+
+          {/* Subtle frame */}
+          <rect x="0" y="20" width="240" height="180" rx="4"
+            fill="rgba(255,255,255,0.015)" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+
+          {/* Connection lines — only render when in connecting / aligned phases */}
+          {EDGES.map(({ from, to }) => {
+            const f = NODES.find((n) => n.id === from)!;
+            const t = NODES.find((n) => n.id === to)!;
+            return (
+              <motion.line
+                key={`${from}-${to}`}
+                x1={f.grid.x + 28} y1={f.grid.y + 60}
+                x2={t.grid.x + 28} y2={t.grid.y + 60}
+                stroke="rgba(236,44,68,0.45)"
+                strokeWidth="1"
+                strokeDasharray="3 3"
+                initial={false}
+                animate={{
+                  pathLength: phase === 'observing' ? 0 : 1,
+                  opacity:    phase === 'observing' ? 0 : phase === 'connecting' ? 0.7 : 1,
+                }}
+                transition={{
+                  pathLength: { duration: 1.2, delay: phase === 'connecting' ? 0.3 : 0, ease: [0.4, 0, 0.2, 1] },
+                  opacity:    { duration: 0.6, delay: 0.2 },
+                }}
+              />
+            );
+          })}
+
+          {/* Nodes */}
+          {NODES.map((n, i) => {
+            const target = nodePos(n);
+            return (
               <motion.g
-                key="flame"
-                initial={{ opacity: 0, scaleY: 0.3 }}
-                animate={{ opacity: 1, scaleY: mood === 'ignition' ? [0.6, 1, 0.6] : [1, 1.4, 1] }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.25, repeat: Infinity, repeatType: 'reverse' }}
-                style={{ transformOrigin: '290px 232px' }}
+                key={n.id}
+                animate={{
+                  x: target.x,
+                  y: target.y,
+                  rotate: target.r,
+                  opacity: phase === 'observing' ? 0.55 : 1,
+                }}
+                transition={{
+                  duration: 1.4,
+                  delay: phase === 'connecting' ? i * 0.08 : 0,
+                  ease: [0.4, 0, 0.2, 1],
+                }}
               >
-                <path d="M278 232 L302 232 L296 260 L290 250 L284 260 Z" fill="url(#flame)" />
-                <path d="M283 232 L297 232 L294 248 L290 242 L286 248 Z" fill="#fff5b8" opacity="0.9" />
+                <rect width="56" height="38" rx="3"
+                  fill="rgba(15,21,35,0.85)"
+                  stroke={phase === 'aligned' ? 'rgba(236,44,68,0.55)' : 'rgba(255,255,255,0.18)'}
+                  strokeWidth="1"
+                />
+                {/* Layer letter */}
+                <text x="28" y="20" textAnchor="middle"
+                  fontFamily="monospace" fontSize="11" fontWeight="700"
+                  fill={phase === 'aligned' ? '#EC2C44' : '#94a3b8'}
+                  letterSpacing="1.5"
+                >{n.id}</text>
+                {/* Layer label */}
+                <text x="28" y="31" textAnchor="middle"
+                  fontFamily="monospace" fontSize="5" letterSpacing="1.2"
+                  fill={phase === 'aligned' ? '#cbd5e1' : '#64748b'}
+                >{n.label}</text>
               </motion.g>
+            );
+          })}
+
+          {/* Center connector dot — appears subtly when aligned */}
+          <AnimatePresence>
+            {phase === 'aligned' && (
+              <motion.circle key="ctr"
+                cx="120" cy="110" r="2" fill="#EC2C44"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: [0, 1, 0.7], scale: [0, 1.4, 1] }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+              />
             )}
           </AnimatePresence>
+        </g>
 
-          {/* Rocket body */}
-          <g>
-            {/* Nose cone */}
-            <path d="M290 178 Q280 188 282 200 L298 200 Q300 188 290 178 Z" fill="#EC2C44" />
-            {/* Body */}
-            <rect x="282" y="200" width="16" height="32" rx="2" fill="#f5f5f8" />
-            {/* Window */}
-            <circle cx="290" cy="210" r="3" fill="#5de0e6" stroke="#2d3568" strokeWidth="1" />
-            {/* Stripe */}
-            <rect x="282" y="220" width="16" height="3" fill="#EC2C44" />
-            {/* Fins */}
-            <path d="M282 224 L274 234 L282 232 Z" fill="#EC2C44" />
-            <path d="M298 224 L306 234 L298 232 Z" fill="#EC2C44" />
-            {/* Nozzle */}
-            <rect x="285" y="231" width="10" height="3" rx="1" fill="#2d3568" />
-          </g>
-        </motion.g>
-
-        {/* ── Smoke + spark particles at launch base ── */}
-        <AnimatePresence>
-          {mood === 'ignition' && (
-            <motion.g key="smoke" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              {[0, 1, 2, 3].map((i) => (
-                <motion.circle
-                  key={i}
-                  cx={285 + (i - 1.5) * 6}
-                  cy="245"
-                  r="4"
-                  fill="rgba(255,255,255,0.45)"
-                  animate={{
-                    cx: 285 + (i - 1.5) * 14,
-                    cy: 252,
-                    r: [4, 8, 0],
-                    opacity: [0.6, 0.4, 0],
-                  }}
-                  transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.15 }}
-                />
-              ))}
-            </motion.g>
-          )}
-        </AnimatePresence>
-
-        {/* ── Trail particles during blastoff ── */}
-        <AnimatePresence>
-          {mood === 'blastoff' && (
-            <motion.g key="trail" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              {[...Array(18)].map((_, i) => {
-                // Sample points along rocket arc from (290, 232) to (510, -108)
-                const t = i / 17;
-                const x = 290 + 220 * t;
-                const y = 232 - 340 * t + 40 * t * (1 - t); // slight curve
-                return (
-                  <motion.circle
-                    key={i}
-                    cx={x} cy={y}
-                    fill={i % 3 === 0 ? '#ffd23f' : i % 3 === 1 ? '#ff6b35' : '#fff'}
-                    initial={{ r: 0, opacity: 0 }}
-                    animate={{ r: [0, 4, 0], opacity: [0, 0.9, 0] }}
-                    transition={{ duration: 1.4, delay: i * 0.06, ease: 'easeOut' }}
-                  />
-                );
-              })}
-              {/* Burst at launch position */}
-              {[0, 60, 120, 180, 240, 300].map((deg, i) => {
-                const r = Math.PI / 180;
-                const x2 = 290 + Math.cos(deg * r) * 24;
-                const y2 = 240 + Math.sin(deg * r) * 24;
-                return (
-                  <motion.line
-                    key={`burst-${i}`}
-                    x1="290" y1="240" x2={x2} y2={y2}
-                    stroke="#ffd23f" strokeWidth="2.5" strokeLinecap="round"
-                    initial={{ opacity: 0, pathLength: 0 }}
-                    animate={{ opacity: [0, 1, 0], pathLength: [0, 1, 1] }}
-                    transition={{ duration: 0.6, delay: 0.05 }}
-                  />
-                );
-              })}
-            </motion.g>
-          )}
-        </AnimatePresence>
-
-        {/* ── Stars / sparkles in the upper space ── */}
-        <AnimatePresence>
-          {mood === 'blastoff' && (
-            <motion.g key="stars" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              {[
-                [60, 40], [340, 90], [50, 160], [350, 30], [220, 20], [80, 90],
-              ].map(([cx, cy], i) => (
-                <motion.path
-                  key={i}
-                  d={`M${cx} ${cy - 4} L${cx + 1.5} ${cy - 1.5} L${cx + 4} ${cy} L${cx + 1.5} ${cy + 1.5} L${cx} ${cy + 4} L${cx - 1.5} ${cy + 1.5} L${cx - 4} ${cy} L${cx - 1.5} ${cy - 1.5} Z`}
-                  fill="#fff"
-                  animate={{ opacity: [0, 1, 0.6], scale: [0, 1, 1] }}
-                  transition={{ duration: 0.8, delay: 0.4 + i * 0.08 }}
-                  style={{ transformOrigin: `${cx}px ${cy}px` }}
-                />
-              ))}
-            </motion.g>
-          )}
-        </AnimatePresence>
-
-        {/* ── State label ── */}
+        {/* ── Phase label ── */}
         <AnimatePresence mode="wait">
-          {mood === 'planning' && (
-            <motion.text key="lp" x="190" y="345" textAnchor="middle" fontFamily="monospace" fontSize="10" letterSpacing="3" fill="#475569"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
-              MAPPING THE MISSION
-            </motion.text>
+          {phase === 'observing' && (
+            <motion.text key="po" x="260" y="232" textAnchor="middle"
+              fontFamily="monospace" fontSize="8" letterSpacing="2.5" fill="#475569"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.6 }}
+            >ASSESSING COMPLEXITY</motion.text>
           )}
-          {mood === 'ignition' && (
-            <motion.text key="li" x="190" y="345" textAnchor="middle" fontFamily="monospace" fontSize="10" letterSpacing="3" fill="#ffd23f"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
-              T-MINUS ZERO
-            </motion.text>
+          {phase === 'connecting' && (
+            <motion.text key="pc" x="260" y="232" textAnchor="middle"
+              fontFamily="monospace" fontSize="8" letterSpacing="2.5" fill="#64748b"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.6 }}
+            >MAPPING DEPENDENCIES</motion.text>
           )}
-          {mood === 'blastoff' && (
-            <motion.text key="lb" x="190" y="345" textAnchor="middle" fontFamily="monospace" fontSize="10" letterSpacing="3" fill="#EC2C44"
-              initial={{ opacity: 0, scale: 0.6 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3, type: 'spring' }}>
-              UNSTOPPABLE
-            </motion.text>
+          {phase === 'aligned' && (
+            <motion.text key="pa" x="260" y="232" textAnchor="middle"
+              fontFamily="monospace" fontSize="8" letterSpacing="2.5" fill="#EC2C44"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.6 }}
+            >ALIGNED</motion.text>
           )}
         </AnimatePresence>
       </svg>
