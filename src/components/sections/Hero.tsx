@@ -24,200 +24,181 @@ function ArchitectCharacter() {
     return () => clearTimeout(t);
   }, [mood]);
 
-  // Head x shifts slightly per mood
-  const headX = mood === 'puzzled' ? -4 : mood === 'clarity' ? 0 : 2;
-  // Torso lean
-  const torsoRotate = mood === 'puzzled' ? -3 : mood === 'clarity' ? 0 : 3;
+  const headX   = mood === 'puzzled' ? -5 : mood === 'clarity' ? 0 : 3;
+  const headRot = mood === 'puzzled' ? -8 : 0;
+  const torsoRot = mood === 'puzzled' ? -2 : mood === 'clarity' ? 0 : 2;
+
+  // Glow colours per mood
+  const glowColor =
+    mood === 'puzzled'   ? 'rgba(136,144,168,0.18)' :
+    mood === 'clarity'   ? 'rgba(236,44,68,0.22)'   :
+                           'rgba(93,224,230,0.20)';
 
   return (
-    <div className="relative flex items-center justify-center w-full h-full select-none" aria-hidden>
+    <div className="relative flex items-center justify-center w-full select-none" aria-hidden>
+      {/* Soft ambient glow behind character */}
+      <motion.div
+        className="absolute rounded-full pointer-events-none"
+        animate={{ background: glowColor }}
+        transition={{ duration: 0.6 }}
+        style={{ width: 420, height: 420, filter: 'blur(80px)', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}
+      />
+
       <svg
-        viewBox="0 0 260 300"
-        className="w-full max-w-[260px] md:max-w-[300px]"
-        style={{ overflow: 'visible' }}
+        viewBox="0 0 320 380"
+        style={{ width: '100%', maxWidth: 480, height: 'auto', overflow: 'visible', display: 'block' }}
       >
-        {/* ── Desk ── */}
-        <rect x="20" y="212" width="220" height="7" rx="2" fill="#161b2e" />
-        <rect x="40"  y="219" width="7" height="55" rx="2" fill="#111623" />
-        <rect x="213" y="219" width="7" height="55" rx="2" fill="#111623" />
+        {/* ── Background plate — gives the character a subtle stage ── */}
+        <ellipse cx="160" cy="310" rx="130" ry="18" fill="rgba(0,0,0,0.25)" />
+
+        {/* ── Desk surface ── */}
+        <rect x="20" y="262" width="280" height="10" rx="3" fill="#2a3050" />
+        <rect x="40"  y="272" width="10" height="70" rx="3" fill="#222740" />
+        <rect x="270" y="272" width="10" height="70" rx="3" fill="#222740" />
 
         {/* ── Monitor ── */}
-        <rect x="82" y="142" width="96" height="72" rx="5"
-          fill="#0a0f1c" stroke="#252a40" strokeWidth="1.5" />
-        <rect x="87" y="147" width="86" height="60" rx="3" fill="#060b14" />
+        <rect x="92" y="172" width="136" height="92" rx="6"
+          fill="#111827" stroke="#374151" strokeWidth="2" />
+        <rect x="99" y="179" width="122" height="76" rx="3" fill="#0a0f1c" />
         {/* Stand */}
-        <rect x="124" y="214" width="12" height="7" fill="#161b2e" />
-        <rect x="114" y="219" width="32" height="4" rx="1" fill="#161b2e" />
+        <rect x="151" y="264" width="18" height="10" fill="#2a3050" />
+        <rect x="138" y="272" width="44" height="6" rx="2" fill="#2a3050" />
 
-        {/* ── Screen content: mini architecture diagram ── */}
-        <g opacity="0.65">
-          <rect x="95"  y="155" width="22" height="11" rx="1.5" fill="none" stroke="#534AB7" strokeWidth="0.9" />
-          <text x="106" y="163" textAnchor="middle" fontFamily="monospace" fontSize="4.5" fill="#534AB7">BIZ</text>
+        {/* ── Screen: architecture diagram ── */}
+        <g>
+          <rect x="107" y="189" width="32" height="16" rx="2" fill="rgba(83,74,183,0.25)" stroke="#534AB7" strokeWidth="1" />
+          <text x="123" y="200" textAnchor="middle" fontFamily="monospace" fontSize="6.5" fill="#a8a2f0">BIZ</text>
 
-          <rect x="124" y="155" width="22" height="11" rx="1.5" fill="none" stroke="#0F6E56" strokeWidth="0.9" />
-          <text x="135" y="163" textAnchor="middle" fontFamily="monospace" fontSize="4.5" fill="#0F6E56">APP</text>
+          <rect x="150" y="189" width="32" height="16" rx="2" fill="rgba(15,110,86,0.25)" stroke="#0F6E56" strokeWidth="1" />
+          <text x="166" y="200" textAnchor="middle" fontFamily="monospace" fontSize="6.5" fill="#5DCAA5">APP</text>
 
-          <rect x="109" y="173" width="22" height="11" rx="1.5" fill="none" stroke="#EC2C44" strokeWidth="0.9" />
-          <text x="120" y="181" textAnchor="middle" fontFamily="monospace" fontSize="4.5" fill="#EC2C44">TECH</text>
+          <rect x="128" y="214" width="32" height="16" rx="2" fill="rgba(236,44,68,0.2)" stroke="#EC2C44" strokeWidth="1" />
+          <text x="144" y="225" textAnchor="middle" fontFamily="monospace" fontSize="6.5" fill="#f09595">TECH</text>
 
-          <line x1="113" y1="166" x2="118" y2="173" stroke="#EC2C44" strokeWidth="0.6" strokeOpacity="0.5" />
-          <line x1="135" y1="166" x2="124" y2="173" stroke="#EC2C44" strokeWidth="0.6" strokeOpacity="0.5" />
+          <line x1="131" y1="205" x2="138" y2="214" stroke="#EC2C44" strokeWidth="0.8" opacity="0.6" />
+          <line x1="166" y1="205" x2="155" y2="214" stroke="#EC2C44" strokeWidth="0.8" opacity="0.6" />
 
-          {/* Cursor blink on screen */}
-          <motion.rect
-            x="152" y="193" width="6" height="1.5" rx="0.5"
-            fill="#EC2C44" opacity="0.7"
-            animate={{ opacity: [0.7, 0, 0.7] }}
-            transition={{ duration: 1.1, repeat: Infinity }}
+          <motion.rect x="186" y="237" width="8" height="2" rx="1"
+            fill="#EC2C44"
+            animate={{ opacity: [1, 0, 1] }}
+            transition={{ duration: 1, repeat: Infinity }}
           />
         </g>
 
-        {/* ── Torso / body ── */}
+        {/* ── Keyboard ── */}
+        <rect x="95" y="264" width="90" height="8" rx="2" fill="#1e2538" stroke="#2d3650" strokeWidth="1" />
+
+        {/* ── Body / shirt ── */}
         <motion.g
-          animate={{ rotate: torsoRotate }}
-          transition={{ duration: 0.5, type: 'spring', stiffness: 180, damping: 18 }}
-          style={{ transformOrigin: '130px 175px' }}
+          animate={{ rotate: torsoRot }}
+          transition={{ duration: 0.5, type: 'spring', stiffness: 160, damping: 18 }}
+          style={{ transformOrigin: '160px 215px' }}
         >
-          {/* Shirt */}
-          <rect x="104" y="108" width="52" height="46" rx="10" fill="#1e2540" />
-          {/* Collar */}
-          <path d="M122 108 L130 120 L138 108" fill="#273050" />
+          <rect x="126" y="134" width="68" height="58" rx="14" fill="#2d3a8c" />
+          {/* Lapels */}
+          <path d="M152 134 L160 152 L168 134" fill="#3d4d9c" />
           {/* Tie */}
-          <path d="M128 115 L132 115 L133 140 L130 144 L127 140 Z" fill="#EC2C44" opacity="0.85" />
+          <path d="M157 145 L163 145 L164 176 L160 181 L156 176 Z" fill="#EC2C44" />
+          {/* Shirt buttons */}
+          <circle cx="160" cy="160" r="1.5" fill="#4a5aac" />
+          <circle cx="160" cy="168" r="1.5" fill="#4a5aac" />
 
-          {/* Left arm — rests on desk */}
+          {/* Left arm */}
           <motion.path
-            d="M104 122 Q76 148 68 170"
-            stroke="#1e2540" strokeWidth="12" strokeLinecap="round" fill="none"
-            animate={{
-              d: mood === 'clarity'
-                ? 'M104 115 Q80 95 72 78'
-                : 'M104 122 Q76 148 68 170',
-            }}
-            transition={{ duration: 0.45, type: 'spring', stiffness: 160, damping: 22 }}
+            d="M126 150 Q90 182 80 210"
+            stroke="#2d3a8c" strokeWidth="18" strokeLinecap="round" fill="none"
+            animate={{ d: mood === 'clarity' ? 'M126 144 Q100 120 88 98' : 'M126 150 Q90 182 80 210' }}
+            transition={{ duration: 0.5, type: 'spring', stiffness: 140, damping: 20 }}
           />
-          {/* Left hand */}
           <motion.circle
-            cx="66" cy="172"
-            r="7"
-            fill="#c8956a"
-            animate={{ cx: mood === 'clarity' ? 70 : 66, cy: mood === 'clarity' ? 76 : 172 }}
-            transition={{ duration: 0.45, type: 'spring', stiffness: 160, damping: 22 }}
+            cx="78" cy="212" r="9" fill="#d4a574"
+            animate={{ cx: mood === 'clarity' ? 84 : 78, cy: mood === 'clarity' ? 96 : 212 }}
+            transition={{ duration: 0.5, type: 'spring', stiffness: 140, damping: 20 }}
           />
 
-          {/* Right arm — on keyboard */}
-          <path d="M156 122 Q182 148 188 170" stroke="#1e2540" strokeWidth="12" strokeLinecap="round" fill="none" />
-          <circle cx="190" cy="172" r="7" fill="#c8956a" />
+          {/* Right arm */}
+          <path d="M194 150 Q230 182 240 210" stroke="#2d3a8c" strokeWidth="18" strokeLinecap="round" fill="none" />
+          <circle cx="242" cy="212" r="9" fill="#d4a574" />
         </motion.g>
 
         {/* ── Neck ── */}
         <motion.rect
-          x="124" y="97" width="12" height="14" rx="4"
-          fill="#c8956a"
-          animate={{ x: 124 + headX * 0.6 }}
+          x="152" y="122" width="16" height="16" rx="5" fill="#d4a574"
+          animate={{ x: 152 + headX * 0.5 }}
           transition={{ duration: 0.5, type: 'spring', stiffness: 180 }}
         />
 
         {/* ── Head ── */}
         <motion.g
-          animate={{ x: headX, rotate: mood === 'puzzled' ? -6 : 0 }}
-          transition={{ duration: 0.5, type: 'spring', stiffness: 180, damping: 18 }}
-          style={{ transformOrigin: '130px 76px' }}
+          animate={{ x: headX, rotate: headRot }}
+          transition={{ duration: 0.5, type: 'spring', stiffness: 160, damping: 18 }}
+          style={{ transformOrigin: '160px 90px' }}
         >
-          {/* Head shape */}
-          <ellipse cx="130" cy="76" rx="28" ry="30" fill="#c8956a" />
+          {/* Head */}
+          <ellipse cx="160" cy="90" rx="38" ry="42" fill="#d4a574" />
 
           {/* Hair */}
-          <ellipse cx="130" cy="52" rx="28" ry="10" fill="#2e1f14" />
-          <path d="M102 68 Q104 50 130 46 Q156 50 158 68" fill="#2e1f14" />
+          <ellipse cx="160" cy="52" rx="38" ry="14" fill="#2c1a0e" />
+          <path d="M122 78 Q124 52 160 47 Q196 52 198 78" fill="#2c1a0e" />
 
           {/* Ears */}
-          <ellipse cx="102" cy="76" rx="5" ry="7" fill="#b87d52" />
-          <ellipse cx="158" cy="76" rx="5" ry="7" fill="#b87d52" />
+          <ellipse cx="122" cy="90" rx="7" ry="10" fill="#c49060" />
+          <ellipse cx="198" cy="90" rx="7" ry="10" fill="#c49060" />
 
-          {/* Glasses frames */}
-          <circle cx="120" cy="76" r="9" fill="none" stroke="#8a7050" strokeWidth="1.5" />
-          <circle cx="140" cy="76" r="9" fill="none" stroke="#8a7050" strokeWidth="1.5" />
-          <line x1="129" y1="76" x2="131" y2="76" stroke="#8a7050" strokeWidth="1.5" />
-          <line x1="111" y1="73" x2="106" y2="71" stroke="#8a7050" strokeWidth="1.5" />
-          <line x1="149" y1="73" x2="154" y2="71" stroke="#8a7050" strokeWidth="1.5" />
+          {/* Glasses */}
+          <circle cx="148" cy="90" r="12" fill="rgba(255,255,255,0.06)" stroke="#b8a070" strokeWidth="2" />
+          <circle cx="172" cy="90" r="12" fill="rgba(255,255,255,0.06)" stroke="#b8a070" strokeWidth="2" />
+          <line x1="160" y1="90" x2="160" y2="90" stroke="#b8a070" strokeWidth="2" />
+          <line x1="136" y1="86" x2="128" y2="83" stroke="#b8a070" strokeWidth="2" />
+          <line x1="184" y1="86" x2="192" y2="83" stroke="#b8a070" strokeWidth="2" />
 
-          {/* ── Eyes — swap per mood ── */}
+          {/* Eyes */}
           <AnimatePresence mode="wait">
             {mood === 'puzzled' && (
-              <motion.g key="eyes-puzzled"
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                transition={{ duration: 0.18 }}
-              >
-                {/* Slightly squinting, one eyebrow raised */}
-                <ellipse cx="120" cy="76" rx="4" ry="3.5" fill="#2a1a0e" />
-                <ellipse cx="140" cy="76" rx="4" ry="3.5" fill="#2a1a0e" />
-                {/* Furrowed brows — one higher */}
-                <path d="M113 67 Q120 65 127 67" stroke="#5a3820" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-                <path d="M133 66 Q140 64 147 67" stroke="#5a3820" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+              <motion.g key="ep" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }}>
+                <ellipse cx="148" cy="90" rx="5" ry="4.5" fill="#1a0e06" />
+                <ellipse cx="172" cy="90" rx="5" ry="4.5" fill="#1a0e06" />
+                <path d="M141 81 Q148 78 155 81" stroke="#7a4820" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+                <path d="M165 80 Q172 77 179 81" stroke="#7a4820" strokeWidth="2.2" fill="none" strokeLinecap="round" />
               </motion.g>
             )}
-
             {mood === 'clarity' && (
-              <motion.g key="eyes-clarity"
-                initial={{ opacity: 0, scale: 0.7 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                style={{ transformOrigin: '130px 76px' }}
-              >
-                {/* Wide open eyes */}
-                <ellipse cx="120" cy="76" rx="5.5" ry="5.5" fill="#2a1a0e" />
-                <ellipse cx="140" cy="76" rx="5.5" ry="5.5" fill="#2a1a0e" />
-                <circle cx="122" cy="74" r="1.8" fill="white" />
-                <circle cx="142" cy="74" r="1.8" fill="white" />
-                {/* Raised brows */}
-                <path d="M113 65 Q120 62 127 65" stroke="#5a3820" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-                <path d="M133 65 Q140 62 147 65" stroke="#5a3820" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+              <motion.g key="ec" initial={{ opacity: 0, scale: 0.6 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} style={{ transformOrigin: '160px 90px' }}>
+                <ellipse cx="148" cy="90" rx="7" ry="7" fill="#1a0e06" />
+                <ellipse cx="172" cy="90" rx="7" ry="7" fill="#1a0e06" />
+                <circle cx="150" cy="87" r="2.5" fill="white" />
+                <circle cx="174" cy="87" r="2.5" fill="white" />
+                <path d="M141 79 Q148 75 155 79" stroke="#7a4820" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+                <path d="M165 79 Q172 75 179 79" stroke="#7a4820" strokeWidth="2.2" fill="none" strokeLinecap="round" />
               </motion.g>
             )}
-
             {mood === 'satisfied' && (
-              <motion.g key="eyes-satisfied"
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                {/* Happy arc eyes */}
-                <path d="M115 76 Q120 71 125 76" stroke="#2a1a0e" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-                <path d="M135 76 Q140 71 145 76" stroke="#2a1a0e" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-                {/* Relaxed brows */}
-                <path d="M113 68 Q120 67 127 68" stroke="#5a3820" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-                <path d="M133 68 Q140 67 147 68" stroke="#5a3820" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+              <motion.g key="es" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+                <path d="M142 91 Q148 85 154 91" stroke="#1a0e06" strokeWidth="3" fill="none" strokeLinecap="round" />
+                <path d="M166 91 Q172 85 178 91" stroke="#1a0e06" strokeWidth="3" fill="none" strokeLinecap="round" />
+                <path d="M141 82 Q148 80 155 82" stroke="#7a4820" strokeWidth="2" fill="none" strokeLinecap="round" />
+                <path d="M165 82 Q172 80 179 82" stroke="#7a4820" strokeWidth="2" fill="none" strokeLinecap="round" />
               </motion.g>
             )}
           </AnimatePresence>
 
-          {/* ── Mouth — swap per mood ── */}
+          {/* Mouth */}
           <AnimatePresence mode="wait">
             {mood === 'puzzled' && (
-              <motion.path key="mouth-puzzled"
-                d="M122 92 Q130 90 138 92"
-                stroke="#9a6040" strokeWidth="2" fill="none" strokeLinecap="round"
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                transition={{ duration: 0.18 }}
-              />
+              <motion.path key="mp" d="M151 109 Q160 107 169 109"
+                stroke="#b07848" strokeWidth="2.5" fill="none" strokeLinecap="round"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} />
             )}
             {mood === 'clarity' && (
-              <motion.path key="mouth-clarity"
-                d="M122 91 Q130 97 138 91"
-                stroke="#9a6040" strokeWidth="2" fill="none" strokeLinecap="round"
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                transition={{ duration: 0.18 }}
-              />
+              <motion.path key="mc" d="M151 108 Q160 116 169 108"
+                stroke="#b07848" strokeWidth="2.5" fill="none" strokeLinecap="round"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} />
             )}
             {mood === 'satisfied' && (
-              <motion.g key="mouth-satisfied"
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                transition={{ duration: 0.25 }}
-              >
-                <path d="M119 90 Q130 102 141 90"
-                  stroke="#9a6040" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-                {/* Cheek blush */}
-                <ellipse cx="111" cy="85" rx="6" ry="3.5" fill="rgba(220,120,90,0.3)" />
-                <ellipse cx="149" cy="85" rx="6" ry="3.5" fill="rgba(220,120,90,0.3)" />
+              <motion.g key="ms" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+                <path d="M148 106 Q160 120 172 106" stroke="#b07848" strokeWidth="3" fill="none" strokeLinecap="round" />
+                <ellipse cx="138" cy="102" rx="8" ry="5" fill="rgba(220,120,80,0.35)" />
+                <ellipse cx="182" cy="102" rx="8" ry="5" fill="rgba(220,120,80,0.35)" />
               </motion.g>
             )}
           </AnimatePresence>
@@ -226,111 +207,68 @@ function ArchitectCharacter() {
         {/* ── Floating indicators ── */}
         <AnimatePresence>
           {mood === 'puzzled' && (
-            <motion.g key="float-puzzled"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.35 }}
+            <motion.g key="fp"
+              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
             >
-              <motion.text
-                x="166" y="52"
-                textAnchor="middle" fontFamily="monospace" fontSize="24"
-                fill="#8890a8"
-                animate={{ y: [0, -5, 0] }}
-                transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-              >?</motion.text>
-              <motion.text
-                x="182" y="66"
-                textAnchor="middle" fontFamily="monospace" fontSize="14"
-                fill="#8890a8" opacity="0.4"
-                animate={{ y: [0, -3, 0] }}
-                transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
-              >?</motion.text>
+              <motion.text x="210" y="60" textAnchor="middle" fontFamily="sans-serif" fontSize="36" fontWeight="bold" fill="#8890a8"
+                animate={{ y: [0, -8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}>?</motion.text>
+              <motion.text x="232" y="82" textAnchor="middle" fontFamily="sans-serif" fontSize="22" fill="#8890a8" opacity="0.45"
+                animate={{ y: [0, -5, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}>?</motion.text>
             </motion.g>
           )}
-
           {mood === 'clarity' && (
-            <motion.g key="float-clarity"
-              initial={{ opacity: 0, scale: 0.2 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.2 }}
-              transition={{ type: 'spring', stiffness: 320, damping: 16 }}
-              style={{ transformOrigin: '168px 44px' }}
+            <motion.g key="fc"
+              initial={{ opacity: 0, scale: 0.2 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.2 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 16 }}
+              style={{ transformOrigin: '212px 52px' }}
             >
-              {/* Lightbulb */}
-              <circle cx="168" cy="44" r="16"
-                fill="rgba(236,44,68,0.12)" stroke="rgba(236,44,68,0.5)" strokeWidth="1.5" />
-              {/* Bulb body */}
-              <path d="M162 44 Q162 36 168 34 Q174 36 174 44 L173 49 L163 49 Z"
-                fill="rgba(236,44,68,0.6)" />
-              <rect x="163" y="49" width="10" height="3" rx="1" fill="rgba(236,44,68,0.5)" />
-              <rect x="164" y="52" width="8" height="2" rx="1" fill="rgba(236,44,68,0.4)" />
-              {/* Rays */}
+              <circle cx="212" cy="52" r="24" fill="rgba(236,44,68,0.15)" stroke="rgba(236,44,68,0.55)" strokeWidth="2" />
+              <path d="M204 52 Q204 40 212 37 Q220 40 220 52 L219 59 L205 59 Z" fill="rgba(236,44,68,0.7)" />
+              <rect x="205" y="59" width="14" height="4" rx="1.5" fill="rgba(236,44,68,0.6)" />
+              <rect x="206" y="63" width="12" height="3" rx="1" fill="rgba(236,44,68,0.45)" />
               {[0, 45, 90, 135, 180, 225, 270, 315].map((deg, i) => {
-                const rad = (deg * Math.PI) / 180;
-                const x1 = 168 + Math.cos(rad) * 19;
-                const y1 = 44 + Math.sin(rad) * 19;
-                const x2 = 168 + Math.cos(rad) * 23;
-                const y2 = 44 + Math.sin(rad) * 23;
-                return (
-                  <motion.line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
-                    stroke="#EC2C44" strokeWidth="1.5" strokeLinecap="round"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: [0, 1, 0.6] }}
-                    transition={{ delay: i * 0.05, duration: 0.4 }}
-                  />
-                );
+                const r = Math.PI / 180;
+                const x1 = 212 + Math.cos(deg * r) * 28, y1 = 52 + Math.sin(deg * r) * 28;
+                const x2 = 212 + Math.cos(deg * r) * 34, y2 = 52 + Math.sin(deg * r) * 34;
+                return <motion.line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#EC2C44" strokeWidth="2" strokeLinecap="round"
+                  initial={{ opacity: 0 }} animate={{ opacity: [0, 1, 0.7] }} transition={{ delay: i * 0.04, duration: 0.4 }} />;
               })}
             </motion.g>
           )}
-
           {mood === 'satisfied' && (
-            <motion.g key="float-satisfied"
-              initial={{ opacity: 0, scale: 0.3, y: 6 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-              style={{ transformOrigin: '170px 46px' }}
+            <motion.g key="fs"
+              initial={{ opacity: 0, scale: 0.2, y: 8 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+              style={{ transformOrigin: '214px 52px' }}
             >
-              <circle cx="170" cy="46" r="16"
-                fill="rgba(93,224,230,0.1)" stroke="rgba(93,224,230,0.45)" strokeWidth="1.5" />
-              <motion.path
-                d="M162 46 L168 52 L178 38"
-                stroke="#5de0e6" strokeWidth="2.5" fill="none"
-                strokeLinecap="round" strokeLinejoin="round"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{ duration: 0.45, delay: 0.1, ease: 'easeOut' }}
-              />
+              <circle cx="214" cy="52" r="24" fill="rgba(93,224,230,0.12)" stroke="rgba(93,224,230,0.5)" strokeWidth="2" />
+              <motion.path d="M204 52 L211 60 L224 40"
+                stroke="#5de0e6" strokeWidth="3.5" fill="none" strokeLinecap="round" strokeLinejoin="round"
+                initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.4, delay: 0.1 }} />
             </motion.g>
           )}
         </AnimatePresence>
 
-        {/* ── Mood label ── */}
+        {/* ── State label ── */}
         <AnimatePresence mode="wait">
           {mood === 'puzzled' && (
-            <motion.text key="lbl-p" x="130" y="293"
-              textAnchor="middle" fontFamily="monospace" fontSize="7.5"
-              letterSpacing="2.5" fill="#475569"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-            >WORKING THROUGH IT…</motion.text>
+            <motion.text key="lp" x="160" y="358" textAnchor="middle" fontFamily="monospace" fontSize="10" letterSpacing="3" fill="#475569"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
+              WORKING THROUGH IT…
+            </motion.text>
           )}
           {mood === 'clarity' && (
-            <motion.text key="lbl-c" x="130" y="293"
-              textAnchor="middle" fontFamily="monospace" fontSize="7.5"
-              letterSpacing="2.5" fill="#EC2C44"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-            >BREAKTHROUGH</motion.text>
+            <motion.text key="lc" x="160" y="358" textAnchor="middle" fontFamily="monospace" fontSize="10" letterSpacing="3" fill="#EC2C44"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
+              BREAKTHROUGH
+            </motion.text>
           )}
           {mood === 'satisfied' && (
-            <motion.text key="lbl-s" x="130" y="293"
-              textAnchor="middle" fontFamily="monospace" fontSize="7.5"
-              letterSpacing="2.5" fill="#5de0e6"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-            >PROBLEM SOLVED</motion.text>
+            <motion.text key="ls" x="160" y="358" textAnchor="middle" fontFamily="monospace" fontSize="10" letterSpacing="3" fill="#5de0e6"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
+              PROBLEM SOLVED
+            </motion.text>
           )}
         </AnimatePresence>
       </svg>
@@ -344,7 +282,7 @@ export function Hero() {
   const [demoOpen, setDemoOpen] = useState(false);
 
   return (
-    <section className="relative bg-[#060b14] overflow-hidden min-h-[88vh] flex flex-col">
+    <section className="relative bg-[#060b14] overflow-hidden min-h-screen flex flex-col">
 
       {/* Grid background */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden>
@@ -422,7 +360,7 @@ export function Hero() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.3, ease: 'easeOut' }}
             className="hidden lg:flex items-center justify-center"
-            style={{ minHeight: 320 }}
+            style={{ minHeight: 480 }}
           >
             <ArchitectCharacter />
           </motion.div>
