@@ -334,21 +334,21 @@ export function Hero() {
               tool built for today&apos;s enterprise architects.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+            <div className="flex flex-wrap gap-3 items-center">
               <button
                 onClick={() => setDemoOpen(true)}
-                className="inline-flex items-center justify-center h-12 px-8 text-sm font-bold uppercase tracking-widest text-white bg-primary-500 hover:bg-primary-600 active:translate-y-px transition-all duration-100 focus-visible:outline-none"
+                className="inline-flex items-center justify-center h-11 px-6 text-sm font-bold uppercase tracking-widest text-white bg-primary-500 hover:bg-primary-600 active:translate-y-px transition-all duration-100 focus-visible:outline-none whitespace-nowrap shrink-0"
                 style={{ boxShadow: '4px 4px 0 rgba(120,10,20,0.55)' }}
               >
                 Book a Demo
               </button>
               <a
                 href="#ai-features"
-                className="inline-flex items-center justify-center h-12 px-8 text-sm font-bold uppercase tracking-widest text-slate-300 border border-white/15 hover:border-white/35 hover:text-white transition-colors duration-150"
+                className="inline-flex items-center justify-center h-11 px-6 text-sm font-bold uppercase tracking-widest text-slate-300 border border-white/15 hover:border-white/35 hover:text-white transition-colors duration-150 whitespace-nowrap shrink-0"
               >
                 See How It Works →
               </a>
-              <span className="hidden md:block sm:ml-auto text-[10px] font-mono uppercase tracking-wider text-slate-700 self-center whitespace-nowrap">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-slate-700 whitespace-nowrap">
                 No commitment · Live Q&amp;A
               </span>
             </div>
