@@ -303,69 +303,70 @@ export function Hero() {
 
       <Container className="relative z-10 flex-1 flex flex-col">
 
-        {/* ── Headline ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, ease: 'easeOut' }}
-          className="pt-28 md:pt-32 pb-6"
-        >
-          <h1
-            className="font-black uppercase tracking-tighter leading-[0.9] text-white"
-            style={{ fontSize: 'clamp(2.2rem, 7vw, 5rem)' }}
-          >
-            Make Your<br />
-            Architects<br />
-            <span className="text-primary-500">Unstoppable.</span>
-          </h1>
-        </motion.div>
+        {/* ── Single unified two-column layout ── */}
+        <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center pt-24 md:pt-28 pb-12 md:pb-16">
 
-        {/* ── Two-column: copy + character ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.18 }}
-          className="border-t border-white/10 pt-8 pb-14 md:pb-20 flex-1 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center"
-        >
-          {/* Left: subtext + CTAs */}
-          <div className="flex flex-col gap-8">
-            <p className="text-sm md:text-base text-slate-400 leading-relaxed max-w-md">
+          {/* ── Left column: headline → divider → body → CTAs ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease: 'easeOut' }}
+            className="flex flex-col gap-6"
+          >
+            {/* Headline */}
+            <h1
+              className="font-black uppercase tracking-tighter leading-[0.9] text-white"
+              style={{ fontSize: 'clamp(2.4rem, 5.5vw, 5rem)' }}
+            >
+              Make Your<br />
+              Architects<br />
+              <span className="text-primary-500">Unstoppable.</span>
+            </h1>
+
+            {/* Thin rule */}
+            <div className="w-12 h-[2px] bg-primary-500" />
+
+            {/* Body copy */}
+            <p className="text-base text-slate-400 leading-relaxed max-w-sm">
               Move fast without losing context. Keep your architecture in sync with a
               tool built for today&apos;s enterprise architects.
             </p>
 
-            <div className="flex flex-wrap gap-3 items-center">
+            {/* CTAs */}
+            <div className="flex flex-wrap gap-3 items-center pt-2">
               <button
                 onClick={() => setDemoOpen(true)}
-                className="inline-flex items-center justify-center h-11 px-6 text-sm font-bold uppercase tracking-widest text-white bg-primary-500 hover:bg-primary-600 active:translate-y-px transition-all duration-100 focus-visible:outline-none whitespace-nowrap shrink-0"
+                className="inline-flex items-center justify-center h-12 px-8 text-sm font-bold uppercase tracking-widest text-white bg-primary-500 hover:bg-primary-600 active:translate-y-px transition-all duration-100 focus-visible:outline-none whitespace-nowrap shrink-0"
                 style={{ boxShadow: '4px 4px 0 rgba(120,10,20,0.55)' }}
               >
                 Book a Demo
               </button>
               <a
                 href="#ai-features"
-                className="inline-flex items-center justify-center h-11 px-6 text-sm font-bold uppercase tracking-widest text-slate-300 border border-white/15 hover:border-white/35 hover:text-white transition-colors duration-150 whitespace-nowrap shrink-0"
+                className="inline-flex items-center justify-center h-12 px-6 text-sm font-bold uppercase tracking-widest text-slate-300 border border-white/15 hover:border-white/35 hover:text-white transition-colors duration-150 whitespace-nowrap shrink-0"
               >
                 See How It Works →
               </a>
-              <span className="text-[10px] font-mono uppercase tracking-wider text-slate-700 whitespace-nowrap">
-                No commitment · Live Q&amp;A
-              </span>
             </div>
-          </div>
 
-          {/* Right: animated architect */}
+            {/* Trust line */}
+            <p className="text-[11px] font-mono uppercase tracking-widest text-slate-600">
+              No commitment · Live Q&amp;A · Personalised walkthrough
+            </p>
+          </motion.div>
+
+          {/* ── Right column: animated architect ── */}
           <motion.div
-            initial={{ opacity: 0, x: 24 }}
+            initial={{ opacity: 0, x: 32 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.3, ease: 'easeOut' }}
+            transition={{ duration: 0.65, delay: 0.22, ease: 'easeOut' }}
             className="hidden md:flex items-center justify-center"
-            style={{ minHeight: 480 }}
+            style={{ minHeight: 520 }}
           >
             <ArchitectCharacter />
           </motion.div>
-        </motion.div>
 
+        </div>
       </Container>
 
       <BookDemoDialog open={demoOpen} onOpenChange={setDemoOpen} />
