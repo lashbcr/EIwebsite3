@@ -1,11 +1,8 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion';
 import { Container } from '@/components/ui/Container';
-
-const RED = '#EC2C44';
-const STEP_DURATION = 6; // seconds per step
 
 // ── Visuals ────────────────────────────────────────────────────────────────────
 
@@ -41,7 +38,7 @@ function NLVisual() {
 
 function RiskVisual() {
   const alerts = [
-    { level: 'HIGH', color: '#EC2C44', bg: 'rgba(236,44,68,0.08)', label: 'Compliance gap',     layer: 'Application layer' },
+    { level: 'HIGH', color: '#EC2C44', bg: 'rgba(236,44,68,0.08)',  label: 'Compliance gap',     layer: 'Application layer' },
     { level: 'MED',  color: '#f59e0b', bg: 'rgba(245,158,11,0.08)', label: 'Redundant services', layer: 'Technology layer'  },
     { level: 'LOW',  color: '#94a3b8', bg: 'rgba(148,163,184,0.06)', label: 'Naming inconsistency', layer: 'Business layer' },
   ];
@@ -155,6 +152,7 @@ const FEATURES = [
   {
     id: 'nl',
     badge: 'Natural Language',
+    shortTitle: 'Ask in plain English. Get architecture.',
     title: 'Ask in plain English.\nGet architecture.',
     description: 'Describe changes, queries, or models in plain language. Enterprise Insight maps your intent across Business, Application, and Technology layers — automatically.',
     previewLabel: 'Ask anything about your architecture',
@@ -164,6 +162,7 @@ const FEATURES = [
   {
     id: 'risk',
     badge: 'Risk Intelligence',
+    shortTitle: 'Risks surfaced before they escalate.',
     title: 'Risks surfaced\nbefore they escalate.',
     description: 'Continuous AI monitoring flags gaps, redundancies, and compliance violations across your entire architecture landscape — in real time.',
     previewLabel: 'Detect compliance and structural risks',
@@ -173,6 +172,7 @@ const FEATURES = [
   {
     id: 'impact',
     badge: 'Impact Analysis',
+    shortTitle: 'Know the blast radius instantly.',
     title: 'Know the blast\nradius instantly.',
     description: 'Trace upstream and downstream dependencies with one click. Model proposed changes before committing — and catch breaking changes before they happen.',
     previewLabel: 'Trace downstream dependencies',
@@ -182,6 +182,7 @@ const FEATURES = [
   {
     id: 'docs',
     badge: 'Auto Documentation',
+    shortTitle: 'Documentation that writes itself.',
     title: 'Documentation\nthat writes itself.',
     description: 'AI drafts clear, stakeholder-ready architecture documents from your live data. Always accurate. Zero manual overhead.',
     previewLabel: 'Generate Q2 architecture overview',
@@ -192,32 +193,22 @@ const FEATURES = [
 
 type Feature = (typeof FEATURES)[number];
 
-// ── Step card ──────────────────────────────────────────────────────────────────
+// ── Card content (the two-pane card body) ─────────────────────────────────────
 
-function StepCard({
+function CardBody({
   feature,
   stepNum,
   totalSteps,
-  progressKey,
 }: {
   feature: Feature;
   stepNum: number;
   totalSteps: number;
-  progressKey: number;
 }) {
   return (
-    <motion.div
-      key={feature.id}
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -12 }}
-      transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
-      className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] min-h-[440px]"
-    >
-      {/* ── Left: copy ── */}
-      <div className="p-8 md:p-12 flex flex-col justify-center gap-6 border-b lg:border-b-0 lg:border-r border-white/6">
-        {/* Step counter + badge */}
-        <div className="flex items-center gap-4 mb-2">
+    <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] rounded-2xl border border-white/8 bg-[rgba(10,17,32,0.85)] backdrop-blur-sm shadow-[0_20px_60px_rgba(0,0,0,0.4)] overflow-hidden">
+      {/* Left pane */}
+      <div className="p-7 md:p-10 flex flex-col justify-center gap-5 border-b lg:border-b-0 lg:border-r border-white/6">
+        <div className="flex items-center gap-4">
           <span className="text-sm font-mono text-slate-500">
             <span className="text-white font-semibold">{String(stepNum).padStart(2, '0')}</span>
             <span className="mx-1.5">/</span>
@@ -228,10 +219,9 @@ function StepCard({
           </span>
         </div>
 
-        {/* Title */}
         <h3
           className="font-black uppercase tracking-tighter leading-[0.95] text-white"
-          style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.5rem)' }}
+          style={{ fontSize: 'clamp(1.4rem, 3vw, 2.2rem)' }}
         >
           {feature.title.split('\n').map((line, i) => (
             <span key={i}>
@@ -241,30 +231,26 @@ function StepCard({
           ))}
         </h3>
 
-        {/* Description */}
-        <p className="text-base text-slate-300 leading-relaxed max-w-md">
+        <p className="text-sm md:text-base text-slate-300 leading-relaxed max-w-md">
           {feature.description}
         </p>
 
-        {/* CTA */}
-        <div className="pt-2">
+        <div className="pt-1">
           <a
             href="/ai"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-primary-500 hover:bg-primary-600 transition-colors duration-150 rounded-full px-6 py-3 shadow-[0_4px_20px_rgba(236,44,68,0.35)]"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-primary-500 hover:bg-primary-600 transition-colors duration-150 rounded-full px-5 py-2.5 shadow-[0_4px_20px_rgba(236,44,68,0.35)]"
           >
             Read more about AI features
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
             </svg>
           </a>
         </div>
       </div>
 
-      {/* ── Right: live product preview ── */}
-      <div className="p-6 md:p-8 flex flex-col bg-[#06101e]">
-        {/* Window chrome */}
-        <div className="flex items-center justify-between mb-6">
+      {/* Right pane */}
+      <div className="p-6 md:p-8 flex flex-col bg-[#06101e] min-h-[300px]">
+        <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
             <div className="w-2.5 h-2.5 rounded-full bg-[#ec2c44]" />
             <span className="text-xs font-mono uppercase tracking-widest text-slate-400">
@@ -279,147 +265,149 @@ function StepCard({
           </div>
         </div>
 
-        {/* Visual */}
-        <div className="flex-1 flex items-center justify-center min-h-[200px]">
+        <div className="flex-1 flex items-center justify-center">
           <div className="w-full">
-            <feature.Visual key={progressKey} />
+            <feature.Visual />
           </div>
         </div>
 
-        {/* Footer label + arrow */}
-        <div className="flex items-center justify-between gap-3 mt-6 pt-5 border-t border-white/6">
+        <div className="flex items-center justify-between gap-3 mt-5 pt-4 border-t border-white/6">
           <div className="flex items-center gap-2 min-w-0">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EC2C44" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
-              <path d="M12 2 L13.5 9.5 L21 11 L13.5 12.5 L12 20 L10.5 12.5 L3 11 L10.5 9.5 Z" fill="#EC2C44" />
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#EC2C44" className="shrink-0">
+              <path d="M12 2 L13.5 9.5 L21 11 L13.5 12.5 L12 20 L10.5 12.5 L3 11 L10.5 9.5 Z" />
             </svg>
             <span className="text-sm text-slate-300 truncate">{feature.previewLabel}</span>
           </div>
           <a
             href="/ai"
             className="w-9 h-9 shrink-0 flex items-center justify-center rounded-full bg-white/8 hover:bg-primary-500 text-white transition-colors duration-150"
-            aria-label="Explore this feature"
+            aria-label="Explore"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
             </svg>
           </a>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
-// ── Step navigation ────────────────────────────────────────────────────────────
+// ── Peek bar — preview of the next step ───────────────────────────────────────
 
-function StepNav({
-  features,
-  active,
-  progressKey,
-  onSelect,
+function PeekBar({
+  feature,
+  stepNum,
+  totalSteps,
 }: {
-  features: readonly Feature[];
-  active: number;
-  progressKey: number;
-  onSelect: (i: number) => void;
+  feature: Feature;
+  stepNum: number;
+  totalSteps: number;
 }) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-6">
-      {features.map((f, i) => {
-        const isActive = active === i;
-        return (
-          <button
-            key={f.id}
-            onClick={() => onSelect(i)}
-            className="group text-left focus-visible:outline-none"
-          >
-            {/* Top progress bar */}
-            <div className="h-[2px] bg-white/6 overflow-hidden mb-3">
-              {isActive ? (
-                <motion.div
-                  key={progressKey}
-                  className="h-full bg-primary-500"
-                  style={{ transformOrigin: 'left' }}
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ duration: STEP_DURATION, ease: 'linear' }}
-                />
-              ) : (
-                <div className="h-full w-0 bg-primary-500" />
-              )}
-            </div>
-            <div className="flex items-baseline gap-2">
-              <span
-                className={`text-xs font-mono ${isActive ? 'text-white' : 'text-slate-600'}`}
-              >
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <span
-                className={`text-xs font-mono uppercase tracking-widest transition-colors ${
-                  isActive ? 'text-white' : 'text-slate-500 group-hover:text-slate-300'
-                }`}
-              >
-                {f.badge}
-              </span>
-            </div>
-          </button>
-        );
-      })}
+    <div className="mt-3 px-6 py-4 rounded-xl border border-white/6 bg-white/[0.025] backdrop-blur-sm flex items-center gap-4">
+      <span className="text-xs font-mono text-slate-600 shrink-0">
+        <span className="text-slate-400">{String(stepNum).padStart(2, '0')}</span>
+        <span className="mx-1">/</span>
+        <span>{String(totalSteps).padStart(2, '0')}</span>
+      </span>
+      <span className="text-sm text-slate-400 truncate">{feature.shortTitle}</span>
+      <span className="ml-auto text-[10px] font-mono uppercase tracking-widest text-slate-600 shrink-0">
+        Next →
+      </span>
     </div>
+  );
+}
+
+// ── Scroll-driven step ─────────────────────────────────────────────────────────
+
+function ScrollStep({
+  feature,
+  nextFeature,
+  stepNum,
+  totalSteps,
+  scrollProgress,
+  startFraction,
+  endFraction,
+  isFirst,
+  isLast,
+}: {
+  feature: Feature;
+  nextFeature: Feature | null;
+  stepNum: number;
+  totalSteps: number;
+  scrollProgress: MotionValue<number>;
+  startFraction: number;
+  endFraction: number;
+  isFirst: boolean;
+  isLast: boolean;
+}) {
+  const FADE = 0.04;
+
+  // First card: starts visible from progress 0 (no entry fade).
+  // Last card: stays visible past its endFraction (no exit fade).
+  const opacity = useTransform(scrollProgress, (p) => {
+    if (isFirst && p < startFraction) return 1;
+    if (!isFirst && p < startFraction - FADE) return 0;
+    if (!isFirst && p < startFraction) return (p - (startFraction - FADE)) / FADE;
+    if (p < endFraction) return 1;
+    if (isLast) return 1;
+    if (p < endFraction + FADE) return 1 - (p - endFraction) / FADE;
+    return 0;
+  });
+
+  const y = useTransform(scrollProgress, (p) => {
+    if (isFirst && p < startFraction) return 0;
+    if (!isFirst && p < startFraction - FADE) return 40;
+    if (!isFirst && p < startFraction) return 40 - ((p - (startFraction - FADE)) / FADE) * 40;
+    if (p < endFraction) return 0;
+    if (isLast) return 0;
+    if (p < endFraction + FADE) return -((p - endFraction) / FADE) * 40;
+    return -40;
+  });
+
+  return (
+    <motion.div
+      className="absolute inset-0 flex items-center justify-center px-4 md:px-6 pt-12 md:pt-16 pb-20 md:pb-24"
+      style={{ opacity, y }}
+    >
+      <div className="w-full max-w-5xl">
+        <CardBody feature={feature} stepNum={stepNum} totalSteps={totalSteps} />
+        {nextFeature && (
+          <PeekBar feature={nextFeature} stepNum={stepNum + 1} totalSteps={totalSteps} />
+        )}
+      </div>
+    </motion.div>
   );
 }
 
 // ── Section ────────────────────────────────────────────────────────────────────
 
 export function AIFeatures() {
-  const [active, setActive] = useState(0);
-  const [progressKey, setProgressKey] = useState(0);
-  const [paused, setPaused] = useState(false);
+  // useScroll on the sticky-card wrapper specifically — gives clean 0→1 across the cards' scroll zone
+  const cardsRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: cardsRef,
+    offset: ['start start', 'end end'],
+  });
 
-  const headingRef = useRef<HTMLDivElement>(null);
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const headingInView = useInView(headingRef, { once: true, margin: '-80px' });
-  const sectionInView = useInView(sectionRef, { once: false, margin: '-120px' });
-
-  // Auto-advance
-  useEffect(() => {
-    if (paused || !sectionInView) return;
-    const id = setTimeout(() => {
-      setActive((prev) => (prev + 1) % FEATURES.length);
-      setProgressKey((k) => k + 1);
-    }, STEP_DURATION * 1000);
-    return () => clearTimeout(id);
-  }, [active, paused, sectionInView]);
-
-  function selectStep(i: number) {
-    setActive(i);
-    setProgressKey((k) => k + 1);
-  }
+  // Active step index for nav highlighting
+  const activeStepIndex = useTransform(scrollYProgress, (v) =>
+    Math.max(0, Math.min(FEATURES.length - 1, Math.floor(v * FEATURES.length)))
+  );
 
   return (
     <section
       id="ai-features"
-      className="border-t border-white/8 relative overflow-hidden bg-[#020c1a]"
+      className="relative bg-[#020c1a] border-t border-white/8"
     >
-      {/* Ambient corners */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden>
-        <div className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full blur-[130px]"
+      {/* ── Section heading — scrolls naturally with the page ── */}
+      <div className="relative pt-16 md:pt-24 pb-10 md:pb-12">
+        {/* Ambient wash for the heading area */}
+        <div className="absolute -top-32 -left-40 w-[500px] h-[400px] rounded-full blur-[130px] pointer-events-none"
           style={{ background: 'rgba(236,44,68,0.05)' }} />
-        <div className="absolute -bottom-32 -right-32 w-[480px] h-[400px] rounded-full blur-[120px]"
-          style={{ background: 'rgba(93,224,230,0.03)' }} />
-      </div>
-
-      <Container className="relative py-16 md:py-24">
-
-        {/* Heading */}
-        <motion.div
-          ref={headingRef}
-          initial={{ opacity: 0, y: 24 }}
-          animate={headingInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.55, ease: 'easeOut' }}
-          className="mb-10 md:mb-14"
-        >
-          <div className="flex items-center gap-4 mb-8">
+        <Container className="relative">
+          <div className="flex items-center gap-4 mb-6">
             <span className="text-[10px] font-mono tracking-[0.22em] text-slate-500 uppercase shrink-0">AI-Powered</span>
             <div className="flex-1 h-px bg-white/8" />
           </div>
@@ -428,42 +416,110 @@ export function AIFeatures() {
               className="font-black uppercase tracking-tighter leading-[0.9] text-white"
               style={{ fontSize: 'clamp(1.6rem, 4vw, 3rem)' }}
             >
-              Simpler<br />
-              with AI.
+              Simpler<br />with AI.
             </h2>
             <p className="text-sm text-slate-400 leading-relaxed max-w-xs md:text-right">
-              Four AI capabilities working together — ask, detect, trace, document.
+              Four AI capabilities working together — scroll to explore.
             </p>
           </div>
-        </motion.div>
+        </Container>
+      </div>
 
-        {/* Step card */}
-        <div
-          ref={sectionRef}
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          className="overflow-hidden rounded-2xl border border-white/8 bg-[rgba(10,17,32,0.85)] backdrop-blur-sm shadow-[0_20px_60px_rgba(0,0,0,0.4)]"
-        >
-          <AnimatePresence mode="wait">
-            <StepCard
-              key={FEATURES[active].id}
-              feature={FEATURES[active]}
-              stepNum={active + 1}
-              totalSteps={FEATURES.length}
-              progressKey={progressKey}
-            />
-          </AnimatePresence>
+      {/* ── Sticky cards zone ── */}
+      <div
+        ref={cardsRef}
+        className="relative"
+        style={{ height: `${100 * FEATURES.length}vh` }}
+      >
+        <div className="sticky top-0 h-screen overflow-hidden flex flex-col">
+
+          {/* Ambient bottom corner */}
+          <div className="absolute inset-0 pointer-events-none" aria-hidden>
+            <div className="absolute -bottom-32 -right-32 w-[480px] h-[400px] rounded-full blur-[120px]"
+              style={{ background: 'rgba(93,224,230,0.03)' }} />
+          </div>
+
+          {/* Cards stack */}
+          <div className="absolute inset-0 z-10">
+            <Container className="h-full">
+              {FEATURES.map((f, i) => (
+                <ScrollStep
+                  key={f.id}
+                  feature={f}
+                  nextFeature={FEATURES[i + 1] ?? null}
+                  stepNum={i + 1}
+                  totalSteps={FEATURES.length}
+                  scrollProgress={scrollYProgress}
+                  startFraction={i / FEATURES.length}
+                  endFraction={(i + 1) / FEATURES.length}
+                  isFirst={i === 0}
+                  isLast={i === FEATURES.length - 1}
+                />
+              ))}
+            </Container>
+          </div>
+
+          {/* Step nav at bottom */}
+          <div className="absolute bottom-0 left-0 right-0 pb-6 md:pb-8 z-20">
+            <Container>
+              <StepNavBar features={FEATURES} activeStepIndex={activeStepIndex} />
+            </Container>
+          </div>
+
         </div>
-
-        {/* Step navigation */}
-        <StepNav
-          features={FEATURES}
-          active={active}
-          progressKey={progressKey}
-          onSelect={selectStep}
-        />
-
-      </Container>
+      </div>
     </section>
+  );
+}
+
+// ── Step nav at bottom ─────────────────────────────────────────────────────────
+
+function StepNavBar({
+  features,
+  activeStepIndex,
+}: {
+  features: readonly Feature[];
+  activeStepIndex: MotionValue<number>;
+}) {
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      {features.map((f, i) => (
+        <NavCell key={f.id} feature={f} index={i} activeStepIndex={activeStepIndex} />
+      ))}
+    </div>
+  );
+}
+
+function NavCell({
+  feature,
+  index,
+  activeStepIndex,
+}: {
+  feature: Feature;
+  index: number;
+  activeStepIndex: MotionValue<number>;
+}) {
+  const opacity = useTransform(activeStepIndex, (v) => (v === index ? 1 : 0.4));
+  const barWidth = useTransform(activeStepIndex, (v) =>
+    v > index ? '100%' : v === index ? '100%' : '0%'
+  );
+
+  return (
+    <motion.div className="text-left" style={{ opacity }}>
+      <div className="h-[2px] bg-white/6 overflow-hidden mb-2.5">
+        <motion.div className="h-full bg-primary-500" style={{ width: barWidth }} />
+      </div>
+      <div className="flex items-baseline gap-2">
+        <motion.span
+          className="text-xs font-mono"
+          style={{ color: useTransform(activeStepIndex, (v) => (v === index ? '#fff' : '#475569')) }}
+        >
+          {String(index + 1).padStart(2, '0')}
+        </motion.span>
+        <span className="text-xs font-mono uppercase tracking-widest text-slate-400">
+          {feature.badge}
+        </span>
+      </div>
+    </motion.div>
   );
 }
