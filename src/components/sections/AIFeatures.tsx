@@ -5,17 +5,13 @@ import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { Container } from '@/components/ui/Container';
 
 const RED = '#EC2C44';
-const TAB_DURATION = 5; // seconds per tab
+const STEP_DURATION = 6; // seconds per step
 
 // ── Visuals ────────────────────────────────────────────────────────────────────
 
 function NLVisual() {
   return (
-    <div className="border border-white/6 bg-black/30 p-5 font-mono text-xs space-y-3">
-      <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/6">
-        <div className="w-1.5 h-1.5 bg-[#EC2C44]" />
-        <span className="text-[10px] tracking-widest text-slate-500 uppercase">AI Prompt Console</span>
-      </div>
+    <div className="w-full font-mono text-xs space-y-3">
       <div className="flex items-start gap-2">
         <span className="shrink-0 mt-px text-[#EC2C44]">›</span>
         <span className="text-white">Map our cloud estate to ArchiMate 3.1</span>
@@ -32,28 +28,38 @@ function NLVisual() {
         <span className="shrink-0 text-[#EC2C44]">↳</span>
         <span>Diagram generated · <span className="text-white">2 recommendations ready</span></span>
       </div>
+      <div className="flex items-start gap-2 pl-4 text-slate-500">
+        <motion.span
+          className="shrink-0 inline-block w-1.5 h-3 bg-[#EC2C44]"
+          animate={{ opacity: [1, 0, 1] }}
+          transition={{ duration: 1.1, repeat: Infinity }}
+        />
+      </div>
     </div>
   );
 }
 
 function RiskVisual() {
   const alerts = [
-    { level: 'HIGH', color: '#EC2C44', bg: 'rgba(236,44,68,0.08)', label: 'Compliance gap', layer: 'Application layer' },
-    { level: 'MED',  color: '#f59e0b', bg: 'rgba(245,158,11,0.08)', label: 'Redundant services', layer: 'Technology layer' },
+    { level: 'HIGH', color: '#EC2C44', bg: 'rgba(236,44,68,0.08)', label: 'Compliance gap',     layer: 'Application layer' },
+    { level: 'MED',  color: '#f59e0b', bg: 'rgba(245,158,11,0.08)', label: 'Redundant services', layer: 'Technology layer'  },
     { level: 'LOW',  color: '#94a3b8', bg: 'rgba(148,163,184,0.06)', label: 'Naming inconsistency', layer: 'Business layer' },
   ];
   return (
-    <div className="space-y-2">
+    <div className="w-full space-y-2.5">
       {alerts.map((a, i) => (
         <motion.div
           key={a.label}
           initial={{ opacity: 0, x: -8 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: i * 0.12, duration: 0.3 }}
-          className="flex items-center gap-3 px-4 py-3 border font-mono text-xs"
+          className="flex items-center gap-3 px-4 py-3 border font-mono text-xs rounded"
           style={{ borderColor: `${a.color}30`, background: a.bg }}
         >
-          <span className="text-[9px] font-bold tracking-widest uppercase shrink-0 px-1.5 py-0.5" style={{ color: a.color, border: `1px solid ${a.color}40` }}>
+          <span
+            className="text-[9px] font-bold tracking-widest uppercase shrink-0 px-1.5 py-0.5 rounded"
+            style={{ color: a.color, border: `1px solid ${a.color}40` }}
+          >
             {a.level}
           </span>
           <span className="text-white flex-1">{a.label}</span>
@@ -66,20 +72,16 @@ function RiskVisual() {
 
 function ImpactVisual() {
   const nodes = [
-    { id: 'A', label: 'Billing API',     x: 20,  y: 50, changed: true },
-    { id: 'B', label: 'Auth Service',    x: 50,  y: 20, changed: false },
-    { id: 'C', label: 'User DB',         x: 80,  y: 20, changed: false },
-    { id: 'D', label: 'Notifications',   x: 80,  y: 50, changed: false },
-    { id: 'E', label: 'Payment Gateway', x: 50,  y: 80, changed: false },
+    { id: 'A', label: 'Billing API',     x: 20, y: 50, changed: true },
+    { id: 'B', label: 'Auth Service',    x: 50, y: 20, changed: false },
+    { id: 'C', label: 'User DB',         x: 80, y: 20, changed: false },
+    { id: 'D', label: 'Notifications',   x: 80, y: 50, changed: false },
+    { id: 'E', label: 'Payment Gateway', x: 50, y: 80, changed: false },
   ];
   const edges = [['A','B'],['A','E'],['B','C'],['B','D']];
   return (
-    <div className="border border-white/6 bg-black/30 p-5">
-      <div className="flex items-center gap-2 mb-4">
-        <div className="w-1.5 h-1.5 bg-[#EC2C44] animate-pulse" />
-        <span className="text-[10px] font-mono tracking-widest text-slate-500 uppercase">Dependency Blast Radius</span>
-      </div>
-      <svg viewBox="0 0 100 100" className="w-full" style={{ height: 160 }}>
+    <div className="w-full">
+      <svg viewBox="0 0 100 100" className="w-full" style={{ height: 200 }}>
         {edges.map(([a, b]) => {
           const from = nodes.find(n => n.id === a)!;
           const to   = nodes.find(n => n.id === b)!;
@@ -104,18 +106,18 @@ function ImpactVisual() {
             style={{ transformOrigin: `${n.x}px ${n.y}px` }}
           >
             <rect
-              x={n.x - 9} y={n.y - 5} width={18} height={10}
+              x={n.x - 11} y={n.y - 5.5} width={22} height={11} rx="1.5"
               fill={n.changed ? 'rgba(236,44,68,0.2)' : 'rgba(255,255,255,0.04)'}
               stroke={n.changed ? '#EC2C44' : 'rgba(255,255,255,0.12)'}
               strokeWidth="0.5"
             />
-            <text x={n.x} y={n.y + 1.5} textAnchor="middle" fontSize="3.2" fill={n.changed ? '#EC2C44' : '#94a3b8'} fontFamily="monospace">
+            <text x={n.x} y={n.y + 1.6} textAnchor="middle" fontSize="3.2" fill={n.changed ? '#EC2C44' : '#94a3b8'} fontFamily="monospace">
               {n.label.split(' ')[0]}
             </text>
           </motion.g>
         ))}
       </svg>
-      <div className="flex items-center gap-4 mt-2 text-[9px] font-mono text-slate-600">
+      <div className="flex items-center gap-4 mt-3 text-[9px] font-mono text-slate-600">
         <span className="flex items-center gap-1.5"><span className="w-2 h-2 bg-[#EC2C44]/30 border border-[#EC2C44]/60 inline-block" /> Changed</span>
         <span className="flex items-center gap-1.5"><span className="w-2 h-2 bg-white/4 border border-white/12 inline-block" /> Impacted</span>
       </div>
@@ -125,18 +127,18 @@ function ImpactVisual() {
 
 function DocsVisual() {
   return (
-    <div className="border border-white/6 bg-black/30 p-5 space-y-3">
-      <div className="flex items-center gap-2 mb-3">
+    <div className="w-full space-y-2.5">
+      <div className="flex items-center gap-2 mb-4">
         <div className="w-1.5 h-1.5 bg-[#EC2C44]" />
         <span className="text-xs font-semibold text-white">Architecture Overview — Q2 2025</span>
-        <span className="ml-auto text-[10px] px-2 py-0.5 font-mono" style={{ background: 'rgba(236,44,68,0.12)', color: '#EC2C44' }}>
+        <span className="ml-auto text-[10px] px-2 py-0.5 font-mono rounded" style={{ background: 'rgba(236,44,68,0.12)', color: '#EC2C44' }}>
           AI-generated
         </span>
       </div>
       {[['w-3/4', 0], ['w-full', 0.05], ['w-5/6', 0.1], ['w-2/3', 0.18], ['w-full', 0.23], ['w-4/5', 0.28], ['w-3/5', 0.35], ['w-full', 0.4]].map(([w, delay], i) => (
         <motion.div
           key={i}
-          className={`h-1.5 bg-slate-600/50 ${w}`}
+          className={`h-1.5 bg-slate-600/50 ${w} rounded-sm`}
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           style={{ transformOrigin: 'left' }}
@@ -147,42 +149,6 @@ function DocsVisual() {
   );
 }
 
-// ── Icons ──────────────────────────────────────────────────────────────────────
-
-function NLIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-      <path d="M8 10h8M8 14h5" />
-    </svg>
-  );
-}
-function RiskIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      <line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
-    </svg>
-  );
-}
-function ImpactIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
-      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" /><line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-    </svg>
-  );
-}
-function DocsIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-      <polyline points="14 2 14 8 20 8" />
-      <line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" />
-    </svg>
-  );
-}
-
 // ── Data ───────────────────────────────────────────────────────────────────────
 
 const FEATURES = [
@@ -190,159 +156,216 @@ const FEATURES = [
     id: 'nl',
     badge: 'Natural Language',
     title: 'Ask in plain English.\nGet architecture.',
-    description: ['Describe changes, queries, or models in ', 'plain language', '. Enterprise Insight maps your intent across Business, Application, and Technology layers — ', 'automatically', '.'],
-    accent: RED,
-    Icon: NLIcon,
+    description: 'Describe changes, queries, or models in plain language. Enterprise Insight maps your intent across Business, Application, and Technology layers — automatically.',
+    previewLabel: 'Ask anything about your architecture',
+    visualTitle: 'AI Prompt Console',
     Visual: NLVisual,
   },
   {
     id: 'risk',
     badge: 'Risk Intelligence',
-    title: 'Risks surfaced\nbefore they escalate',
-    description: ['Continuous AI monitoring flags ', 'gaps, redundancies, and compliance violations', ' across your entire architecture landscape in ', 'real time', '.'],
-    accent: RED,
-    Icon: RiskIcon,
+    title: 'Risks surfaced\nbefore they escalate.',
+    description: 'Continuous AI monitoring flags gaps, redundancies, and compliance violations across your entire architecture landscape — in real time.',
+    previewLabel: 'Detect compliance and structural risks',
+    visualTitle: 'Live Risk Feed',
     Visual: RiskVisual,
   },
   {
     id: 'impact',
     badge: 'Impact Analysis',
-    title: 'Know the blast\nradius instantly',
-    description: ['Trace upstream and downstream ', 'dependencies', ' with one click. Model proposed changes before committing — and catch ', 'breaking changes before they happen', '.'],
-    accent: RED,
-    Icon: ImpactIcon,
+    title: 'Know the blast\nradius instantly.',
+    description: 'Trace upstream and downstream dependencies with one click. Model proposed changes before committing — and catch breaking changes before they happen.',
+    previewLabel: 'Trace downstream dependencies',
+    visualTitle: 'Dependency Graph',
     Visual: ImpactVisual,
   },
   {
     id: 'docs',
     badge: 'Auto Documentation',
-    title: 'Documentation\nthat writes itself',
-    description: ['AI drafts clear, ', 'stakeholder-ready', ' architecture documents from your live data. ', 'Always accurate. Zero manual overhead', '.'],
-    accent: RED,
-    Icon: DocsIcon,
+    title: 'Documentation\nthat writes itself.',
+    description: 'AI drafts clear, stakeholder-ready architecture documents from your live data. Always accurate. Zero manual overhead.',
+    previewLabel: 'Generate Q2 architecture overview',
+    visualTitle: 'Auto-Generated Doc',
     Visual: DocsVisual,
   },
 ] as const;
 
 type Feature = (typeof FEATURES)[number];
-// description is [plain, emphasized, plain, emphasized?, plain?] — odd indices are red
 
-// ── Tab row ────────────────────────────────────────────────────────────────────
+// ── Step card ──────────────────────────────────────────────────────────────────
 
-function TabRow({
+function StepCard({
   feature,
-  isActive,
+  stepNum,
+  totalSteps,
   progressKey,
-  onClick,
 }: {
   feature: Feature;
-  isActive: boolean;
+  stepNum: number;
+  totalSteps: number;
   progressKey: number;
-  onClick: () => void;
 }) {
-  return (
-    <button
-      onClick={onClick}
-      className="relative w-full text-left px-6 py-5 border-b border-white/6 transition-colors duration-200 group focus-visible:outline-none"
-      style={{ background: isActive ? 'rgba(236,44,68,0.06)' : 'transparent' }}
-    >
-      {/* Left accent bar */}
-      <div
-        className="absolute left-0 top-0 bottom-0 w-[2px] transition-all duration-500"
-        style={{ background: isActive ? feature.accent : 'transparent' }}
-      />
-
-      {/* Icon + badge */}
-      <div className="flex items-center gap-2.5 mb-2">
-        <span
-          className="transition-colors duration-500"
-          style={{ color: isActive ? feature.accent : '#475569' }}
-        >
-          <feature.Icon />
-        </span>
-        <span
-          className="text-[9px] font-mono tracking-[0.18em] uppercase transition-colors duration-500"
-          style={{ color: isActive ? '#94a3b8' : '#475569' }}
-        >
-          {feature.badge}
-        </span>
-      </div>
-
-      {/* Title */}
-      <p
-        className="text-sm font-bold leading-snug transition-colors duration-500"
-        style={{ color: isActive ? '#ffffff' : '#475569' }}
-      >
-        {feature.title.replace('\n', ' ')}
-      </p>
-
-      {/* Progress bar */}
-      <div className="mt-3.5 h-px bg-white/6 overflow-hidden">
-        {isActive && (
-          <motion.div
-            key={progressKey}
-            className="h-full"
-            style={{ background: feature.accent, transformOrigin: 'left' }}
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: TAB_DURATION, ease: 'linear' }}
-          />
-        )}
-      </div>
-    </button>
-  );
-}
-
-// ── Content panel ──────────────────────────────────────────────────────────────
-
-function ContentPanel({ feature }: { feature: Feature }) {
   return (
     <motion.div
       key={feature.id}
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -12 }}
-      transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
-      className="flex flex-col h-full"
+      transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
+      className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] min-h-[440px]"
     >
-      {/* Badge */}
-      <div className="flex items-center gap-2 mb-5">
-        <span
-          className="text-[9px] font-mono tracking-[0.2em] uppercase font-bold"
-          style={{ color: feature.accent }}
+      {/* ── Left: copy ── */}
+      <div className="p-8 md:p-12 flex flex-col justify-center gap-6 border-b lg:border-b-0 lg:border-r border-white/6">
+        {/* Step counter + badge */}
+        <div className="flex items-center gap-4 mb-2">
+          <span className="text-sm font-mono text-slate-500">
+            <span className="text-white font-semibold">{String(stepNum).padStart(2, '0')}</span>
+            <span className="mx-1.5">/</span>
+            <span>{String(totalSteps).padStart(2, '0')}</span>
+          </span>
+          <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-500 font-semibold">
+            {feature.badge}
+          </span>
+        </div>
+
+        {/* Title */}
+        <h3
+          className="font-black uppercase tracking-tighter leading-[0.95] text-white"
+          style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.5rem)' }}
         >
-          {feature.badge}
-        </span>
-        <div className="flex-1 h-px bg-white/6" />
+          {feature.title.split('\n').map((line, i) => (
+            <span key={i}>
+              {i > 0 && <br />}
+              {line}
+            </span>
+          ))}
+        </h3>
+
+        {/* Description */}
+        <p className="text-base text-slate-300 leading-relaxed max-w-md">
+          {feature.description}
+        </p>
+
+        {/* CTA */}
+        <div className="pt-2">
+          <a
+            href="/ai"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-primary-500 hover:bg-primary-600 transition-colors duration-150 rounded-full px-6 py-3 shadow-[0_4px_20px_rgba(236,44,68,0.35)]"
+          >
+            Read more about AI features
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </a>
+        </div>
       </div>
 
-      {/* Title */}
-      <h3
-        className="font-black uppercase tracking-tighter leading-[0.9] text-white mb-4"
-        style={{ fontSize: 'clamp(1.3rem, 3vw, 2rem)' }}
-      >
-        {feature.title.split('\n').map((line, i) => (
-          <span key={i}>
-            {i > 0 && <br />}
-            {i === 1 ? <span style={{ color: feature.accent }}>{line}</span> : line}
-          </span>
-        ))}
-      </h3>
+      {/* ── Right: live product preview ── */}
+      <div className="p-6 md:p-8 flex flex-col bg-[#06101e]">
+        {/* Window chrome */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-2">
+            <div className="w-2.5 h-2.5 rounded-full bg-[#ec2c44]" />
+            <span className="text-xs font-mono uppercase tracking-widest text-slate-400">
+              {feature.visualTitle}
+            </span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            <span className="text-[9px] font-mono uppercase tracking-widest text-emerald-500">
+              Live
+            </span>
+          </div>
+        </div>
 
-      {/* Description with red key-word emphasis on odd indices */}
-      <p className="text-sm text-slate-300 leading-relaxed mb-6 max-w-sm">
-        {(feature.description as readonly string[]).map((chunk, i) =>
-          i % 2 === 1
-            ? <span key={i} style={{ color: '#EC2C44' }} className="font-medium">{chunk}</span>
-            : <span key={i}>{chunk}</span>
-        )}
-      </p>
+        {/* Visual */}
+        <div className="flex-1 flex items-center justify-center min-h-[200px]">
+          <div className="w-full">
+            <feature.Visual key={progressKey} />
+          </div>
+        </div>
 
-      {/* Visual */}
-      <div className="flex-1">
-        <feature.Visual />
+        {/* Footer label + arrow */}
+        <div className="flex items-center justify-between gap-3 mt-6 pt-5 border-t border-white/6">
+          <div className="flex items-center gap-2 min-w-0">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EC2C44" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
+              <path d="M12 2 L13.5 9.5 L21 11 L13.5 12.5 L12 20 L10.5 12.5 L3 11 L10.5 9.5 Z" fill="#EC2C44" />
+            </svg>
+            <span className="text-sm text-slate-300 truncate">{feature.previewLabel}</span>
+          </div>
+          <a
+            href="/ai"
+            className="w-9 h-9 shrink-0 flex items-center justify-center rounded-full bg-white/8 hover:bg-primary-500 text-white transition-colors duration-150"
+            aria-label="Explore this feature"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </a>
+        </div>
       </div>
     </motion.div>
+  );
+}
+
+// ── Step navigation ────────────────────────────────────────────────────────────
+
+function StepNav({
+  features,
+  active,
+  progressKey,
+  onSelect,
+}: {
+  features: readonly Feature[];
+  active: number;
+  progressKey: number;
+  onSelect: (i: number) => void;
+}) {
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-6">
+      {features.map((f, i) => {
+        const isActive = active === i;
+        return (
+          <button
+            key={f.id}
+            onClick={() => onSelect(i)}
+            className="group text-left focus-visible:outline-none"
+          >
+            {/* Top progress bar */}
+            <div className="h-[2px] bg-white/6 overflow-hidden mb-3">
+              {isActive ? (
+                <motion.div
+                  key={progressKey}
+                  className="h-full bg-primary-500"
+                  style={{ transformOrigin: 'left' }}
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: STEP_DURATION, ease: 'linear' }}
+                />
+              ) : (
+                <div className="h-full w-0 bg-primary-500" />
+              )}
+            </div>
+            <div className="flex items-baseline gap-2">
+              <span
+                className={`text-xs font-mono ${isActive ? 'text-white' : 'text-slate-600'}`}
+              >
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span
+                className={`text-xs font-mono uppercase tracking-widest transition-colors ${
+                  isActive ? 'text-white' : 'text-slate-500 group-hover:text-slate-300'
+                }`}
+              >
+                {f.badge}
+              </span>
+            </div>
+          </button>
+        );
+      })}
+    </div>
   );
 }
 
@@ -362,15 +385,15 @@ export function AIFeatures() {
   useEffect(() => {
     if (paused || !sectionInView) return;
     const id = setTimeout(() => {
-      setActive(prev => (prev + 1) % FEATURES.length);
-      setProgressKey(k => k + 1);
-    }, TAB_DURATION * 1000);
+      setActive((prev) => (prev + 1) % FEATURES.length);
+      setProgressKey((k) => k + 1);
+    }, STEP_DURATION * 1000);
     return () => clearTimeout(id);
   }, [active, paused, sectionInView]);
 
-  function selectTab(i: number) {
+  function selectStep(i: number) {
     setActive(i);
-    setProgressKey(k => k + 1);
+    setProgressKey((k) => k + 1);
   }
 
   return (
@@ -378,10 +401,10 @@ export function AIFeatures() {
       id="ai-features"
       className="border-t border-white/8 relative overflow-hidden bg-[#020c1a]"
     >
-      {/* Ambient blobs — corners only, don't bleed into card */}
+      {/* Ambient corners */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden>
         <div className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full blur-[130px]"
-          style={{ background: 'rgba(236,44,68,0.04)' }} />
+          style={{ background: 'rgba(236,44,68,0.05)' }} />
         <div className="absolute -bottom-32 -right-32 w-[480px] h-[400px] rounded-full blur-[120px]"
           style={{ background: 'rgba(93,224,230,0.03)' }} />
       </div>
@@ -394,7 +417,7 @@ export function AIFeatures() {
           initial={{ opacity: 0, y: 24 }}
           animate={headingInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.55, ease: 'easeOut' }}
-          className="mb-12"
+          className="mb-10 md:mb-14"
         >
           <div className="flex items-center gap-4 mb-8">
             <span className="text-[10px] font-mono tracking-[0.22em] text-slate-500 uppercase shrink-0">AI-Powered</span>
@@ -408,61 +431,37 @@ export function AIFeatures() {
               Simpler<br />
               with AI.
             </h2>
-            <div className="flex flex-col items-start md:items-end gap-3">
-              <p className="text-sm text-slate-400 leading-relaxed max-w-xs md:text-right">
-                Ask questions, surface risks, and publish insights — instantly.
-              </p>
-              <a
-                href="/ai"
-                className="inline-flex items-center gap-1.5 text-xs font-mono tracking-widest uppercase transition-colors duration-200"
-                style={{ color: '#EC2C44' }}
-                onMouseEnter={e => (e.currentTarget.style.color = '#ff6b7a')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#EC2C44')}
-              >
-                Read more about AI features
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
-                </svg>
-              </a>
-            </div>
+            <p className="text-sm text-slate-400 leading-relaxed max-w-xs md:text-right">
+              Four AI capabilities working together — ask, detect, trace, document.
+            </p>
           </div>
         </motion.div>
 
-        {/* Tabs layout — glass card */}
+        {/* Step card */}
         <div
           ref={sectionRef}
-          className="overflow-hidden grid grid-cols-1 md:grid-cols-[280px_1fr] lg:grid-cols-[300px_1fr]"
-          style={{
-            background: 'rgba(8,14,26,0.9)',
-            border: '1px solid rgba(255,255,255,0.07)',
-            borderRadius: '12px',
-          }}
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
+          className="overflow-hidden rounded-2xl border border-white/8 bg-[rgba(10,17,32,0.85)] backdrop-blur-sm shadow-[0_20px_60px_rgba(0,0,0,0.4)]"
         >
-          {/* Left: tab list */}
-          <div
-            className="border-b md:border-b-0 md:border-r flex flex-col"
-            style={{ borderColor: 'rgba(255,255,255,0.06)' }}
-          >
-            {FEATURES.map((f, i) => (
-              <TabRow
-                key={f.id}
-                feature={f}
-                isActive={active === i}
-                progressKey={active === i ? progressKey : -1}
-                onClick={() => selectTab(i)}
-              />
-            ))}
-          </div>
-
-          {/* Right: content panel */}
-          <div className="p-8 md:p-10 min-h-[380px] flex items-start">
-            <AnimatePresence mode="wait">
-              <ContentPanel key={active} feature={FEATURES[active]} />
-            </AnimatePresence>
-          </div>
+          <AnimatePresence mode="wait">
+            <StepCard
+              key={FEATURES[active].id}
+              feature={FEATURES[active]}
+              stepNum={active + 1}
+              totalSteps={FEATURES.length}
+              progressKey={progressKey}
+            />
+          </AnimatePresence>
         </div>
+
+        {/* Step navigation */}
+        <StepNav
+          features={FEATURES}
+          active={active}
+          progressKey={progressKey}
+          onSelect={selectStep}
+        />
 
       </Container>
     </section>
