@@ -1,148 +1,79 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform, type MotionValue } from 'framer-motion';
 import { Container } from '@/components/ui/Container';
 
-// ── Visuals ────────────────────────────────────────────────────────────────────
+// ── Visuals — real-world stock photos via Unsplash ─────────────────────────────
+
+function StockImage({
+  src,
+  alt,
+  caption,
+}: {
+  src: string;
+  alt: string;
+  caption: string;
+}) {
+  return (
+    <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg">
+      {/* Image */}
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      {/* Subtle dark overlay so red caption pops */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#06101e]/95 via-[#06101e]/30 to-transparent" />
+      {/* Caption pill */}
+      <div className="absolute bottom-3 left-3 right-3 flex items-center gap-2">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#EC2C44] shrink-0" />
+        <span className="text-[11px] font-mono uppercase tracking-widest text-white/90 truncate">
+          {caption}
+        </span>
+      </div>
+    </div>
+  );
+}
 
 function NLVisual() {
   return (
-    <div className="w-full font-mono text-xs space-y-3">
-      <div className="flex items-start gap-2">
-        <span className="shrink-0 mt-px text-[#EC2C44]">›</span>
-        <span className="text-white">Map our cloud estate to ArchiMate 3.1</span>
-      </div>
-      <div className="flex items-start gap-2 pl-4 text-slate-400">
-        <span className="shrink-0 text-[#EC2C44]">↳</span>
-        <span>14 components identified across 3 layers</span>
-      </div>
-      <div className="flex items-start gap-2 pl-4 text-slate-400">
-        <span className="text-[#EC2C44] shrink-0">↳</span>
-        <span>Governance gap flagged — <span className="text-[#EC2C44]">Application layer</span></span>
-      </div>
-      <div className="flex items-start gap-2 pl-4 text-slate-400">
-        <span className="shrink-0 text-[#EC2C44]">↳</span>
-        <span>Diagram generated · <span className="text-white">2 recommendations ready</span></span>
-      </div>
-      <div className="flex items-start gap-2 pl-4 text-slate-500">
-        <motion.span
-          className="shrink-0 inline-block w-1.5 h-3 bg-[#EC2C44]"
-          animate={{ opacity: [1, 0, 1] }}
-          transition={{ duration: 1.1, repeat: Infinity }}
-        />
-      </div>
-    </div>
+    <StockImage
+      src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80"
+      alt="Architect typing on a laptop keyboard"
+      caption="Plain-language prompts, instant architecture"
+    />
   );
 }
 
 function RiskVisual() {
-  const alerts = [
-    { level: 'HIGH', color: '#EC2C44', bg: 'rgba(236,44,68,0.08)',  label: 'Compliance gap',     layer: 'Application layer' },
-    { level: 'MED',  color: '#f59e0b', bg: 'rgba(245,158,11,0.08)', label: 'Redundant services', layer: 'Technology layer'  },
-    { level: 'LOW',  color: '#94a3b8', bg: 'rgba(148,163,184,0.06)', label: 'Naming inconsistency', layer: 'Business layer' },
-  ];
   return (
-    <div className="w-full space-y-2.5">
-      {alerts.map((a, i) => (
-        <motion.div
-          key={a.label}
-          initial={{ opacity: 0, x: -8 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: i * 0.12, duration: 0.3 }}
-          className="flex items-center gap-3 px-4 py-3 border font-mono text-xs rounded"
-          style={{ borderColor: `${a.color}30`, background: a.bg }}
-        >
-          <span
-            className="text-[9px] font-bold tracking-widest uppercase shrink-0 px-1.5 py-0.5 rounded"
-            style={{ color: a.color, border: `1px solid ${a.color}40` }}
-          >
-            {a.level}
-          </span>
-          <span className="text-white flex-1">{a.label}</span>
-          <span className="text-slate-600 text-[9px] tracking-widest shrink-0">{a.layer}</span>
-        </motion.div>
-      ))}
-    </div>
+    <StockImage
+      src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80"
+      alt="Analyst reviewing a risk dashboard with charts"
+      caption="Continuous risk monitoring across the estate"
+    />
   );
 }
 
 function ImpactVisual() {
-  const nodes = [
-    { id: 'A', label: 'Billing API',     x: 20, y: 50, changed: true },
-    { id: 'B', label: 'Auth Service',    x: 50, y: 20, changed: false },
-    { id: 'C', label: 'User DB',         x: 80, y: 20, changed: false },
-    { id: 'D', label: 'Notifications',   x: 80, y: 50, changed: false },
-    { id: 'E', label: 'Payment Gateway', x: 50, y: 80, changed: false },
-  ];
-  const edges = [['A','B'],['A','E'],['B','C'],['B','D']];
   return (
-    <div className="w-full">
-      <svg viewBox="0 0 100 100" className="w-full" style={{ height: 200 }}>
-        {edges.map(([a, b]) => {
-          const from = nodes.find(n => n.id === a)!;
-          const to   = nodes.find(n => n.id === b)!;
-          return (
-            <motion.line
-              key={`${a}-${b}`}
-              x1={from.x} y1={from.y} x2={to.x} y2={to.y}
-              stroke="#EC2C44" strokeWidth="0.5" strokeOpacity="0.4"
-              strokeDasharray="2 2"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            />
-          );
-        })}
-        {nodes.map((n, i) => (
-          <motion.g
-            key={n.id}
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: i * 0.08, duration: 0.25 }}
-            style={{ transformOrigin: `${n.x}px ${n.y}px` }}
-          >
-            <rect
-              x={n.x - 11} y={n.y - 5.5} width={22} height={11} rx="1.5"
-              fill={n.changed ? 'rgba(236,44,68,0.2)' : 'rgba(255,255,255,0.04)'}
-              stroke={n.changed ? '#EC2C44' : 'rgba(255,255,255,0.12)'}
-              strokeWidth="0.5"
-            />
-            <text x={n.x} y={n.y + 1.6} textAnchor="middle" fontSize="3.2" fill={n.changed ? '#EC2C44' : '#94a3b8'} fontFamily="monospace">
-              {n.label.split(' ')[0]}
-            </text>
-          </motion.g>
-        ))}
-      </svg>
-      <div className="flex items-center gap-4 mt-3 text-[9px] font-mono text-slate-600">
-        <span className="flex items-center gap-1.5"><span className="w-2 h-2 bg-[#EC2C44]/30 border border-[#EC2C44]/60 inline-block" /> Changed</span>
-        <span className="flex items-center gap-1.5"><span className="w-2 h-2 bg-white/4 border border-white/12 inline-block" /> Impacted</span>
-      </div>
-    </div>
+    <StockImage
+      src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80"
+      alt="Connected network of servers and infrastructure"
+      caption="Trace dependencies before changes ship"
+    />
   );
 }
 
 function DocsVisual() {
   return (
-    <div className="w-full space-y-2.5">
-      <div className="flex items-center gap-2 mb-4">
-        <div className="w-1.5 h-1.5 bg-[#EC2C44]" />
-        <span className="text-xs font-semibold text-white">Architecture Overview — Q2 2025</span>
-        <span className="ml-auto text-[10px] px-2 py-0.5 font-mono rounded" style={{ background: 'rgba(236,44,68,0.12)', color: '#EC2C44' }}>
-          AI-generated
-        </span>
-      </div>
-      {[['w-3/4', 0], ['w-full', 0.05], ['w-5/6', 0.1], ['w-2/3', 0.18], ['w-full', 0.23], ['w-4/5', 0.28], ['w-3/5', 0.35], ['w-full', 0.4]].map(([w, delay], i) => (
-        <motion.div
-          key={i}
-          className={`h-1.5 bg-slate-600/50 ${w} rounded-sm`}
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          style={{ transformOrigin: 'left' }}
-          transition={{ delay: delay as number, duration: 0.4 }}
-        />
-      ))}
-    </div>
+    <StockImage
+      src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80"
+      alt="Architecture overview document on a laptop screen"
+      caption="Stakeholder-ready docs, drafted automatically"
+    />
   );
 }
 
@@ -342,7 +273,7 @@ function ScrollStep({
   isFirst: boolean;
   isLast: boolean;
 }) {
-  const FADE = 0.04;
+  const FADE = 0.07;
 
   // First card: starts visible from progress 0 (no entry fade).
   // Last card: stays visible past its endFraction (no exit fade).
@@ -386,15 +317,18 @@ function ScrollStep({
 export function AIFeatures() {
   // useScroll on the sticky-card wrapper specifically — gives clean 0→1 across the cards' scroll zone
   const cardsRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
+  const { scrollYProgress: rawProgress } = useScroll({
     target: cardsRef,
     offset: ['start start', 'end end'],
   });
 
-  // Active step index for nav highlighting
-  const activeStepIndex = useTransform(scrollYProgress, (v) =>
-    Math.max(0, Math.min(FEATURES.length - 1, Math.floor(v * FEATURES.length)))
-  );
+  // Smooth the scroll progress with a spring — gives the carousel a calmer, premium feel
+  const scrollYProgress = useSpring(rawProgress, {
+    stiffness: 80,
+    damping: 30,
+    mass: 0.6,
+    restDelta: 0.0005,
+  });
 
   return (
     <section
@@ -429,7 +363,7 @@ export function AIFeatures() {
       <div
         ref={cardsRef}
         className="relative"
-        style={{ height: `${100 * FEATURES.length}vh` }}
+        style={{ height: `${130 * FEATURES.length}vh` }}
       >
         <div className="sticky top-0 h-screen overflow-hidden flex flex-col">
 
@@ -459,67 +393,8 @@ export function AIFeatures() {
             </Container>
           </div>
 
-          {/* Step nav at bottom */}
-          <div className="absolute bottom-0 left-0 right-0 pb-6 md:pb-8 z-20">
-            <Container>
-              <StepNavBar features={FEATURES} activeStepIndex={activeStepIndex} />
-            </Container>
-          </div>
-
         </div>
       </div>
     </section>
-  );
-}
-
-// ── Step nav at bottom ─────────────────────────────────────────────────────────
-
-function StepNavBar({
-  features,
-  activeStepIndex,
-}: {
-  features: readonly Feature[];
-  activeStepIndex: MotionValue<number>;
-}) {
-  return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-      {features.map((f, i) => (
-        <NavCell key={f.id} feature={f} index={i} activeStepIndex={activeStepIndex} />
-      ))}
-    </div>
-  );
-}
-
-function NavCell({
-  feature,
-  index,
-  activeStepIndex,
-}: {
-  feature: Feature;
-  index: number;
-  activeStepIndex: MotionValue<number>;
-}) {
-  const opacity = useTransform(activeStepIndex, (v) => (v === index ? 1 : 0.4));
-  const barWidth = useTransform(activeStepIndex, (v) =>
-    v > index ? '100%' : v === index ? '100%' : '0%'
-  );
-
-  return (
-    <motion.div className="text-left" style={{ opacity }}>
-      <div className="h-[2px] bg-white/6 overflow-hidden mb-2.5">
-        <motion.div className="h-full bg-primary-500" style={{ width: barWidth }} />
-      </div>
-      <div className="flex items-baseline gap-2">
-        <motion.span
-          className="text-xs font-mono"
-          style={{ color: useTransform(activeStepIndex, (v) => (v === index ? '#fff' : '#475569')) }}
-        >
-          {String(index + 1).padStart(2, '0')}
-        </motion.span>
-        <span className="text-xs font-mono uppercase tracking-widest text-slate-400">
-          {feature.badge}
-        </span>
-      </div>
-    </motion.div>
   );
 }

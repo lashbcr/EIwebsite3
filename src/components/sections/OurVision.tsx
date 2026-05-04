@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import { AnimatedSection } from '@/components/ui/AnimatedSection';
 import { Container } from '@/components/ui/Container';
 
@@ -134,6 +135,208 @@ function GlassCard({ step, delay }: { step: typeof STEPS[number]; delay: number 
   );
 }
 
+// ── Closing the gap graphic — two diverging worlds converging through EI ─────
+
+function ClosingGapGraphic() {
+  return (
+    <div className="relative w-full max-w-4xl mx-auto">
+      <svg
+        viewBox="0 0 800 200"
+        className="w-full h-auto"
+        style={{ display: 'block' }}
+        aria-hidden
+      >
+        <defs>
+          <linearGradient id="leftFade" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#534AB7" stopOpacity="0.55" />
+            <stop offset="100%" stopColor="#534AB7" stopOpacity="0" />
+          </linearGradient>
+          <linearGradient id="rightFade" x1="1" y1="0" x2="0" y2="0">
+            <stop offset="0%" stopColor="#0F6E56" stopOpacity="0.55" />
+            <stop offset="100%" stopColor="#0F6E56" stopOpacity="0" />
+          </linearGradient>
+          <linearGradient id="centerGlow" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#EC2C44" stopOpacity="0" />
+            <stop offset="50%" stopColor="#EC2C44" stopOpacity="0.85" />
+            <stop offset="100%" stopColor="#EC2C44" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+
+        {/* Soft glow column behind centre */}
+        <rect x="370" y="20" width="60" height="160" fill="url(#centerGlow)" opacity="0.4" />
+        <motion.circle
+          cx="400" cy="100" r="60"
+          fill="rgba(236,44,68,0.06)"
+          animate={{ r: [60, 70, 60] }}
+          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        />
+
+        {/* ── LEFT WORLD: "Intent" — strategic, abstract ── */}
+        <text x="60" y="38" fontFamily="monospace" fontSize="9" letterSpacing="2.5" fill="#a8a2f0" opacity="0.85">INTENT</text>
+        <text x="60" y="50" fontFamily="monospace" fontSize="7" letterSpacing="1.5" fill="#5a5e80">Strategic models</text>
+
+        {/* Left scattered nodes — fragmented, drifting toward centre */}
+        {[
+          { x: 70,  y: 80,  w: 64, h: 18, label: 'Strategy' },
+          { x: 50,  y: 108, w: 48, h: 16, label: 'Capability' },
+          { x: 110, y: 132, w: 56, h: 16, label: 'Roadmap' },
+          { x: 160, y: 100, w: 44, h: 14, label: 'Value' },
+        ].map((n, i) => (
+          <motion.g
+            key={`L${i}`}
+            initial={{ opacity: 0.3, x: -10 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.6, delay: i * 0.08 }}
+          >
+            <rect x={n.x} y={n.y} width={n.w} height={n.h} rx="2"
+              fill="rgba(83,74,183,0.12)" stroke="rgba(168,162,240,0.45)" strokeWidth="0.8" />
+            <text x={n.x + n.w / 2} y={n.y + n.h / 2 + 2.5}
+              textAnchor="middle" fontFamily="monospace" fontSize="6"
+              fill="#a8a2f0" letterSpacing="0.5">{n.label}</text>
+          </motion.g>
+        ))}
+
+        {/* Left convergence lines — flowing toward centre */}
+        {[80, 100, 120, 140].map((y, i) => (
+          <motion.path
+            key={`Ll${i}`}
+            d={`M210 ${y} Q310 ${y + (i - 1.5) * 8} 380 100`}
+            stroke="url(#leftFade)" strokeWidth="1" fill="none"
+            initial={{ pathLength: 0, opacity: 0 }}
+            whileInView={{ pathLength: 1, opacity: 0.7 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 1.2, delay: 0.3 + i * 0.1, ease: [0.4, 0, 0.2, 1] }}
+          />
+        ))}
+
+        {/* Animated data pulses traveling from left to centre */}
+        {[0.3, 0.6, 0.9].map((delay, i) => {
+          const yPath = 90 + i * 20;
+          return (
+            <motion.circle
+              key={`Lp${i}`}
+              r="2.5" fill="#a8a2f0"
+              animate={{
+                cx: [210, 380],
+                cy: [yPath, 100],
+                opacity: [0, 1, 0],
+              }}
+              transition={{
+                duration: 2.2,
+                repeat: Infinity,
+                delay,
+                times: [0, 0.5, 1],
+                ease: 'easeOut',
+              }}
+              style={{ filter: 'drop-shadow(0 0 4px rgba(168,162,240,0.7))' }}
+            />
+          );
+        })}
+
+        {/* ── CENTER: Enterprise Insight bridge ── */}
+        <motion.rect
+          x="380" y="60" width="40" height="80" rx="4"
+          fill="rgba(236,44,68,0.18)"
+          stroke="#EC2C44" strokeWidth="1.5"
+          animate={{ stroke: ['#EC2C44', '#ff5a72', '#EC2C44'] }}
+          transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <text x="400" y="86" textAnchor="middle"
+          fontFamily="monospace" fontSize="6.5" letterSpacing="1.2" fill="#EC2C44">EI</text>
+        <text x="400" y="100" textAnchor="middle"
+          fontFamily="monospace" fontSize="5.5" letterSpacing="0.8" fill="#f09595">enterprise</text>
+        <text x="400" y="110" textAnchor="middle"
+          fontFamily="monospace" fontSize="5.5" letterSpacing="0.8" fill="#f09595">insight</text>
+        {/* Vertical accent dots */}
+        <circle cx="400" cy="68" r="1.5" fill="#EC2C44" />
+        <circle cx="400" cy="132" r="1.5" fill="#EC2C44" />
+
+        {/* Animated sync sweep */}
+        <motion.line
+          x1="380" x2="420" y1="100" y2="100"
+          stroke="#ff5a72" strokeWidth="1.5"
+          animate={{ y1: [60, 140, 60], y2: [60, 140, 60], opacity: [0, 0.9, 0] }}
+          transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+        />
+
+        {/* ── RIGHT WORLD: "Reality" — concrete, structured ── */}
+        <text x="740" y="38" textAnchor="end" fontFamily="monospace" fontSize="9" letterSpacing="2.5" fill="#7ddcb8" opacity="0.85">REALITY</text>
+        <text x="740" y="50" textAnchor="end" fontFamily="monospace" fontSize="7" letterSpacing="1.5" fill="#5a5e80">Implementation</text>
+
+        {/* Right ordered nodes — clean, aligned */}
+        {[
+          { x: 626, y: 78,  w: 60, h: 16, label: 'Tickets' },
+          { x: 696, y: 78,  w: 60, h: 16, label: 'Runbooks' },
+          { x: 626, y: 100, w: 60, h: 16, label: 'Pipelines' },
+          { x: 696, y: 100, w: 60, h: 16, label: 'IaC' },
+          { x: 626, y: 122, w: 60, h: 16, label: 'Monitoring' },
+          { x: 696, y: 122, w: 60, h: 16, label: 'Audits' },
+        ].map((n, i) => (
+          <motion.g
+            key={`R${i}`}
+            initial={{ opacity: 0.3, x: 10 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.6, delay: 0.6 + i * 0.05 }}
+          >
+            <rect x={n.x} y={n.y} width={n.w} height={n.h} rx="2"
+              fill="rgba(15,110,86,0.15)" stroke="rgba(125,220,184,0.45)" strokeWidth="0.8" />
+            <text x={n.x + n.w / 2} y={n.y + n.h / 2 + 2.5}
+              textAnchor="middle" fontFamily="monospace" fontSize="6"
+              fill="#7ddcb8" letterSpacing="0.5">{n.label}</text>
+          </motion.g>
+        ))}
+
+        {/* Right convergence lines — flowing from centre out */}
+        {[86, 108, 130].map((y, i) => (
+          <motion.path
+            key={`Rl${i}`}
+            d={`M420 100 Q500 ${y - 4 + i * 4} 620 ${y}`}
+            stroke="url(#rightFade)" strokeWidth="1" fill="none"
+            initial={{ pathLength: 0, opacity: 0 }}
+            whileInView={{ pathLength: 1, opacity: 0.7 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 1.2, delay: 0.7 + i * 0.1, ease: [0.4, 0, 0.2, 1] }}
+          />
+        ))}
+
+        {/* Animated data pulses traveling from centre to right */}
+        {[0.0, 0.6, 1.2].map((delay, i) => {
+          const yPath = 86 + i * 22;
+          return (
+            <motion.circle
+              key={`Rp${i}`}
+              r="2.5" fill="#7ddcb8"
+              animate={{
+                cx: [420, 620],
+                cy: [100, yPath],
+                opacity: [0, 1, 0],
+              }}
+              transition={{
+                duration: 2.2,
+                repeat: Infinity,
+                delay: 1.1 + delay,
+                times: [0, 0.5, 1],
+                ease: 'easeIn',
+              }}
+              style={{ filter: 'drop-shadow(0 0 4px rgba(125,220,184,0.7))' }}
+            />
+          );
+        })}
+
+        {/* ── Bottom caption arrows ── */}
+        <text x="160" y="180" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="2" fill="#475569" opacity="0.6">
+          What needs to change
+        </text>
+        <text x="640" y="180" textAnchor="middle" fontFamily="monospace" fontSize="7" letterSpacing="2" fill="#475569" opacity="0.6">
+          What actually changes
+        </text>
+      </svg>
+    </div>
+  );
+}
+
 // ── Section ────────────────────────────────────────────────────────────────────
 
 export function OurVision() {
@@ -157,7 +360,7 @@ export function OurVision() {
         </div>
 
         {/* Headline */}
-        <AnimatedSection className="mb-14">
+        <AnimatedSection className="mb-10">
           <h2
             className="font-black uppercase tracking-tighter leading-[0.9] text-white"
             style={{ fontSize: 'clamp(1.6rem, 4.5vw, 3.2rem)' }}
@@ -169,6 +372,11 @@ export function OurVision() {
             EA defines <em>what</em> to change. Enterprise Insight drives <em>how</em> — automatically translating
             strategic decisions into downstream implementation.
           </p>
+        </AnimatedSection>
+
+        {/* "Closing the gap" visual — two halves converging through Enterprise Insight */}
+        <AnimatedSection delay={0.15} className="mb-12">
+          <ClosingGapGraphic />
         </AnimatedSection>
 
         {/* Glass cards — equal-height row */}

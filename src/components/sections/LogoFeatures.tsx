@@ -264,15 +264,62 @@ function FeatureStroke({
 // ── Section ────────────────────────────────────────────────────────────────────
 
 // ── Scroll phase constants ─────────────────────────────────────────────────────
-// Phase A (0 → TITLE_IN):   title + subtitle fade/slide in from below
-// Phase B (TITLE_IN → TITLE_HOLD_END): title fully visible, at rest
-// Phase C (TITLE_HOLD_END → TITLE_OUT): title + subtitle fade/slide out upward
-// Phase D (TITLE_OUT → SVG_IN): shapes fade in
-// Phase E (TITLE_OUT → 1):   shapes draw on with remapped progress
-const TITLE_IN       = 0.06;
-const TITLE_HOLD_END = 0.14;
-const TITLE_OUT      = 0.22;
-const SVG_IN         = 0.26;
+// Phase A (0 → TITLE_IN):     title fades in
+// Phase B (TITLE_IN → FALL_START): title sits centered, intact
+// Phase C (FALL_START → FALL_END): title falls apart character-by-character
+// Phase D (FALL_END → SVG_IN):  shapes fade in
+// Phase E (FALL_END → 1):       shapes draw on with remapped progress
+const TITLE_IN    = 0.06;
+const FALL_START  = 0.14;
+const FALL_END    = 0.26;
+const SVG_IN      = 0.30;
+
+// Deterministic pseudo-random for each character — same seed gives same result.
+function pseudoRandom(seed: number): number {
+  const x = Math.sin(seed * 9301 + 49297) * 233280;
+  return x - Math.floor(x);
+}
+
+// ── Fall-apart character ───────────────────────────────────────────────────────
+function FallChar({
+  char,
+  index,
+  scrollYProgress,
+}: {
+  char: string;
+  index: number;
+  scrollYProgress: ReturnType<typeof useScroll>['scrollYProgress'];
+}) {
+  // Stagger the fall across the FALL_START → FALL_END window
+  const stagger = 0.35;
+  const local = (index % 30) / 30;          // normalized 0-1 across letters
+  const charStart = FALL_START + local * stagger * (FALL_END - FALL_START);
+  const charEnd   = charStart + 0.10;
+
+  // Deterministic randomness for each character
+  const rx     = (pseudoRandom(index + 1)  - 0.5) * 480;     // -240..+240 px
+  const ry     = pseudoRandom(index + 17)        * 600 + 80; // 80..680 px (downward)
+  const rrot   = (pseudoRandom(index + 31) - 0.5) * 720;     // -360..+360 deg
+  const rblur  = pseudoRandom(index + 53) * 4;
+
+  const opacity = useTransform(scrollYProgress, [TITLE_IN, FALL_START, charStart, charEnd], [0, 1, 1, 0]);
+  const x       = useTransform(scrollYProgress, [charStart, charEnd], [0, rx]);
+  const y       = useTransform(scrollYProgress, [charStart, charEnd], [0, ry]);
+  const rotate  = useTransform(scrollYProgress, [charStart, charEnd], [0, rrot]);
+  const blur    = useTransform(scrollYProgress, [charStart, charEnd], [0, rblur]);
+  const filter  = useTransform(blur, (b) => `blur(${b}px)`);
+
+  if (char === ' ') return <span style={{ display: 'inline-block', width: '0.32em' }}>&nbsp;</span>;
+  if (char === '\n') return <br />;
+
+  return (
+    <motion.span
+      style={{ display: 'inline-block', opacity, x, y, rotate, filter }}
+    >
+      {char}
+    </motion.span>
+  );
+}
 
 export function LogoFeatures() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -283,23 +330,14 @@ export function LogoFeatures() {
     offset: ['start start', 'end end'],
   });
 
-  // Title: fades in from below, holds, then fades out upward
-  const headingOpacity = useTransform(
-    scrollYProgress,
-    [0, TITLE_IN, TITLE_HOLD_END, TITLE_OUT],
-    [0, 1, 1, 0],
-  );
-  const headingY = useTransform(
-    scrollYProgress,
-    [0, TITLE_IN, TITLE_HOLD_END, TITLE_OUT],
-    ['22vh', '0vh', '0vh', '-14vh'],
-  );
+  // Shapes: invisible while title is on screen, fade in as the fall completes
+  const svgOpacity = useTransform(scrollYProgress, [FALL_END, SVG_IN], [0, 1]);
 
-  // Shapes: invisible while title is on screen, fade in as title exits
-  const svgOpacity = useTransform(scrollYProgress, [TITLE_OUT, SVG_IN], [0, 1]);
+  // Remap scroll progress so shape animations start only after title has fallen apart
+  const featuresProgress = useTransform(scrollYProgress, [FALL_END, 1], [0, 1]);
 
-  // Remap scroll progress so shape animations start only after title has left
-  const featuresProgress = useTransform(scrollYProgress, [TITLE_OUT, 1], [0, 1]);
+  // Title characters
+  const titleChars = 'The Platform,\nDeconstructed.'.split('');
 
   const activeFeature = FEATURES.find((f) => f.id === activeId) ?? null;
 
@@ -332,18 +370,19 @@ export function LogoFeatures() {
             style={{ background: 'radial-gradient(ellipse at center, transparent 50%, rgba(6,11,20,0.7) 100%)' }} />
         </div>
 
-        {/* ── Title overlay — absolutely centred, fades in then out ── */}
-        <motion.div
-          className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 pointer-events-none z-10"
-          style={{ opacity: headingOpacity, y: headingY }}
+        {/* ── Title — falls apart character by character on scroll ── */}
+        <div
+          className="absolute inset-0 flex items-center justify-center text-center px-6 pointer-events-none z-10"
         >
-          <h2 className="font-black uppercase tracking-tighter leading-[0.88] text-white" style={{ fontSize: 'clamp(2.4rem, 6vw, 5rem)' }}>
-            The Platform,<br />Deconstructed.
+          <h2
+            className="font-black uppercase tracking-tighter leading-[0.88] text-white"
+            style={{ fontSize: 'clamp(2.4rem, 6vw, 5rem)' }}
+          >
+            {titleChars.map((c, i) => (
+              <FallChar key={i} char={c} index={i} scrollYProgress={scrollYProgress} />
+            ))}
           </h2>
-          <p className="mt-3 text-xs font-mono text-white/50 uppercase tracking-widest">
-            Scroll to reveal · Click any shape to explore.
-          </p>
-        </motion.div>
+        </div>
 
         {/* ── Shapes — centred, fade in after title exits ── */}
         <Container>

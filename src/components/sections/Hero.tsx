@@ -255,18 +255,6 @@ export function Hero() {
             </button>
           </motion.div>
 
-          {/* ── AI-native eyebrow ── */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className="inline-flex items-center gap-2 mb-6 text-[10px] font-mono tracking-[0.22em] text-primary-400 uppercase"
-          >
-            <Sparkle size={11} />
-            AI-Native EA Platform
-            <Sparkle size={11} />
-          </motion.div>
-
           {/* ── Headline ── */}
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
@@ -324,25 +312,6 @@ export function Hero() {
                 </motion.button>
               ))}
             </div>
-          </motion.div>
-
-          {/* ── Conversion line ── */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-            className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6"
-          >
-            <button
-              onClick={() => setDemoOpen(true)}
-              className="text-sm font-bold uppercase tracking-widest text-slate-300 hover:text-white border-b border-slate-600 hover:border-primary-500 pb-1 transition-colors"
-            >
-              Or book a personalised demo →
-            </button>
-            <span className="hidden sm:block w-1 h-1 rounded-full bg-slate-700" />
-            <span className="text-[11px] font-mono uppercase tracking-widest text-slate-600">
-              No commitment · Live Q&amp;A
-            </span>
           </motion.div>
 
         </div>
